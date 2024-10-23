@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email de Prueba</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        min-width: 100%dvw;
+        min-height: 100%dvh;
+      }
+      .email-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+      }
+      .header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
+      .content {
+        padding: 20px;
+        text-align: left;
+        font-size: 16px;
+        color: #333333;
+      }
+
+      .content__button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Contenedor del Email -->
+    <div class="email-container">
+      <!-- Cabecera del Email -->
+      <header class="header">
+        <h1>Prueba de Envío</h1>
+      </header>
+
+      <!-- Contenido del Email -->
+      <main class="content">
+        <section>
+          <p>Estimado@ [Nombre Usuario],</p>
+          <p>
+            ¡Gracias por ser parte de nuestra comunidad! Estamos emocionados de compartir nuestras últimas
+            novedades contigo.
+          </p>
+          <p>Para más información, visita nuestro sitio web haciendo clic en el siguiente botón:</p>
+          <a href="https://www.ejemplo.com" class="content__button">Visitar el Sitio</a>
+          <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
+          <p>¡Saludos cordiales!</p>
+          <p>El equipo de [Nombre Empresa]</p>
+        </section>
+      </main>
+
+      <!-- Pie de Página del Email -->
+      <footer class="footer">
+        <p>&copy; 2024 %%Member_Busname%%. Todos los derechos reservados.</p>
+        <p>
+          <a href="https://www.ejemplo.com/privacy" style="color: #007bff">Política de Privacidad</a> |
+          <a href="https://www.ejemplo.com/unsubscribe" style="color: #007bff">Darse de baja</a>
+        </p>
+        <p>
+          Si deseas actualizar tus preferencias o darte de baja, visita tu
+          <a href="%%profile_center_url%%">Centro de Preferencias</a>.
+        </p>
+        <p>
+          Este correo fue enviado por: <br />
+          %%emailaddr%%<br />
+          %%Member_Busname%%<br />
+          %%Member_Addr%%<br />
+          %%Member_City%%, %%Member_State%% %%Member_PostalCode%%, %%Member_Country%%
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
