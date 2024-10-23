@@ -23,6 +23,8 @@ En base a esto,
 
 2. Reimpactar al usuario después de X tiempo
 
+3. Reimpactar al usuario con un email en su cumpleaños haciéndole ver cuánto ha ahorrado durante el tiempo que está con Endesa o desde cuando adiquirió esta campaña.
+
 CAPTACIÓN:
 tarifa más barata que se posee (Conecta). Ver en CNMC (ranking de tarifas de todas las comercializadoras)
 Renderizar el usuario con email al tarificador de Endesa
