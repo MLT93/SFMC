@@ -1,26 +1,7 @@
 Explica esto:
 
 ```
-Montar un email para Endesa en Content Builder utilizando:
-
-- Personalización
-- Content Blocks.
-- Contenido dinámico.
-
-Metodología:
-
-1.- ENDESA quiere realizar envíos de comunicaciones de email desde Salesforce Marketing Cloud. 
-
-2.- Tomando como referencia su página: https://www.endesa.com/es
-Monta
-un email en Content Builder. Dicho email utilizará personalización +
-bloques de contenido (img, texto, botón, etc). + contenido dinámico.
-
-3.- ¡Creatividad al poder! Nombrar el email como:
-Creatividad_Endesa_Nombrealumno. Finalmente compartid con la BU BXPERT
-vuestro email para que yo pueda corregirlo.
-
-*IMPORTANTE.: El correo electrónico debe tener el logotipo y el diseño general (look & feel) alineados con la imagen de Endesa.
+Explícame cómo montar un warm up siguiendo las especificaciones de Salesforce y haciendo alguna diferencia de cómo se hacía antes (cuando se debía separar por ISP o Internet Service Provider).
 ```
 
 Replica este modelo para la explicación con su indentación, letra y tamaño:
