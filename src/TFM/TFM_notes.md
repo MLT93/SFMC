@@ -13,7 +13,7 @@ En el mes 10 del contrato hay un pico de bajas en Endesa.
 RETENCIÓN:
 1. Aproximadamente a los 9 meses podemos mandar una encuesta al usuario (ad hoc) para ver su satisfacción y que nos propongan mejoras.
 
-En base a esto,
+En base a esto:
 
 	1. Programa de fidelización para evitar bajas cerca del mes 10 y conseguir que se quede.
 
@@ -21,7 +21,9 @@ En base a esto,
 
 	3. Comunicación de WhatsApp para agradecer su interés y avisar sobre el proceso acordado o establecido.
 
-2. Reimpactar al usuario después de X tiempo
+2. Reimpactar al usuario después de X tiempo_
+
+	1. Sería interesante enviar un correo para el cumpleaños del usuario que establezca el ahorro obtenido después de adherir a esta campaña, más allá de las felicitaciones. Además, se podría añadir otra campaña para reducir los gastos eléctricos en casa u ofertar algún suministro más haciendo incapié sobre las ventajas de estar con Endesa.
 
 CAPTACIÓN:
 tarifa más barata que se posee (Conecta). Ver en CNMC (ranking de tarifas de todas las comercializadoras)
