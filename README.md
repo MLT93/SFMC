@@ -1,4 +1,4 @@
-# Salesforce Marketing Cloud (SFMC) Study Repository
+# Salesforce Marketing Cloud (SFMC) Repo de Estudio
 
 Este repositorio contiene recursos y ejemplos para estudiar y dominar Salesforce Marketing Cloud (SFMC), una potente plataforma de marketing digital basada en la nube.
 
