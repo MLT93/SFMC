@@ -1,26 +1,53 @@
-<style>
-  .header {
-    padding: 20px;
-  }
-  .header__content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20%;
-  }
-  .header__logo {
-    width: 30%;
-    height: auto;
-  }  
-  .header__contactImg {
-    width: 50%;
-    height: auto;
-  }
-  
-</style>
-<header class="header">
-  <div class="header__content">
-    <img class="header__logo" src="https://image.e.bmind.es/lib/fe3b11717564057d721674/m/1/a848e8d4-0844-499a-89f7-a41ab1d0c3e9.png" alt="Logo de Endesa" aria-label="Logo de Endesa">
-    <img class="header__contactImg" src="https://image.e.bmind.es/lib/fe3b11717564057d721674/m/1/84ba2534-2532-4bf0-8e01-019d7295224b.png" alt="Contactos de Endesa" aria-label="Contactos de Endesa">
-  </div>
-</header>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HEADER</title>
+    <style>
+      table,
+      table tr td {
+        width: 100%;
+      }
+      .header {
+        padding: 20px;
+      }
+      .header__content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20%;
+      }
+      .header__title {
+        font-size: xx-large;
+      }
+      .header__logo {
+        width: 30%;
+        height: auto;
+      }
+      .header__contactImg {
+        width: 50%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <br>
+      <tr class="header">
+        <td class="header__content">
+          <img
+            class="header__logo"
+            src="https://image.e.bmind.es/lib/fe3b11717564057d721674/m/1/a848e8d4-0844-499a-89f7-a41ab1d0c3e9.png"
+            alt="Logo de Endesa"
+            aria-label="Logo de Endesa" />
+          <img
+            class="header__contactImg"
+            src="https://image.e.bmind.es/lib/fe3b11717564057d721674/m/1/84ba2534-2532-4bf0-8e01-019d7295224b.png"
+            alt="Contactos de Endesa"
+            aria-label="Contactos de Endesa" />
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
