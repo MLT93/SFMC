@@ -7,7 +7,7 @@ const modalContent = document.getElementById('modal-content');
 
 // Manejar la visibilidad de headerTitle
 const handleElementsVisibility = () => {
-  if (window.innerWidth < 1080) {
+  if (window.screen.width < 1080) {
     headerTitle.classList.add('toggle-visibility');
     navWeb.classList.add('toggle-visibility');
   } else {
