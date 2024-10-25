@@ -196,11 +196,11 @@ Email Studio en Salesforce Marketing Cloud (SFMC) permite crear contenido dinám
 1. #### **Accede a Content Builder**:
 
    - Inicia sesión en tu cuenta de Salesforce Marketing Cloud.
-   - Navega a **Content Builder** desde el menú principal.
+   - Navega a **Content Builder > Content Builder** desde el menú principal.
 
 2. #### **Crea un nuevo email**:
 
-   - Haz clic en **Create** y selecciona **Email**.
+   - Haz clic en **Create** y selecciona **Email Message**.
    - Elige una plantilla o comienza desde cero.
 
 3. #### **Utiliza Content Builder**:
@@ -231,9 +231,9 @@ Email Studio en Salesforce Marketing Cloud (SFMC) permite crear contenido dinám
          <a href="%%profile_center_url%%">Centro de Preferencias</a>.
        </p>
        <p>
-         Este correo fue enviado desde: <br>
-         <strong>%%Member_Busname%%</strong> <br>
-         %%Member_Addr%%<br>
+         Este correo fue enviado desde: <br />
+         <strong>%%Member_Busname%%</strong> <br />
+         %%Member_Addr%%<br />
          %%Member_City%%, %%Member_State%% %%Member_PostalCode%%, %%Member_Country%%
        </p>
      </footer>
@@ -241,7 +241,7 @@ Email Studio en Salesforce Marketing Cloud (SFMC) permite crear contenido dinám
 
 6. #### **Configura las variables AMPScript**:
 
-   - Antes del footer, añade el siguiente código AMPScript en un bloque previo a la cabecera (es común definir previamente todas las variables que se utilizarán en el contenido):
+   - Antes del encabezado del email, añade el siguiente código AMPScript en un bloque previo a la cabecera (es común definir previamente todas las variables que se utilizarán en el contenido):
 
      ```ts
      %%[
@@ -269,7 +269,7 @@ Email Studio en Salesforce Marketing Cloud (SFMC) permite crear contenido dinám
    - Guarda tu email en Content Builder.
    - Activa el email para su uso en campañas.
 
-10. #### Resumen de Especificaciones
+10. #### **Resumen de Especificaciones**
 
     - **Tipo de Email**: Comercial con contenido dinámico
     - **Footer**: Personalizado con AMPScript, incluyendo información legal y enlaces de desuscripción
@@ -278,3 +278,82 @@ Email Studio en Salesforce Marketing Cloud (SFMC) permite crear contenido dinám
     - **Cumplimiento Legal**: Incluye política de privacidad, opción de desuscripción y dirección física
 
 Este proceso asegura la creación de un email profesional y conforme a las regulaciones, utilizando las capacidades de Content Builder y Dynamic Content de SFMC, junto con un footer personalizado y legalmente compliant mediante AMPScript.
+
+Aquí tienes la explicación paso a paso para montar un email para **Endesa** en **Content Builder** de **Salesforce Marketing Cloud (SFMC)**, utilizando **personalización**, **bloques de contenido** y **contenido dinámico**.
+
+# **Montar un Email para Endesa en Content Builder de SFMC**
+
+1. #### **Acceso a Content Builder**:
+
+   - Inicia sesión en tu cuenta de **Salesforce Marketing Cloud**.
+   - Desde el menú principal, selecciona **Content Builder**.
+
+2. #### **Crear un Nuevo Email**:
+
+   - En **Content Builder**, haz clic en **Create** y selecciona **Email**.
+   - Nombra el correo como **Creatividad_Endesa_NombreAlumno** para identificar fácilmente tu trabajo.
+   - Elige una **plantilla** que se ajuste al estilo de Endesa o empieza desde cero si lo prefieres.
+
+3. #### **Añadir Personalización**:
+
+   - a. **Uso de Campos Personalizados**:
+
+   - Utiliza campos personalizados como el **nombre del destinatario** para que el correo esté personalizado.
+   - Inserta campos de personalización como **"%%FirstName%%"** para que el correo salude a los destinatarios por su nombre.
+
+   - **Ejemplo**:
+
+     - "Hola, %%FirstName%%, tenemos novedades para ti."
+
+4. #### **Agregar Bloques de Contenido**:
+
+   - a. **Bloques de Imagen**:
+
+   - Inserta el **logo de Endesa** desde la página oficial: [Endesa](https://www.endesa.com/es).
+   - Añade el logotipo al principio del correo para alinearlo con la identidad visual de la marca.
+
+   - b. **Bloques de Texto**:
+
+   - Crea un bloque de texto para describir las ofertas o servicios que Endesa quiere comunicar.
+   - **Ejemplo**: "Descubre nuestras nuevas tarifas sostenibles que se adaptan a tus necesidades."
+
+   - c. **Bloques de Botón**:
+
+   - Agrega un **botón CTA** (Call To Action) con texto como "Ver Más" o "Suscríbete Ahora".
+   - Personaliza el botón con colores que se alineen con el **look & feel** de Endesa.
+
+5. #### **Configurar Contenido Dinámico**:
+
+   - a. **Segmentación de Audiencia**:
+
+   - Crea diferentes versiones del correo según los segmentos de audiencia de Endesa.
+   - **Ejemplo**: Muestra ofertas distintas para clientes residenciales y comerciales.
+
+   - b. **Reglas de Contenido Dinámico**:
+
+   - Configura reglas para que los bloques de contenido cambien según las preferencias del usuario.
+   - **Ejemplo**: Si el cliente ha mostrado interés en tarifas de energía solar, muestra contenido específico para esas tarifas.
+
+6. #### **Estilo y Diseño**:
+
+   - Asegúrate de que el **diseño general** del email esté alineado con la **imagen corporativa de Endesa**.
+   - Utiliza colores y fuentes similares a los que se encuentran en su página web.
+
+7. #### **Revisión y Prueba**:
+
+   - Utiliza la función de **previsualización** para ver cómo se verá el correo personalizado para diferentes destinatarios.
+   - Envía un **email de prueba** para asegurarte de que los bloques de contenido y la personalización funcionan correctamente.
+
+8. #### **Compartir con la BU BXPERT**:
+
+   - Finalmente, comparte el email con la Business Unit **BXPERT** para revisión y corrección.
+
+9. #### **Resumen de Pasos**:
+
+   - Accede a **Content Builder** en SFMC.
+   - Crea un email y nómbralo como **Creatividad_Endesa_NombreAlumno**.
+   - Añade personalización utilizando campos como **"%%FirstName%%"**.
+   - Inserta bloques de contenido: **imagen, texto y botón**.
+   - Configura **contenido dinámico** según la segmentación de audiencia.
+   - Asegúrate de que el diseño esté alineado con la **imagen de Endesa**.
+   - Prueba y comparte el correo con la **BU BXPERT** para corrección.

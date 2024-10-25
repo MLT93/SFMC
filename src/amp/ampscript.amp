@@ -1,0 +1,57 @@
+<br>
+<section>
+%%[
+  /* 
+  Recuperar los datos de la Data Extension "ENT.DE_JTalent24_Tienda" de la region "Europa" o "America" (Elegir una de las dos, es indiferente).
+  
+  Después de recuperar los datos, por cada pedido, mostrar los siguientes datos en una sola linea:
+  -Número de pedido
+  -Número de artículos
+  -Precio
+  -Artículo1
+  -Articulo2 (si lo tiene)
+  -OK (si el precio es mayor a 25 o hay 2 artículos) o KO en caso contrario
+  
+  Poner todo en una sola linea por cada pedido, separando cada uno de los datos con guión (-)
+  Para que quede tal que así:
+  
+  "1-2-15-Gafas-Camiseta-OK" 
+  */
+
+  /* Declaración variables */
+  VAR @rowSet, @numPedido, @numArticulo, @precio, @articuloUno, @articuloDos, @isOk, @msg
+  /* Buscar en una DE (ya sea sendable o menos) */
+  SET @region = "Europa"
+  SET @rowSet = LookupRows('ENT.DE_JTalent24_Tienda', 'Region', @region)
+  /* Busca en una DE y obtiene las filas de la Tabla según un filtro (los argumentos posteriores) */
+  SET @quantityRows = RowCount(@rowSet)
+  FOR @i = 1 TO @quantityRows DO
+    /* Devuelve una fila (con todos los campos de ese index) en cada iteración a trvés de Row() */
+    SET @element = Row(@rowSet, @i)
+    /* Inicialización del resto de variables con Field() (toma un campo de la fila) */
+    SET @numPedido = Field(@element, 'NumPedido')
+    SET @numArticulo = Field(@element, 'NumArticulos')
+    SET @precio = Field(@element, 'Precio')
+    SET @articuloUno = Field(@element, 'Articulo1')
+    SET @articuloDos = Field(@element, 'Articulo2')
+    /* Comprobaciones */
+    IF @precio > 25 OR @numArticulo > 1 THEN /* @precio > 25 OR @articuloDos != "" || @precio > 25 OR NOT Empty(@articuloDos) */
+      SET @isOk = "OK" 
+    ELSE
+      SET @isOk = "KO"
+    ENDIF
+    /* Msg */
+    SET @msg = Concat(
+      "El valor obtenido es: <b>", 
+      @numPedido, "-", @numArticulo, "-", @precio, "-", @articuloUno
+    )
+    IF NOT Empty(@articuloDos) THEN
+      SET @msg = Concat(@msg, "-", @articuloDos)
+    ENDIF
+    SET @msg = Concat(@msg, "-", @isOk, "</b><br />")
+    /* Print */
+    Output(Concat(@msg))
+  NEXT @i
+]%%
+</section>
+<br>
