@@ -12,14 +12,14 @@ Este documento profundiza en el uso avanzado de **Salesforce Marketing Cloud (SF
 
    - **`Detalles técnicos`**:
 
-     - **Formato de archivo**: La copia de cada correo se guarda en formato _EML_, y en algunos casos en _HTML_. Los archivos se agrupan en un _zip diario_ depositado en el servidor _SFTP_, en una carpeta denominada _Export/EmailArchive_.
-     - **Configuración**: Activar el archivo a través de la configuración en la _Send Classification_. Esto puede aplicarse a correos comerciales y transaccionales, según la clasificación y el tipo de envío.
-     - **Costo y disponibilidad**: Esta función tiene un costo adicional, por lo que el cliente debe activar el servicio. En cada archivo zip se incluye un manifiesto en Excel con un índice detallado de cada correo archivado y campos de registro de envío relevantes.
+     - **Formato de archivo**: La copia de cada correo se guarda en formato **EML**, y en algunos casos en **HTML**. Los archivos se agrupan en un **ZIP diario** depositado en el servidor **SFTP**, en una carpeta denominada **Export/EmailArchive**.
+     - **Configuración**: La opción de archivado de correos (Archive Email) es una funcionalidad avanzada que requiere configuración a través del soporte de Salesforce. Una vez activada la opción de archivado, podrás configurar en cada **Send Classifications** si deseas archivar o no ciertos tipos de correos, como transaccionales o comerciales.
+     - **Costo y disponibilidad**: Esta función tiene un costo adicional, por lo que el cliente debe activar el servicio. En cada archivo ZIP se incluye un manifiesto en Excel con un índice detallado de cada correo archivado y campos de registro de envío relevantes.
 
    - **`Consideraciones específicas`**:
-     - Los mensajes archivados pueden contener _PII_ (información de identificación personal).
-     - La fecha de generación de los archivos se establece en el horario de Indianápolis (UTC-5), sin posibilidad de ajuste.
-     - Es posible que algunos archivos no generen contenido si no hubo envíos ese día, y los archivos zip se omiten en tales casos.
+     - Los mensajes archivados pueden contener **PII** (información de identificación personal).
+     - La fecha de generación de los archivos se establece en el horario de Indianápolis (UTC-5), sin posibilidad de modificarlo.
+     - Es posible que algunos archivos no generen contenido si no hubo envíos ese día, y los archivos ZIP se omiten en tales casos.
 
    ***
 
@@ -34,7 +34,7 @@ Este documento profundiza en el uso avanzado de **Salesforce Marketing Cloud (SF
        - **Día 1 a 3**: 500 correos al día.
        - **Día 4 a 5**: 1,000 correos.
        - **Día 6 a 8**: 1,500 a 4,000 correos.
-       - **Día 10 a 12**: hasta 12,000 correos y escalar diariamente hasta 2 millones.
+       - **Día 10 a 12**: hasta 12,000 correos y escalar diariamente hasta 2 millones. A los 2M hay que usar otra IP.
      - **Sincronización y control de volúmenes**: Un aumento excesivo o inesperado puede activar filtros de los ISP y aumentar la probabilidad de que los correos sean filtrados como spam.
 
    - **`Consideraciones operativas`**:
@@ -68,7 +68,7 @@ Este documento profundiza en el uso avanzado de **Salesforce Marketing Cloud (SF
 
      - **Smart Network Data Services (SNDS)**: Para abordar problemas específicos con dominios de Microsoft o Gmail, que suelen ser más estrictos en las políticas de entregabilidad.
      - **Bounce Detective**: Función de alerta que notifica sobre tasas de rebote elevadas en tiempo real, lo que permite al equipo de marketing ajustar los envíos.
-     - **Revisión de listas negras**: Consultar herramientas gratuitas como _mxtoolbox.com_ o _talosintelligence.com_ para verificar si la IP está en listas negras y, de ser necesario, seguir los pasos recomendados para salir de ellas.
+     - **Revisión de listas negras**: Consultar herramientas gratuitas como **mxtoolbox.com** o **talosintelligence.com** para verificar si la IP está en listas negras y, de ser necesario, seguir los pasos recomendados para salir de ellas.
 
    - **`Gestión de autenticación y protocolos de seguridad`**:
      - En casos de bloqueo, Salesforce puede solicitar la validación de autenticación mediante DKIM y el cumplimiento de DMARC para garantizar la legitimidad de los envíos.
@@ -80,13 +80,13 @@ Este documento profundiza en el uso avanzado de **Salesforce Marketing Cloud (SF
    - **`Contexto del caso práctico`**:
 
      - Para una empresa ficticia con una base de datos de aproximadamente 393,000 usuarios, diseñar un plan de calentamiento de IP teniendo en cuenta que cerca de 116,000 usuarios no son contactables.
-     - Establecer un cronograma semanal de envíos con volúmenes diarios máximos recomendados, dividiendo los subsegmentos en carpetas compartidas de Salesforce (ej., _Shared Data Extensions_).
+     - Establecer un cronograma semanal de envíos con volúmenes diarios máximos recomendados, dividiendo la DE en **Split** (subsegmentos) o **Random Data Extension** y después añadir todo en una carpeta compartida de Salesforce (ej., Shared Data Extensions).
 
-   - **`Entregable del caso`**: Crear un archivo en Excel que detalle el diseño del calentamiento de IP, junto con subsegmentos, creatividades y un calendario de envíos segmentados, alineado con las prácticas recomendadas de Salesforce Marketing Cloud.
+   - **`Entregable del caso`**: Crear un archivo en Excel que detalle el diseño del calentamiento de IP, junto con los subsegmentos, creatividades y un calendario de envíos segmentados, alineado con las prácticas recomendadas de Salesforce Marketing Cloud.
 
 # Guía para montar un Warm Up en Salesforce Marketing Cloud (SFMC)
 
-Salesforce Marketing Cloud ha actualizado sus recomendaciones para realizar un _IP Warm Up_, optimizando el proceso de calentamiento de IP mediante volúmenes diarios controlados. A continuación, se describe el procedimiento siguiendo las especificaciones actuales y destacando las diferencias en comparación con el método anterior, que requería segmentación por ISP.
+Salesforce Marketing Cloud ha actualizado sus recomendaciones para realizar un **IP Warm Up**, optimizando el proceso de calentamiento de IP mediante volúmenes diarios controlados. A continuación, se describe el procedimiento siguiendo las especificaciones actuales y destacando las diferencias en comparación con el método anterior, que requería segmentación por ISP.
 
 1. #### **Planifica la Estrategia de Warm Up**
 
@@ -105,14 +105,14 @@ Salesforce Marketing Cloud ha actualizado sus recomendaciones para realizar un _
 3. #### **Diferencias con el Método Anterior**
 
    - **Segmentación por ISP**:
-     - _Antes_: Era necesario segmentar la base de datos por ISP (ej., Gmail, Yahoo, Microsoft) y aplicar volúmenes de envío por cada uno. Esto requería una administración más compleja y la creación de subsegmentos adicionales para cada proveedor.
-     - _Ahora_: Salesforce simplifica el proceso al permitir un volumen total diario sin necesidad de segmentar por ISP, permitiendo un calentamiento homogéneo de la IP en todos los proveedores de correo.
+     - **Antes**: Era necesario segmentar la base de datos por ISP (ej., Gmail, Yahoo, Microsoft) y aplicar volúmenes de envío por cada uno. Esto requería una administración más compleja y la creación de subsegmentos adicionales para cada proveedor.
+     - **Ahora**: Salesforce simplifica el proceso al permitir un volumen total diario sin necesidad de segmentar por ISP, permitiendo un calentamiento homogéneo de la IP en todos los proveedores de correo.
 
 4. #### **Monitorización Continua de la Reputación de la IP**
 
    - **Métricas a Vigilar**: Realiza un seguimiento constante de la tasa de apertura, tasa de rebote y posibles quejas de spam. Estas métricas indican la salud de la IP y su receptividad por parte de los ISPs.
    - **Herramientas de Monitoreo**:
-     - Activa _Bounce Detective_ para recibir alertas sobre rebotes elevados y usa herramientas de reputación como _Smart Network Data Services (SNDS)_ en caso de problemas específicos con dominios de Microsoft o Gmail.
+     - Activa **Bounce Detective** para recibir alertas sobre rebotes elevados y usa herramientas de reputación como **Smart Network Data Services (SNDS)** en caso de problemas específicos con dominios de Microsoft o Gmail.
 
 5. #### **Ajuste de Estrategia Según Resultados**
 
