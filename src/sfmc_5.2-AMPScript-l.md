@@ -265,3 +265,79 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
 9. ### **`Conclusión`**:
 
    AMPScript en **Salesforce Marketing Cloud** proporciona herramientas avanzadas de personalización que permiten adaptar el contenido de marketing a las necesidades específicas de cada cliente. Con funciones que van desde la manipulación de datos y el control de flujo, hasta operaciones con fechas y condicionales, AMPScript es fundamental para mejorar la experiencia del usuario en campañas de marketing digital.
+
+# Guía detallada para utilizar LookupRows y obtener datos de cualquier Data Extension en SFMC
+
+1. #### **Definir la Región y Recuperar Datos de la Data Extension**:
+
+   - Define la región para filtrar los pedidos (en este ejemplo, "Europa") y utiliza `LookupRows` para obtener todos los registros que coincidan en la Data Extension `ENT.DE_JTalent24_Tienda`, ya sea una Data Extension de tipo sendable o unsendable.
+
+     ```ampscript
+     %%[
+     SET @Region = "Europa"
+     SET @RowSet = LookupRows("ENT.DE_JTalent24_Tienda", "Region", @Region)
+     SET @QuantityRows = RowCount(@RowSet)
+     ]%%
+     ```
+
+2. #### **Inicializar Variables y Crear un Bucle para Procesar cada Pedido**:
+
+   - Inicializa variables para almacenar los datos de cada pedido, como `@NumPedido`, `@NumArticulo`, `@Precio`, `@ArticuloUno`, `@ArticuloDos`, y `@IsOk`. Utiliza un bucle `FOR` para iterar sobre cada registro en `@RowSet`.
+
+     ```ampscript
+     FOR @i = 1 TO @QuantityRows DO
+         SET @Element = Row(@RowSet, @i)
+     ```
+
+3. #### **Recuperar y Asignar Valores de cada Pedido**:
+
+   - En cada iteración, extrae los valores del pedido actual usando `Field` para los campos `NumPedido`, `NumArticulos`, `Precio`, `Articulo1`, y `Articulo2`.
+
+     ```ampscript
+         SET @NumPedido = Field(@Element, "NumPedido")
+         SET @NumArticulo = Field(@Element, "NumArticulos")
+         SET @Precio = Field(@Element, "Precio")
+         SET @ArticuloUno = Field(@Element, "Articulo1")
+         SET @ArticuloDos = Field(@Element, "Articulo2")
+     ```
+
+4. #### **Evaluar Condición y Establecer el Estado del Pedido (OK o KO)**:
+
+   - Evalúa la condición `@Precio > 25 OR @NumArticulo > 1`. Si se cumple, establece `@IsOk` como `"OK"`, de lo contrario, como `"KO"`.
+
+     ```ampscript
+         IF @Precio > 25 OR @NumArticulo > 1 THEN
+             SET @IsOk = "OK"
+         ELSE
+             SET @IsOk = "KO"
+         ENDIF
+     ```
+
+5. #### **Concatenar los Detalles del Pedido en una Línea de Texto Formateada**:
+
+   - Usa `Concat` para construir una línea de texto con los detalles del pedido, separando cada dato con un guión y utilizando `<br />` para hacer un salto de línea. Si `@ArticuloDos` tiene un valor, se agrega a la cadena; de lo contrario, se omite.
+
+     ```ampscript
+         SET @Msg = Concat("El valor obtenido es: <b>", @NumPedido, "-", @NumArticulo, "-", @Precio, "-", @ArticuloUno)
+         IF NOT Empty(@ArticuloDos) THEN
+             SET @Msg = Concat(@Msg, "-", @ArticuloDos)
+         ENDIF
+         SET @Msg = Concat(@Msg, "-", @IsOk, "</b><br />")
+     ```
+
+6. #### **Imprimir la Línea de Texto para cada Pedido**:
+
+   - Usa `Output` para mostrar la línea de texto construida para cada pedido.
+
+     ```ampscript
+         Output(Concat(@Msg))
+     NEXT @i
+     ]%%
+     ```
+
+7. #### **Resumen de Especificaciones**:
+
+   - **Región Definida**: Europa.
+   - **Variables de Pedido**: @NumPedido, @NumArticulo, @Precio, @ArticuloUno, @ArticuloDos, @IsOk.
+   - **Condición Evaluada**: OK si el precio es mayor a 25 o si hay más de un artículo.
+   - **Mensaje Formateado**: Los detalles de cada pedido se imprimen en una línea separada con guiones.
