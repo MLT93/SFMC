@@ -2,20 +2,16 @@
 <section>
 %%[
   /* 
-  Recuperar los datos de la Data Extension "ENT.DE_JTalent24_Tienda" de la region "Europa" o "America" (Elegir una de las dos, es indiferente).
-  
-  Después de recuperar los datos, por cada pedido, mostrar los siguientes datos en una sola linea:
-  -Número de pedido
-  -Número de artículos
-  -Precio
-  -Artículo1
-  -Articulo2 (si lo tiene)
-  -OK (si el precio es mayor a 25 o hay 2 artículos) o KO en caso contrario
-  
-  Poner todo en una sola linea por cada pedido, separando cada uno de los datos con guión (-)
-  Para que quede tal que así:
-  
-  "1-2-15-Gafas-Camiseta-OK" 
+  1. Recuperar los datos de la Data Extension "ENT.DE_JTalent24_Tienda" de la region "Europa" o "America" (Elegir una de las dos, es indiferente).
+  2. Después de recuperar los datos, por cada pedido, mostrar los siguientes datos en una sola linea:
+    -Número de pedido
+    -Número de artículos
+    -Precio
+    -Artículo1
+    -Articulo2 (si lo tiene)
+    -OK (si el precio es mayor a 25 o hay 2 artículos) o KO en caso contrario
+  3. Poner todo en una sola linea por cada pedido, separando cada uno de los datos con guión (-). Para que quede tal que así:
+    "1-2-15-Gafas-Camiseta-OK" 
   */
 
   /* Declaración variables */
