@@ -32,11 +32,11 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo**:
        ```html
        %%[ 
-       VAR @nombre, @apellido 
-       SET @nombre = "Juan" 
-       SET @apellido = "Pérez" 
+       VAR @Nombre, @Apellido 
+       SET @Nombre = "Juan" 
+       SET @Apellido = "Pérez" 
        ]%%
-       <p>Hola, %%=v(@nombre)=%% %%=v(@apellido)=%%</p>
+       <p>Hola, %%=v(@Nombre)=%% %%=v(@Apellido)=%%</p>
        ```
 
    - **`Tipos de Variables`**  
@@ -48,7 +48,18 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
 
    - **`Operadores`**  
      Incluyen operadores de comparación (`==`, `!=`), matemáticos (`+`, `-`, `*`, `/`), y booleanos (`AND`, `OR`, `NOT`) para crear condiciones lógicas.
-     Recuerda que **AND = multiplicación** y **OR = suma** (esto es necesario saberlo cuando se hace un conjunto de operaciones lógicas entre sí para saber qué operación se evalúa antes que otra).
+   
+   - **`Operadores usados conjuntamente`**:
+     Recuerda que **AND == multiplicación** y **OR == suma**. Esto es necesario saberlo cuando se hace un conjunto de operaciones lógicas entre sí para saber qué operación se evalúa antes que otra. Por lo tanto, un **AND** se ejecutará antes que un **OR**.
+
+     ```ampscript
+     /* Comparaciones simples */
+     @Day == 23 AND @Month == 10 AND @Year == 2024
+     @Day == 23 OR @Day == 24 OR @Day == 25
+     
+     /* Cuando se mezclan distintos comparadores booleanos se utilizan los paréntesis */
+     (@Day == 23 OR @Day == 24 ) AND @Month == 10 AND @Year == 2024
+     ```
 
    ***
 
@@ -60,9 +71,9 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo**:
        ```html
        %%[ 
-       VAR @nombre
-       SET @nombre = "Juan"
-       IF @nombre == "Juan" THEN 
+       VAR @Nombre
+       SET @Nombre = "Juan"
+       IF @Nombre == "Juan" THEN 
        ]%%
        <p>¡Bienvenido, Juan!</p>
        %%[ 
@@ -80,8 +91,23 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo**:
        ```html
        %%[ 
-       SET @num = 3 
-       FOR @i = 1 TO @num DO 
+       VAR @Num
+       SET @Num = 5 
+       /* Ascendente */
+       FOR @i = 1 TO @Num DO
+       ]%%
+       <p>Elemento %%=v(@i)=%%</p>
+       %%[ 
+       NEXT @i 
+       ]%%
+       ```
+
+       ```html
+       %%[ 
+       VAR @Num
+       SET @Num = 1
+       /* Descendente */
+       FOR @i = 5 DOWNTO @Num DO
        ]%%
        <p>Elemento %%=v(@i)=%%</p>
        %%[ 
@@ -99,10 +125,11 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo**:
        ```html
        %%[ 
-       SET @nombre = "Juan" 
-       SET @saludo = Concat("Hola ", @nombre) 
+       VAR @Nombre, @Saludo
+       SET @Nombre = "Juan" 
+       SET @Saludo = Concat("Hola ", @Nombre) 
        ]%%
-       <p>%%=v(@saludo)=%%</p>
+       <p>%%=v(@Saludo)=%%</p>
        ```
 
    - **`Modificación de Texto`**
@@ -113,12 +140,13 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo**:
        ```html
        %%[ 
-       SET @textoOriginal = "Hola Mundo" 
-       SET @textoMayuscula = Uppercase(@textoOriginal) 
-       SET @textoReemplazado = Replace(@textoOriginal, "Mundo", "Juan") 
+       VAR @TextoOriginal, @TextoMayuscula, @TextoReemplazado
+       SET @TextoOriginal = "Hola Mundo" 
+       SET @TextoMayuscula = Uppercase(@TextoOriginal) 
+       SET @TextoReemplazado = Replace(@TextoOriginal, "Mundo", "Juan") 
        ]%%
-       <p>Mayúsculas: %%=v(@textoMayuscula)=%%</p>
-       <p>Reemplazo: %%=v(@textoReemplazado)=%%</p>
+       <p>Mayúsculas: %%=v(@TextoMayuscula)=%%</p>
+       <p>Reemplazo: %%=v(@TextoReemplazado)=%%</p>
        ```
 
    ***
@@ -130,14 +158,15 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
 
      - **Ejemplo**:
        ```html
-       %%[ 
-       SET @num1 = 5 
-       SET @num2 = 3 
-       SET @resultadoSuma = Add(@num1, @num2) 
-       SET @resultadoMultiplicacion = Multiply(@num1, @num2) 
+       %%[
+       VAR @Num1, @Num2, @ResultadoSuma, @ResultadoMultiplicacion
+       SET @Num1 = 5 
+       SET @Num2 = 3 
+       SET @ResultadoSuma = Add(@Num1, @Num2) 
+       SET @ResultadoMultiplicacion = Multiply(@Num1, @Num2) 
        ]%%
-       <p>Suma: %%=v(@resultadoSuma)=%%</p>
-       <p>Multiplicación: %%=v(@resultadoMultiplicacion)=%%</p>
+       <p>Suma: %%=v(@ResultadoSuma)=%%</p>
+       <p>Multiplicación: %%=v(@ResultadoMultiplicacion)=%%</p>
        ```
 
    ***
@@ -150,11 +179,26 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo de Lookup**:
        ```html
        %%[ 
-       SET @userID = "12345" 
-       SET @email = Lookup("Usuarios", "Email", "ID", @userID) 
+       VAR @UserID, @Email
+       SET @UserID = "12345" 
+       SET @Email = Lookup("Usuarios", "Email", "ID", @UserID) 
        ]%%
-       <p>Email del usuario con ID 12345: %%=v(@email)=%%</p>
+       <p>Email del usuario con ID 12345: %%=v(@Email)=%%</p>
        ```
+    
+     - **Ejemplo de LookupRows**
+      ```html
+      %%[
+      VAR @Rows, @Region, @NumFilas,
+      SET @Rows = LookupRows('Paises', 'Region', @Region)
+      SET @NumFilas = RowCount(@Rows)
+      FOR @i=1 TO @numFilas1 DO /* En un FOR es innecesaria la declaración previa de la variable @i */
+      SET @Row = Row(@rows, @i)
+      Output(Field(@row, 'Capital'))
+      NEXT @i
+      ]%%
+      ```
+
 
    - **`Modificación de Datos`**  
      Funciones como `InsertDE`, `UpdateDE`, `UpsertDE`, y `DeleteDE` permiten crear, actualizar, o eliminar registros en una Data Extension.
@@ -194,7 +238,7 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
 8. ### **`Ejemplo Práctico`**:
 
    - **`Ejercicio de Personalización`**  
-     Crear un correo que personalice el saludo en función del valor de una variable `@animal`. Basado en su valor, el correo muestra un mensaje específico para "Perro", "Gato", o "Pato".
+     Crear un correo que personalice el Saludo en función del valor de una variable `@animal`. Basado en su valor, el correo muestra un mensaje específico para "Perro", "Gato", o "Pato".
 
      - **Ejemplo**:
 
