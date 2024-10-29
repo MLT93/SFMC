@@ -9,7 +9,7 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
 1. ### **`Características y Ventajas de AMPScript`**:
 
    - **`Personalización Avanzada`**  
-     Permite acceder a datos de las **Data Extensions** y de los perfiles de suscriptores para personalizar el contenido del mensaje en tiempo real.
+     Permite acceder a datos de las **Data Extensions** y de los perfiles de suscriptores para personalizar el contenido del Mensaje en tiempo real.
 
      - **Ventajas**:
        - **Flexibilidad en los mensajes**: A través de lógica condicional, se puede mostrar contenido personalizado para diferentes segmentos de usuarios.
@@ -91,9 +91,9 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo**:
        ```html
        %%[ 
+       /* Ascendente */
        VAR @Num
        SET @Num = 5 
-       /* Ascendente */
        FOR @i = 1 TO @Num DO
        ]%%
        <p>Elemento %%=v(@i)=%%</p>
@@ -104,9 +104,9 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
 
        ```html
        %%[ 
+       /* Descendente */
        VAR @Num
        SET @Num = 1
-       /* Descendente */
        FOR @i = 5 DOWNTO @Num DO
        ]%%
        <p>Elemento %%=v(@i)=%%</p>
@@ -226,11 +226,11 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
      - **Ejemplo**:
        ```html
        %%[ 
-       SET @fechaHoy = Now() 
-       SET @fechaFutura = DateAdd(@fechaHoy, 7, "D") 
+       SET @FechaHoy = Now() 
+       SET @FechaFutura = DateAdd(@FechaHoy, 7, "D") 
        ]%%
-       <p>Fecha de hoy: %%=FormatDate(@fechaHoy, "MM-DD-YYYY")=%%</p>
-       <p>Fecha en una semana: %%=FormatDate(@fechaFutura, "MM-DD-YYYY")=%%</p>
+       <p>Fecha de hoy: %%=FormatDate(@FechaHoy, "MM-DD-YYYY")=%%</p>
+       <p>Fecha en una semana: %%=FormatDate(@FechaFutura, "MM-DD-YYYY")=%%</p>
        ```
 
    ***
@@ -238,26 +238,26 @@ AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud 
 8. ### **`Ejemplo Práctico`**:
 
    - **`Ejercicio de Personalización`**  
-     Crear un correo que personalice el Saludo en función del valor de una variable `@animal`. Basado en su valor, el correo muestra un mensaje específico para "Perro", "Gato", o "Pato".
+     Crear un correo que personalice el Saludo en función del valor de una variable `@Animal`. Basado en su valor, el correo muestra un Mensaje específico para "Perro", "Gato", o "Pato".
 
      - **Ejemplo**:
 
        ```html
        %%[ 
-       VAR @animal 
-       SET @animal = "Gato" 
+       VAR @Animal 
+       SET @Animal = "Gato" 
        
-       IF @animal == "Perro" THEN 
-         SET @mensaje = "¡Guau! Eres un amigo fiel."
-       ELSEIF @animal == "Gato" THEN 
-         SET @mensaje = "¡Miau! Eres independiente y curioso."
-       ELSEIF @animal == "Pato" THEN 
-         SET @mensaje = "¡Cuac! Eres divertido y peculiar."
+       IF @Animal == "Perro" THEN 
+         SET @Mensaje = "¡Guau! Eres un amigo fiel."
+       ELSEIF @Animal == "Gato" THEN 
+         SET @Mensaje = "¡Miau! Eres independiente y curioso."
+       ELSEIF @Animal == "Pato" THEN 
+         SET @Mensaje = "¡Cuac! Eres divertido y peculiar."
        ELSE 
-         SET @mensaje = "Animal no reconocido"
+         SET @Mensaje = "Animal no reconocido"
        ENDIF 
        ]%%
-       <p>Sonido del animal: %%=v(@mensaje)=%%</p>
+       <p>Sonido del Animal: %%=v(@Mensaje)=%%</p>
        ```
 
    ***
