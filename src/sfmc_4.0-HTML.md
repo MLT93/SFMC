@@ -479,7 +479,7 @@ Esta guía proporciona una referencia esencial sobre HTML y **mejores prácticas
           </ul>
         </nav>
 
-        <!-- Contenido relacionado con el contenido principal sin ser parte del flujo principal. Como un método estático en una clase -->
+        <!-- Contenido relacionado con el contenido principal sin ser parte del flujo principal de la página. Como un método estático en una clase -->
         <!-- Puede ser una barra lateral con enlaces, notas adicionales, publicidad -->
         <aside>
           <div></div>
