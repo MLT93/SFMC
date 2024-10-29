@@ -1,0 +1,27 @@
+<br>
+<div>
+%%[
+  /* 
+  1. Crear un email para recuperar un cupón
+  2. Recuperar el cupón de la DE “ENT.DE_Cupones_Jtalent”
+  3. El campo que tiene los cupones será “CodigoCupon”
+  4. Cada persona deberá guardar su nombre en la variable “Nombre”
+  5. La DE tiene los campos “CodigoCupon”, “IsClaimed”, “ClaimedDate” y “Nombre”
+  */
+
+  /* Declaración variables */
+  VAR @quienPideElCupon, @row, @cupon
+  /* Inicializo las variables */
+  SET @quienPideElCupon = 'Marcos'
+  /* Recupero la primer fila de la DE (de los cupones) y guardo el nombre de quién lo pide */
+  SET @row = ClaimRow('ENT.DE_Cupones_Jtalent', 'IsClaimed', 'Nombre', @quienPideElCupon)
+  /* Recupero el valor del campo usando Field() si es distinto de vacío */
+    IF NOT EMPTY(@row) THEN
+    SET @cupon = Field(@row, 'CodigoCupon')
+  ELSE
+    SET @cupon = "No hay cupones disponibles para ti"
+  ENDIF
+]%%
+<p>Mi cupón es: <b>%%=v(@cupon)=%%</b></p>
+</div>
+<br>

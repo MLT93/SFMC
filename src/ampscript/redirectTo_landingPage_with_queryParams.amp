@@ -1,0 +1,33 @@
+<br>
+<div>
+%%[
+  /* 
+    1. Variable nombre y apellido (guarda el tuyo)
+    2. Añadir las variables a la URL "https://www.misitio.com/pagina"
+    3. Meterlo dentro de un link <a>
+    4. Crea otro link igual pero utiliza "RedirectTo()"
+    5. Crea otro link que lleve a la landing page con "ID=9595" y añadir los campos "nombre" y "apellido"
+  */
+
+  /* Declaración variables */
+  VAR @name, @surname, @URL, @idCloudPage, @queryParams, @urlWithParams, @urlFromCloudPagesURL
+  /* Inicializo las variables */
+  SET @name = 'Marcos'
+  SET @surname = 'Lambir'
+  SET @URL = "https://www.misitio.com/pagina"
+  SET @idCloudPage = 9595
+  /* Creo Query Params */
+  SET @queryParams = Concat('?nombre=', @name, '&apellido=', @surname)
+  /* Junto todo */
+  SET @urlWithParams = Concat(@URL, @queryParams)
+  /* URL creada con CloudPagesURL() */
+  SET @urlFromCloudPagesURL = CloudPagesURL(@idCloudPage, 'Nombre', @name, 'Apellido', @surname)
+]%%
+<!-- Link <a> -->
+<a href="%%=v(@urlWithParams)=%%">Click here!</a>
+<!-- Link <a> + RedirectTo() -->
+<a href="%%=RedirectTo(@urlWithParams)=%%">Click here with RedirectTo!</a>
+<!-- Link <a> + RedirectTo() + CloudPagesURL() -->
+<a href="%%=RedirectTo(@urlFromCloudPagesURL)=%%">Click here with CloudPagesURL!</a>
+</div>
+<br>
