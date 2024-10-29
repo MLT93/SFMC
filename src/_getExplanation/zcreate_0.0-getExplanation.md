@@ -1,7 +1,13 @@
 Explica esto:
 
 ```
-Explícame cómo montar un warm up siguiendo las especificaciones de Salesforce y haciendo alguna diferencia de cómo se hacía antes (cuando se debía separar por ISP o Internet Service Provider).
+   Incluye una guía paso a paso para aplicar los conceptos de AMPScript:
+   
+   - Definir variables de nombre y apellido.
+   - Personalizar URLs con parámetros en un enlace HTML.
+   - Recuperar cupones únicos y aplicarlos en el contenido del email.
+
+   Este ejercicio está diseñado para ayudar a los usuarios a aplicar las funciones de AMPScript de manera práctica, fortaleciendo su habilidad para personalizar campañas en SFMC.
 ```
 
 Replica este modelo para la explicación con su indentación, letra y tamaño:
