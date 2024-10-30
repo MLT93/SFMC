@@ -30,24 +30,31 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
 
    ***
 
-3. ### `Errores y Cómo Detectarlos en AMPScript`:
+3. ### **`Errores y Cómo Detectarlos en AMPScript`**:
 
-   - **`Tipos de Errores`**: Incluyen bugs, excepciones y errores comunes de codificación. Identificarlos y resolverlos requiere una combinación de lectura cuidadosa, comentarios en el código y seguimiento de valores. Aunque AMPScript no tiene manejo de excepciones, SSJS permite capturar errores con la estructura **try-catch**:
+   - **`Tipos de Errores`**: Incluyen bugs, excepciones y errores comunes de codificación. Identificarlos y resolverlos requiere una combinación de lectura cuidadosa, comentarios en el código, y seguimiento de valores.
+
+   - **`Debugging con Tracking`**: Una técnica efectiva en AMPScript es crear una variable de **tracking** que permita verificar puntos clave en el flujo del código. Esta variable (ej. @EntraEnElFlujo) se puede ubicar en varias secciones del código y luego ejecutar el código para imprimir en pantalla y ver si el flujo de ejecución está pasando correctamente por cada paso.
 
      ```html
-     <!-- Bloque de AMPScript -->
+     <!-- Bloque de AMPScript para seguimiento de flujo -->
      %%[
-       SET @nombre = AttributeValue("Nombre") /* Intenta obtener un valor que podría no existir */
-       IF EMPTY(@nombre) THEN
-         SET @nombre = "Sin Nombre"
-       ENDIF
+       SET @EntraEnElFlujo = "Aquí Entra"
      ]%%
      
+     <!-- Este código lo pasaremos desde arriba hasta abajo por todo el archivo -->
+     <!-- Esto nos permite descubrir dónde el flujo de ejecución se detiene -->
+     <p>Tracking: %%=V(@EntraEnElFlujo)=%%</p>
+     ```
+
+   - **Captura de errores con `try-catch` en SSJS**: Aunque AMPScript no tiene manejo de excepciones, SSJS permite capturar errores con la estructura **try-catch**. Utilizar SSJS para capturar errores y manejar excepciones es ideal para errores más complejos.
+
+     ```html
      <!-- Bloque de SSJS con manejo de errores -->
      <script runat="server">
        Platform.Load("Core", "1");
        try {
-         var nombre = Variable.GetValue("@nombre"); // Recupera la variable de AMPScript
+         var nombre = Variable.GetValue("@Nombre"); // Recupera la variable de AMPScript
          
          // Simula un error si el nombre es vacío o no definido
          if (!nombre) {
@@ -82,7 +89,7 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
      - **Descripción**: Devuelve el valor de un atributo específico de una Data Extension. Si el valor no existe, no genera errores, lo que lo hace útil para evitar interrupciones en la ejecución del script.
 
        ```ampscript
-       set @email = AttributeValue("EmailAddress")
+       SET @Email = AttributeValue("EmailAddress")
        ```
 
    - **`GUID()`**:
@@ -90,7 +97,7 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
      - **Descripción**: Genera un identificador único global (GUID) aleatorio. Este identificador es útil para crear registros únicos en Data Extensions o para realizar seguimiento en campañas.
 
        ```ampscript
-       set @uniqueId = GUID()
+       SET @UniqueId = GUID()
        ```
 
    - **`Random(min, max)`**:
@@ -98,7 +105,7 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
      - **Descripción**: Devuelve un número aleatorio entre los valores especificados, **min** y **max**. Esta función puede ser útil para personalizar contenido o para seleccionar elementos al azar en campañas.
 
        ```ampscript
-       set @randomNumber = Random(1, 100)
+       SET @RandomNumber = Random(1, 100)
        ```
 
    - **`RaiseError()`**:
@@ -114,8 +121,8 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
      - **Descripción**: Es una función condicional que evalúa una condición y devuelve uno de los dos valores proporcionados según si la condición es verdadera o falsa. Ideal para situaciones sencillas. Es el **operador ternario** de AMScript.
 
        ```ampscript
-       set @age = 20
-       set @status = Iif(@age >= 18, "Adulto", "Menor") // Operador Ternario
+       SET @Age = 20
+       SET @Status = Iif(@Age >= 18, "Adulto", "Menor") // Operador Ternario
        ```
 
    ***
@@ -157,8 +164,8 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
 
    - Modifica las variables de AMPScript con nuevos valores:
      ```ampscript
-     SET @n = "Hola"
-     SET @a = "Mundo"
+     SET @N = "Hola"
+     SET @A = "Mundo"
      ```
 
 5. #### **Concatena las Variables**:
@@ -166,8 +173,8 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
    - Crea otro bloque de AMPScript donde concatenes las variables para formar la frase "Hola Mundo!" y muéstrala:
 
      ```ampscript
-     SET @frase = CONCAT(@n, " ", @a)
-     OUTPUT(CONCAT("Frase: ", @frase))
+     SET @Frase = Concat(@N, " ", @A)
+     Output(Concat("Frase: ", @Frase))
      ```
 
 6. #### **Nota Importante**:
