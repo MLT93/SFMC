@@ -2,7 +2,7 @@
 
 #### Introducción:
 
-Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing Cloud (SFMC), destacando su capacidad para crear personalizaciones avanzadas en campañas de marketing. A través de esta guía se explican temas como los lenguajes de programación usados en SFMC, la detección y manejo de errores en AMPScript y Server-Side JavaScript (SSJS), funciones útiles para optimizar procesos y la creación de Cloud Pages para experiencias personalizadas en sitios web.
+Este documento se explica temas como los lenguajes de programación usados en SFMC, la detección y manejo de errores en AMPScript y Server-Side JavaScript (SSJS), funciones útiles para optimizar procesos y la creación de Cloud Pages para experiencias personalizadas en sitios web.
 
 ---
 
@@ -10,6 +10,7 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
 
    - **`Lenguajes de Servidor (BackEnd)`**:
      Son lenguajes que se ejecutan en el servidor y manipulan datos para entregar resultados al cliente. Incluyen **AMPScript**, **Server-Side JavaScript (SSJS)**, **Guide Template Language (GTL)**, **PHP**, **JAVA** y **WSProxy**.
+
    - **`Lenguajes de Cliente (FrontEnd)`**:
      Se ejecutan en el navegador del cliente y permiten la interacción con el servidor. En SFMC, se utiliza principalmente **JavaScript** (puede verse adaptado en distintos frameworks o bibliotecas que ayudan a la programación como Angular, React, Vue, JQuery, etc...).
 
@@ -17,7 +18,7 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
 
 2. ### **`Server-Side JavaScript (SSJS)`**:
 
-   - **`Propósito`**: SSJS permite realizar operaciones avanzadas, como la detección de errores, manipulación de datos y generación de scripts en emails, SMS y Cloud Pages.
+   - **`Propósito`**: SSJS permite realizar operaciones avanzadas donde el AMPScript queda limitado como en la detección de errores, la manipulación de datos y generación de scripts en emails, SMS y Cloud Pages.
 
      ```html
      <script runat="server">
