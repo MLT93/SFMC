@@ -76,9 +76,9 @@
       // Envía los nuevos valores de vuelta a AMPScript
       Platform.Variable.SetValue("@Hola", nombre);
       Platform.Variable.SetValue("@Mundo", apellido);
-    </script>
-
-  
+    </script>  
+  </head>
+  <body>
     <!-- AMPSCRIPT -->
     %%[ 
       VAR @DesdeSSJSHola, @DesdeSSJSMundo, @HolaMundo
@@ -86,8 +86,6 @@
       SET @DesdeSSJSMundo = @Mundo
       SET @HolaMundo = Concat(@DesdeSSJSHola, " ", @DesdeSSJSMundo) /* Después se pone %%=V(@HolaMundo)=%% en un TAG `<p>` y listo */
     ]%%
-  </head>
-  <body>
     <table>
       <br />
       <br />
