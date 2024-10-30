@@ -155,8 +155,8 @@ Este documento se explica temas como los lenguajes de programación usados en SF
    - Añade un bloque de Server-Side JavaScript (SSJS) para recuperar las variables de AMPScript y mostrarlas:
      ```javascript
      <script runat="server">
-     let nombre = Variable.GetValue("@N");
-     let apellido = Variable.GetValue("@A");
+     var nombre = Variable.GetValue("@N");
+     var apellido = Variable.GetValue("@A");
      Write("Nombre: " + nombre + " " + apellido);
      </script>
      ```

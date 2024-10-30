@@ -21,7 +21,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
      ```javascript
      <script runat="server">
        Platform.Load("Core", "1"); // Carga la biblioteca Core para habilitar funciones de SFMC 
-       let nombre = "Cliente";
+       var nombre = "Cliente";
        Platform.Response.Write("Hola " + nombre); // Similar a la funci√≥n `echo` en PHP
      </script>
      ```
@@ -42,7 +42,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
      ```javascript
      <script runat="server">
        Platform.Load("Core", "1"); 
-       let usuario = Platform.Request.GetQueryStringParameter("usuario");
+       var usuario = Platform.Request.GetQueryStringParameter("usuario");
        Platform.Response.Write("Bienvenido, " + (usuario || "visitante") + "!");
      </script>
      ```
@@ -53,7 +53,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
      ```javascript
      <script runat="server">
        Platform.Load("Core", "1"); 
-       let resultados = Platform.Function.LookupRows("MiDataExtension", "email", "cliente@ejemplo.com");
+       var resultados = Platform.Function.LookupRows("MiDataExtension", "email", "cliente@ejemplo.com");
        Platform.Response.Write("Se encontraron " + resultados.length + " registros.");
      </script>
      ```
@@ -65,7 +65,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
      <script runat="server">
        Platform.Load("Core", "1"); 
        Platform.Variable.SetValue("miVariable", "valor");
-       let valor = Platform.Variable.GetValue("miVariable");
+       var valor = Platform.Variable.GetValue("miVariable");
        Platform.Response.Write("El valor de la variable es " + valor);
      </script>
      ```
@@ -77,7 +77,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
      <script runat="server">
        Platform.Load("Core", "1"); 
        Platform.Storage.SetItem("miClave", "miValor"); 
-       let valor = Platform.Storage.GetItem("miClave");
+       var valor = Platform.Storage.GetItem("miClave");
        Platform.Response.Write("El valor almacenado es " + valor);
      </script>
      ```
@@ -89,7 +89,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
     <script runat="server">
       Platform.Load("Core", "1"); 
       // Concepto: No se puede ejecutar en este entorno de ejemplo
-      // let status = Platform.Trigger.Invoke("nombre_del_evento");
+      // var status = Platform.Trigger.Invoke("nombre_del_evento");
       // Platform.Response.Write("Evento iniciado con estado: " + status);
     </script>
      ```
@@ -100,7 +100,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
      ```javascript
      <script runat="server">
        Platform.Load("Core", "1"); 
-       let emailUsuario = Platform.User.EmailAddress; 
+       var emailUsuario = Platform.User.EmailAddress; 
        Platform.Response.Write("El correo del usuario actual es " + emailUsuario);
      </script>
      ```
@@ -111,7 +111,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
      ```javascript
      <script runat="server">
        Platform.Load("Core", "1"); 
-       let fechaActual = Platform.Util.Now(); 
+       var fechaActual = Platform.Util.Now(); 
        Platform.Response.Write("La fecha y hora actual es " + fechaActual);
      </script>
      ```
@@ -127,7 +127,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
        ```javascript
        <script runat="server">
          Platform.Load("Core", "1");
-         let resultados = Platform.Function.LookupRows("MiDataExtension", "email", "cliente@ejemplo.com");
+         var resultados = Platform.Function.LookupRows("MiDataExtension", "email", "cliente@ejemplo.com");
          if (resultados.length > 0) {
            Platform.Response.Write("Se encontraron " + resultados.length + " registros.");
          }
@@ -139,7 +139,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
        ```javascript
        <script runat="server">
          Platform.Load("Core", "1");
-         let insercion = Platform.Function.InsertData("MiDataExtension", ["email", "nombre"], ["nuevo@ejemplo.com", "Nuevo Cliente"]);
+         var insercion = Platform.Function.InsertData("MiDataExtension", ["email", "nombre"], ["nuevo@ejemplo.com", "Nuevo Cliente"]);
          if (insercion == 1) {
            Platform.Response.Write("Registro insertado correctamente.");
          }
@@ -157,15 +157,15 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
        ```javascript
        <script runat="server">
          Platform.Load("Core", "1");
-         let url = 'https://YOUR_SUBDOMAIN.rest.marketingcloudapis.com/v1/subscribers';
-         let payload = '{"email": "test@ejemplo.com", "status": "active"}';
+         var url = 'https://YOUR_SUBDOMAIN.rest.marketingcloudapis.com/v1/subscribers';
+         var payload = '{"email": "test@ejemplo.com", "status": "active"}';
        
-         let header = {
+         var header = {
            'Content-Type': 'application/json',
            'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
          };
        
-         let response = HTTP.Post(url, header, payload);
+         var response = HTTP.Post(url, header, payload);
          Platform.Response.Write("Respuesta del servidor: " + response.StatusCode);
        </script>
        ```
@@ -181,9 +181,9 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
        ```javascript
        <script runat="server">
          Platform.Load("Core", "1");
-         let registros = Platform.Function.LookupRows("MiDataExtension", "estado", "pendiente");
-         for (let i = 0; i < registros.length; i++) {
-           let id = registros[i].ID;
+         var registros = Platform.Function.LookupRows("MiDataExtension", "estado", "pendiente");
+         for (var i = 0; i < registros.length; i++) {
+           var id = registros[i].ID;
            Platform.Function.UpdateData("MiDataExtension", ["ID"], [id], ["estado"], ["completado"]);
          }
          Platform.Response.Write("Actualizaci√≥n completada.");
@@ -201,8 +201,8 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
        ```javascript
        <script runat="server">
          Platform.Load("Core", "1");
-         let jsonData = '{"email": "cliente@ejemplo.com", "nombre": "Cliente Ejemplo"}';
-         let objeto = Platform.Function.ParseJSON(jsonData);
+         var jsonData = '{"email": "cliente@ejemplo.com", "nombre": "Cliente Ejemplo"}';
+         var objeto = Platform.Function.ParseJSON(jsonData);
          Platform.Response.Write("El nombre del cliente es " + objeto.nombre);
        </script>
        ```
@@ -218,14 +218,14 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
        ```javascript
        <script runat="server">
          Platform.Load("Core", "1");
-         let tsDef = Platform.Function.CreateObject("TriggeredSendDefinition");
+         var tsDef = Platform.Function.CreateObject("TriggeredSendDefinition");
          Platform.Function.SetObjectProperty(tsDef, "CustomerKey", "Mi_Triggered_Send");
        
-         let tsSub = Platform.Function.CreateObject("Subscriber");
+         var tsSub = Platform.Function.CreateObject("Subscriber");
          Platform.Function.SetObjectProperty(tsSub, "EmailAddress", "cliente@ejemplo.com");
          Platform.Function.SetObjectProperty(tsSub, "SubscriberKey", "cliente@ejemplo.com");
        
-         let status = Platform.Function.InvokeTriggeredSend(tsDef, tsSub);
+         var status = Platform.Function.InvokeTriggeredSend(tsDef, tsSub);
          if (status == "OK") {
            Platform.Response.Write("Correo enviado con √©xito.");
          }
@@ -244,7 +244,7 @@ Server-Side JavaScript (SSJS) en Salesforce Marketing Cloud (SFMC) es una versi√
        <script runat="server">
          Platform.Load("Core", "1");
          try {
-           let resultado = Platform.Function.LookupRows("MiDataExtension", "email", "cliente@ejemplo.com");
+           var resultado = Platform.Function.LookupRows("MiDataExtension", "email", "cliente@ejemplo.com");
            if (resultado.length == 0) {
              throw new Error("No se encontraron registros.");
            }
