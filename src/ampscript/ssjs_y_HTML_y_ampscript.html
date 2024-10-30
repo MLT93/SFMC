@@ -30,6 +30,12 @@
       }
     </style>
     <!-- AMPSCRIPT -->
+    <!-- 
+    Ubicación recomendada de AMPScript:
+      - Dentro del `<body>`: Es el lugar más común para AMPScript cuando necesitas inyectar contenido dinámico directamente en la estructura de la página, como en una tabla o un párrafo de texto.
+      - Encabezado o `<head>` solo en casos específicos: No es común, pero puede usarse en el `<head>` para configurar variables o lógica que se necesita antes de cargar el contenido del `<body>`.
+      - Antes del `<!DOCTYPE html>`: Aunque puedes ubicar AMPScript aquí para definir variables globales o lógica previa, es menos frecuente.
+    -->
     %%[
       /* 
         1. Crearemos un email con un bloque HTML.
@@ -48,6 +54,12 @@
     ]%%
   
     <!-- SSJS -->
+    <!-- 
+    Ubicación óptima para SSJS:
+      - En el `<head>` si realiza operaciones previas a la visualización del contenido.
+      - Al inicio del `<body>` para lógica que define valores o configura el contenido visible.
+      - Antes del cierre de `<body>` si deseas organizar el flujo de tu código similar al JavaScript normal, aunque esto no cambiará su rendimiento.
+    -->
     <script runat="server">
       // Middleware para cargar el Core Library
       Platform.Load('Core', '1');
