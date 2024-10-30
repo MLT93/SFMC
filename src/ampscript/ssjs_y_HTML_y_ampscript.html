@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAIN</title>
+    <style>
+      table {
+        width: 100%;
+      }
+      .content {
+        padding: 20px;
+        text-align: left;
+        font-size: 16px;
+        color: #333333;
+      }
+      .content__button {
+        background-color: #d3135a;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 23px;
+        cursor: pointer;
+      }
+      .content__img {
+        border-radius: 10px;
+      }
+    </style>
+    <!-- AMPSCRIPT -->
+    %%[
+      /* 
+        1. Crearemos un email con un bloque HTML.
+        2. Crearemos un bloque de AMPScript con un par de variables (@N y @A) con nuestro nombre y apellido.
+        3. Crearemos un bloque de SSJS donde recuperaremos las variables y las mostraremos con Write()
+        4. Sobrescribiremos las variables de AMPScript por 'Hola' y 'Mundo'.
+        5. Crearemos otro bloque AMPScript donde crearemos una variable nueva y concatenaremos las variables para hacer 
+        la frase 'Hola Mundo!'. Después lo visualizaremos.
+        6. Nota: Esta multi ejecución de bloques de código de diferentes lenguajes con comunicación entre 
+        ellos tiene un límite, por lo que hay que optimizar los procesos que se quieran realizar.
+        7. Refs.: https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/ssjs_utilitiesVariable.html
+      */
+      VAR @N, @A
+      SET @N = 'Marcos'
+      SET @A = 'Lambir'
+    ]%%
+  
+    <!-- SSJS -->
+    <script runat="server">
+      // Middleware para cargar el Core Library
+      Platform.Load('Core', '1');
+
+      // Write('Hola Mundo!'); // Sirve para escribir. Como el `echo` en PHP
+        
+      // Toma las variables de AMPScript
+      var nombre = Platform.Variable.GetValue("@A");
+      var apellido = Platform.Variable.GetValue("@N");
+
+      nombre = "Hola";
+      apellido = "Mundo";
+
+      // Envía los nuevos valores de vuelta a AMPScript
+      Platform.Variable.SetValue("@Hola", nombre);
+      Platform.Variable.SetValue("@Mundo", apellido);
+    </script>
+
+  
+    <!-- AMPSCRIPT -->
+    %%[ 
+      VAR @DesdeSSJSHola, @DesdeSSJSMundo, @HolaMundo
+      SET @DesdeSSJSHola = @Hola
+      SET @DesdeSSJSMundo = @Mundo
+      SET @HolaMundo = Concat(@DesdeSSJSHola, " ", @DesdeSSJSMundo) /* Después se pone %%=V(@HolaMundo)=%% en un TAG `<p>` y listo */
+    ]%%
+  </head>
+  <body>
+    <table>
+      <br />
+      <br />
+      <br />
+      <tr>
+        <td class="content">%%=V(@HolaMundo)=%%</td>
+      </tr>
+    </table>
+  </body>
+</html>
