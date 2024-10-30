@@ -20,7 +20,10 @@
 <script runat="server">
   Platform.Load('Core', '1'); // Middleware para cargar el Core Library
 
-  // Platform.Response.Write('Hola Mundo!'); // Sirve para escribir. Como el `echo` en PHP
+  // Sirve para escribir. Como el `echo` en PHP
+  // Son válidas ambas formas (tanto la de arriba, como la de abajo)
+  Platform.Response.Write('Hola Mundo!');
+  Write("Nombre: " + nombre + " " + apellido);
     
   // Toma las variables de AMPScript
   var nombre = Platform.Variable.GetValue("@A");

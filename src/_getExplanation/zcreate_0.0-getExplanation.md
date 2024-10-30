@@ -1,13 +1,13 @@
 Explica esto:
 
 ```
-   Incluye una guía paso a paso para aplicar los conceptos de AMPScript:
-   
-   - Definir variables de nombre y apellido.
-   - Personalizar URLs con parámetros en un enlace HTML.
-   - Recuperar cupones únicos y aplicarlos en el contenido del email.
-
-   Este ejercicio está diseñado para ayudar a los usuarios a aplicar las funciones de AMPScript de manera práctica, fortaleciendo su habilidad para personalizar campañas en SFMC.
+1. Vamos a crear un email y con un bloque HTML.
+2.Crearemos un bloque de AMPScript con un par de variables (@n y @a) con nuestro nombre y apellido.
+3.Crearemos un bloque de SSJS donde recuperaremos las variables y las mostraremos con Write()
+4.Sobrescribiremos las variables de AMPScript por ‘Hola’ y ‘Mundo’.
+5.Crearemos otro bloque AMPScript donde sobre una variable nueva concatenaremos las variables para hacer la frase ‘Hola Mundo!’ y lo visualizaremos.
+6. Nota: Esta multi ejecución de bloques de código de diferentes lenguajes con comunicación entre ellos tiene un límite, por lo que hay que optimizar los procesos que se quieran realizar.
+7. Refs.: https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/ssjs_utilitiesVariable.html
 ```
 
 Replica este modelo para la explicación con su indentación, letra y tamaño:
