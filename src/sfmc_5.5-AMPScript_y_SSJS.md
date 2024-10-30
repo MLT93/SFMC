@@ -111,7 +111,7 @@ Este documento se explica temas como los lenguajes de programación usados en SF
 
    - **`RaiseError()`**:
 
-     - **Descripción**: Permite forzar un error en la ejecución de AMPScript. Esto puede ser útil para evitar el envío de un email cuando se detectan condiciones no deseadas.
+     - **Descripción**: Permite forzar un error en la ejecución de AMPScript. Esto puede ser útil para evitar el envío de un email cuando se detecta una condición indeseada.
 
        ```ampscript
        RaiseError("El valor no es válido", true)
