@@ -22,6 +22,8 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
      ```html
      <script runat="server">
        Platform.Load('Core', '1');
+       // Ambas formas de abajo funcionan. La primera es la más ortodoxa
+       Platform.Response.Write('Hola Mundo!');
        Write('Hola Mundo!');
      </script>
      ```
@@ -33,11 +35,28 @@ Este documento profundiza en AMPScript y su aplicación en Salesforce Marketing 
    - **`Tipos de Errores`**: Incluyen bugs, excepciones y errores comunes de codificación. Identificarlos y resolverlos requiere una combinación de lectura cuidadosa, comentarios en el código y seguimiento de valores. Aunque AMPScript no tiene manejo de excepciones, SSJS permite capturar errores con la estructura **try-catch**:
 
      ```html
+     <!-- Bloque de AMPScript -->
+     %%[
+       SET @nombre = AttributeValue("Nombre") /* Intenta obtener un valor que podría no existir */
+       IF EMPTY(@nombre) THEN
+         SET @nombre = "Sin Nombre"
+       ENDIF
+     ]%%
+     
+     <!-- Bloque de SSJS con manejo de errores -->
      <script runat="server">
+       Platform.Load("Core", "1");
        try {
-         // Código de AMPScript a depurar
-       } catch (e) {
-         Write(Stringify(e));
+         var nombre = Variable.GetValue("@nombre"); // Recupera la variable de AMPScript
+         
+         // Simula un error si el nombre es vacío o no definido
+         if (!nombre) {
+           throw new Error("El nombre no está definido o está vacío.");
+         }
+     
+         Platform.Response.Write("Hola, " + nombre + "!");
+       } catch (error) {
+         Platform.Response.Write("Error capturado: " + Stringify(error)); // Muestra el error en la salida
        }
      </script>
      ```
