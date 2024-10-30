@@ -3,6 +3,7 @@
 #### Introducción:
 
 AMPScript es un lenguaje de scripting exclusivo de **Salesforce Marketing Cloud (SFMC)**, diseñado para personalizar contenido en campañas de marketing digital. Se utiliza para adaptar dinámicamente los mensajes en correos electrónicos, páginas de destino (CloudPages), y SMS/Push/WhatsApp, lo que permite mostrar contenido relevante a cada usuario. La personalización avanzada de AMPScript es clave en SFMC para aumentar la efectividad de las campañas al mejorar la segmentación y optimizar la experiencia del usuario.
+En este documento se verán algunas características la sintaxis, control de flujo, bucle FOR, funciones de texto, de fecha, matemáticas y para Data Extensions.
 
 ---
 

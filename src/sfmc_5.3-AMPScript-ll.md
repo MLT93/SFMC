@@ -2,7 +2,7 @@
 
 #### Introducción:
 
-El documento proporciona una guía detallada sobre **Marketing Automation** y el uso de **AMPScript** en Salesforce Marketing Cloud (SFMC). AMPScript es un lenguaje de scripting usado principalmente en el entorno de SFMC para personalizar contenidos de emails, automatizar tareas y manejar datos en tiempo real. Esta herramienta es esencial para crear experiencias personalizadas, optimizar campañas y realizar ajustes dinámicos en los mensajes enviados a los clientes.
+AMPScript es un lenguaje de scripting usado principalmente en el entorno de SFMC para personalizar contenidos de emails, automatizar tareas y manejar datos en tiempo real. Aquí veremos Funciones para definir si un valor existe, los bloques de ejecución,  las cloud pages y alguna función avanzada.
 
 ---
 
