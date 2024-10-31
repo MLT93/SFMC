@@ -33,7 +33,7 @@ Renderizar el usuario con email al tarificador de Endesa
 *** Generar registros manualmente (cargar CSV a una DE) o a través de Postman
 
 
-JOURNEY 
+JOURNEY (campaña de envíos)
 
 Cuando se activa se hace una foto con esos datos "Journey Data" (los datos estáticos) y empieza a funcionar el Journey. Posteriormente, es necesario tirar de DE relacionadas "Contact Data" (los datos actualizados) para utilizar datos reales. El ejemplo sería: Tenemos un Journey que dura 6 meses y al empezar (la primera foto) al Subscriber se le puede enviar emails. Después de 3 meses, quizás el usuario se agregó a la lista Robinson, por lo tanto ya será imposible contactarlo. Utilizar los datos actualizados nos facilita obtener esa información y poder obrar en consecuencia.
 
