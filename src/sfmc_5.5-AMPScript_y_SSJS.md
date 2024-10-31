@@ -35,7 +35,7 @@ Este documento se explica temas como los lenguajes de programación usados en SF
 
    - **`Tipos de Errores`**: Incluyen bugs, excepciones y errores comunes de codificación. Identificarlos y resolverlos requiere una combinación de lectura cuidadosa, comentarios en el código, y seguimiento de valores.
 
-   - **`Debugging con Tracking`**: Una técnica efectiva en AMPScript es crear una variable de **tracking** que permita verificar puntos clave en el flujo del código. Esta variable (ej. @EntraEnElFlujo) se puede ubicar en varias secciones del código y luego ejecutar el código para imprimir en pantalla y ver si el flujo de ejecución está pasando correctamente por cada paso.
+   - **`Debugging con Tracking`**: Una técnica efectiva en AMPScript es crear una variable de **tracking** que permita verificar puntos clave en el flujo del código. Esta variable (ej. @EntraEnElFlujo), se puede ubicar en varias secciones del código (antes o después de cada bloque) y luego ejecutar el código para ver si el flujo de ejecución está pasando correctamente por cada paso.
 
      ```html
      <!-- Bloque de AMPScript para seguimiento de flujo -->
@@ -59,7 +59,7 @@ Este documento se explica temas como los lenguajes de programación usados en SF
          
          // Simula un error si el nombre es vacío o no definido
          if (!nombre) {
-           throw new Error("El nombre no está definido o está vacío.");
+           throw "El nombre no está definido o está vacío.";
          }
      
          Platform.Response.Write("Hola, " + nombre + "!");
