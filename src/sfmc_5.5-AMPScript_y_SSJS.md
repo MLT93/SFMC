@@ -87,7 +87,7 @@ Este documento se explica temas como los lenguajes de programación usados en SF
 
    - **`AttributeValue()`**:
 
-     - **Descripción**: Devuelve el valor de un atributo específico de una Data Extension. Si el valor no existe, no genera errores, lo que lo hace útil para evitar interrupciones en la ejecución del script.
+     - **Descripción**: Devuelve el valor de un atributo específico de una Data Extension. Si el campo en la Data Extension es inexistente no genera errores, lo que lo hace útil para evitar interrupciones en la ejecución del script. Si no tiene valor las demás funciones devuelven null, pero esta es la única que previene que el campo sea inexistente.
 
        ```ampscript
        SET @Email = AttributeValue("EmailAddress")
