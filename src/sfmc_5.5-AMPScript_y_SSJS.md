@@ -146,6 +146,7 @@ Este documento se explica temas como los lenguajes de programación usados en SF
 
    - Inserta un bloque de AMPScript y define un par de variables:
      ```ampscript
+     VAR @N, @A
      SET @N = "TuNombre" /* Reemplaza con tu nombre */
      SET @A = "TuApellido" /* Reemplaza con tu apellido */
      ```
@@ -155,18 +156,30 @@ Este documento se explica temas como los lenguajes de programación usados en SF
    - Añade un bloque de Server-Side JavaScript (SSJS) para recuperar las variables de AMPScript y mostrarlas:
      ```javascript
      <script runat="server">
-     var nombre = Variable.GetValue("@N");
-     var apellido = Variable.GetValue("@A");
-     Write("Nombre: " + nombre + " " + apellido);
+       Platform.Load('Core', '1'); // Middleware para cargar el Core Library
+
+       // Sirve para escribir. Como el `echo` en PHP
+       // Son válidas ambas formas (tanto la de arriba, como la de abajo)
+       Platform.Response.Write('Hola Mundo!');
+       Write("Nombre: " + nombre + " " + apellido);
+         
+       // Toma las variables de AMPScript
+       var nombre = Platform.Variable.GetValue("@A");
+       var apellido = Platform.Variable.GetValue("@N");
      </script>
      ```
 
 4. #### **Sobrescribe las Variables de AMPScript**:
 
-   - Modifica las variables de AMPScript con nuevos valores:
-     ```ampscript
-     SET @N = "Hola"
-     SET @A = "Mundo"
+   - Modifica las variables de AMPScript con nuevos valores dentro de SSJS:
+     ```javascript
+     // Asigna nuevos valores a las variables
+     nombre = "Hola";
+     apellido = "Mundo";
+     
+     // Envía los nuevos valores de vuelta a AMPScript
+     Platform.Variable.SetValue("@Hola", nombre);
+     Platform.Variable.SetValue("@Mundo", apellido);
      ```
 
 5. #### **Concatena las Variables**:
@@ -174,8 +187,10 @@ Este documento se explica temas como los lenguajes de programación usados en SF
    - Crea otro bloque de AMPScript donde concatenes las variables para formar la frase "Hola Mundo!" y muéstrala:
 
      ```ampscript
-     SET @Frase = Concat(@N, " ", @A)
-     Output(Concat("Frase: ", @Frase))
+     VAR @DesdeSSJSHola, @DesdeSSJSMundo, @HolaMundo
+     SET @DesdeSSJSHola = @Hola
+     SET @DesdeSSJSMundo = @Mundo
+     SET @HolaMundo = Concat(@DesdeSSJSHola, " ", @DesdeSSJSMundo) /* Después se pone %%=V(@HolaMundo)=%% en un TAG `<p>` y listo */
      ```
 
 6. #### **Nota Importante**:
