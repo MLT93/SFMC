@@ -8,7 +8,7 @@ Salesforce Marketing Cloud (SFMC) integra los canales de Mobile Push y Mobile Co
 
 1. ### **`Mobile Push`**
 
-   Mobile Push es una herramienta de SFMC que permite enviar notificaciones directamente a dispositivos móviles, incluso cuando la aplicación asociada está cerrada. Esto permite a las marcas **interactuar con sus usuarios a través de mensajes personalizados**, integrados dentro de una estrategia de marketing móvil más amplia.
+   Mobile Push es una herramienta de SFMC que permite enviar notificaciones directamente a dispositivos móviles, incluso cuando la aplicación asociada está cerrada. Esto permite a las marcas **interactuar con sus usuarios a través de mensajes personalizados desde la App**, integrados dentro de una estrategia de marketing móvil más amplia.
 
    - **`Envío de notificaciones push personalizadas`**: Mobile Push permite el envío de notificaciones breves que se muestran en el dispositivo cuando la aplicación pertinente está cerrada. Estas notificaciones pueden incluir contenido enriquecido como imágenes, videos o incluso enlaces directos a páginas específicas dentro de la app.
 
