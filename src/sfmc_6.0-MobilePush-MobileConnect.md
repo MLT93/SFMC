@@ -2,7 +2,7 @@
 
 #### Introducción:
 
-Salesforce Marketing Cloud (SFMC) integra los canales de Mobile Push y Mobile Connect para potenciar la **automación en marketing móvil dentro de Mobile Studio**. Estas herramientas permiten a las marcas alcanzar a sus usuarios directamente en sus dispositivos móviles, ya sea a través de notificaciones push dentro de aplicaciones móviles (Mobile Push) o mediante mensajes de texto SMS (Mobile Connect), asegurando una conexión directa, relevante y personalizada con el cliente.
+Salesforce Marketing Cloud (SFMC) integra los canales de Mobile Push y Mobile Connect para potenciar la **automation en marketing móvil dentro de Mobile Studio**. Estas herramientas permiten a las marcas alcanzar a sus usuarios directamente en sus dispositivos móviles, ya sea a través de notificaciones push dentro de aplicaciones móviles (Mobile Push) o mediante mensajes de texto SMS (Mobile Connect), asegurando una conexión directa, relevante y personalizada con el cliente.
 
 ---
 
@@ -14,10 +14,13 @@ Salesforce Marketing Cloud (SFMC) integra los canales de Mobile Push y Mobile Co
 
      - **Funcionalidades**:
 
-       - **Notificaciones push outbound**: Se envían desde SFMC y aparecen en la pantalla de bloqueo del dispositivo.
-       - **Mensajes in-app**: Tipo banner o pop-up que se muestran dentro de la app mientras el usuario la utiliza.
-       - **Bandeja de entrada (Inbox)**: Mensajes que permanecen en una sección específica dentro de la app, permitiendo al usuario consultarlos en cualquier momento.
-       - **Geo-referenciación y beacons**: Envío de mensajes específicos según la ubicación del usuario o cuando pasa cerca de un beacon (dispositivo de proximidad).
+       - **Outbound**: Se envían desde SFMC y aparecen en la pantalla de bloqueo del dispositivo.
+       - **In-App**: Tipo banner o pop-up que se muestran dentro de la app mientras el usuario la utiliza.
+       - **Inbox**: Mensajes que permanecen en una sección específica dentro de la app, permitiendo al usuario consultarlos en cualquier momento.
+       - **Geo-referenciación**:
+         - `Beacon`: Notificaciones push a través de dispositivos beacons (dispositivos de proximidad) que detectan al usuario cuando tiene el Bluetooth activado. Ej. Un supermercado.
+         - `Location-Entry`: Envía un push cuando el usuario se encuentre en una localización. Ej. Entrada al Barrio Chamberí.
+         - `Location-Exit`: Envía un push cuando el usuario sale de una localización.
 
    - **`Administración de audiencia`**:
      Mobile Push permite **segmentar audiencias** en función de distintos criterios de usuario y comportamiento, facilitando el envío de notificaciones push solo a quienes cumplan con características específicas.
@@ -30,13 +33,46 @@ Salesforce Marketing Cloud (SFMC) integra los canales de Mobile Push y Mobile Co
 
    - **`Tipos de Envíos en Mobile Push`**:
 
-     - **Alert**: Envío de una notificación de texto desde la app hacia el dispositivo del usuario.
-     - **Alert + CloudPage**: Notificación de alerta que abre una CloudPage específica dentro de SFMC al abrir la app.
-     - **DeepLink + OpenDirect URL**: Notificación que incluye una URL de destino, la cual redirige al usuario a una página específica dentro de la app cuando hace clic en la notificación.
+     - **Alert**: Es una notificación push básica que envía un mensaje simple al dispositivo del usuario. Esta notificación aparece en la pantalla de bloqueo o en el centro de notificaciones del dispositivo, y no contiene enlaces ni contenido adicional. Al tocarla, generalmente solo abre la aplicación sin dirigir a una página específica o contenido adicional dentro de SFMC.
+     - **Alert + CloudPage**: Es una notificación push que, al ser abierta por el usuario, redirige a una CloudPage específica (página web), pero no se abre directamente dentro de la app. Al hacer clic en la notificación, el usuario es llevado a una página web alojada en SFMC, fuera de la aplicación, que puede contener contenido personalizado como promociones, detalles de productos o información específica.
+     - **DeepLink + OpenDirect URL**: Aparece como notificación en la pantalla de bloqueo o en la barra de notificaciones del dispositivo. Cuando el usuario interactúa con esta notificación, se abre un enlace profundo (DeepLink) que redirige al usuario a una sección específica de la app o a una URL particular, proporcionando acceso rápido al contenido deseado sin necesidad de navegar manualmente por la app.
+     - **Notificación Enriquecida**: Es una notificación push que incluye multimedia o interactividad adicional (Rich Notification) y que aparece fuera de la app (en la pantalla de bloqueo o en la barra de notificaciones). Proporciona mayor atractivo y más personalización. Al interactuar con esta notificación, el usuario puede ver más contenido visual o elegir acciones, como abrir una sección específica de la app o visitar una página web.
 
-   ***
+- **`Opciones para enviar notificaciones push dependiendo de la necesidad de la campaña`**
 
-2. ### **`Mobile Connect`**
+  1. **MobilePush**:
+
+     - **Envío manual** de notificaciones push desde el módulo de **MobilePush** en SFMC.
+     - Permite **definir el contenido del mensaje**, seleccionar la audiencia a la que deseas llegar, y programar el envío de manera personalizada.
+     - Ideal para **campañas puntuales** o mensajes específicos en los que se necesita mayor control manual sobre el contenido y la segmentación.
+
+  2. **Journey Builder**:
+
+     - Utilizado para **enviar notificaciones push automatizadas** a través de flujos de trabajo en SFMC.
+     - Permite integrar las notificaciones push como parte de un **viaje multicanal** que involucra a todos los dispositivos asociados a un contacto.
+     - Ideal para **campañas basadas en el recorrido del cliente**, ya que los mensajes pueden dispararse automáticamente en momentos clave (ej. bienvenida, recordatorios de actividad, etc.).
+
+  3. **Automation Studio**:
+
+     - Permite configurar **flujos de trabajo automatizados** para el envío de notificaciones push en momentos específicos, como:
+       - `Después de un registro en la app`.
+       - Al `realizar una acción específica`, como completar un formulario o interactuar con contenido.
+     - Muy útil para **campañas recurrentes o basadas en condiciones predefinidas**, en donde es necesario que la notificación se envíe en un tiempo o acción específicos sin intervención manual.
+
+  4. **Los Triggers**:
+
+     - **Configurar disparadores** (triggers) para enviar notificaciones push basadas en eventos sea desde un **Journey Builder** (en base a una programación específica de envío) o una **Automation** (en base a eventos y condiciones).
+       - `Ejemplos`:
+         - Envío automático **después de una compra o cuando el usuario abandona un carrito**.
+         - Envío después de un período de inactividad en la app para **reactivar al usuario**.
+         - Ideal **para mensajes transaccionales o de reactivación**.
+       - `Uso de la API de Salesforce`:
+         - SFMC ofrece una API que permite enviar notificaciones push de manera programática.
+         - Con la API, puedes seleccionar de forma específica el **dispositivo al que deseas enviar la notificación** usando el **System Token**, lo cual permite una segmentación granular y precisa. Opción útil para **integraciones avanzadas** donde otras aplicaciones o sistemas externos necesitan enviar notificaciones push a dispositivos específicos.
+
+  ***
+
+1. ### **`Mobile Connect`**
 
    Mobile Connect es la herramienta de SFMC para gestionar y enviar mensajes SMS a dispositivos móviles, incluyendo desde notificaciones transaccionales hasta mensajes promocionales. Su enfoque es establecer un canal de comunicación más tradicional pero efectivo, permitiendo **interacciones bidireccionales y personalizadas**.
 
@@ -62,39 +98,40 @@ Salesforce Marketing Cloud (SFMC) integra los canales de Mobile Push y Mobile Co
 
    ***
 
-3. ### **`SDK de Salesforce Mobile Push`**
+2. ### **`SDK de Salesforce Mobile Push`**
 
    - El **SDK de Salesforce Mobile Push** permite la integración entre una aplicación móvil y Salesforce Marketing Cloud (SFMC) para gestionar la comunicación bidireccional entre la aplicación y la plataforma de marketing.
 
    - **`¿Qué es un SDK y para qué se usa?`**
-   
+
      - **SDK (Software Development Kit)**: Es un conjunto de herramientas, bibliotecas, documentación y ejemplos de código que los desarrolladores utilizan para integrar funcionalidades específicas dentro de sus aplicaciones. En el caso de Salesforce, el SDK de Mobile Push permite incorporar todas las capacidades de notificaciones push y seguimiento de eventos de SFMC en aplicaciones móviles. A través del SDK, los desarrolladores pueden:
-   
+
        - `Enviar notificaciones push` de forma segmentada y personalizada.
        - `Recopilar datos de interacción` en tiempo real (como registros de apertura de notificaciones o eventos de usuario).
        - `Vincular datos de usuario` con SFMC para optimizar el marketing basado en comportamientos o perfiles específicos.
-     
+
      - **Además incluye**: Herramientas para gestionar configuraciones, como el manejo de permisos de notificaciones y la vinculación de dispositivos con perfiles de usuarios, para una experiencia de usuario más coherente y personalizada en todas las interacciones.
 
    - **`Canal de entrega de notificaciones push en Android (Firebase) e iOS (APNS)`**
-   
+
      1. **Android**:
+
         - Android utiliza **Firebase Cloud Messaging (FCM)** para entregar notificaciones. FCM es el servicio de mensajería de Google que permite el envío de mensajes o notificaciones push desde SFMC a dispositivos Android.
         - Una vez que SFMC envía una notificación push a un dispositivo Android, esta pasa a través de Firebase, que gestiona la entrega al dispositivo de destino. Esto asegura que las notificaciones puedan llegar incluso cuando la aplicación está en segundo plano o cerrada.
-     
+
      2. **iOS**:
         - En dispositivos iOS, las notificaciones push se envían a través de **Apple Push Notification Service (APNS)**, el sistema de mensajería de Apple.
         - SFMC envía el mensaje a APNS, y luego este lo dirige al dispositivo iOS registrado. APNS garantiza que el mensaje llegue con alta confiabilidad y seguridad.
 
    - **`Ventajas de utilizar el SDK de Salesforce Mobile Push`**
-   
-      - **Identificación del usuario en múltiples dispositivos**: Permite que un mismo usuario sea identificado y seguido en varios dispositivos, centralizando sus interacciones en SFMC.
-      - **Registro de eventos específicos**: El SDK permite registrar eventos de usuario, como la visualización de un producto o la finalización de una compra, en tiempo real.
-      - **Recopilación y sincronización de datos**: Los datos se sincronizan automáticamente con SFMC, ofreciendo insights para personalizar futuras campañas en función del comportamiento reciente del usuario.
+
+     - **Identificación del usuario en múltiples dispositivos**: Permite que un mismo usuario sea identificado y seguido en varios dispositivos, centralizando sus interacciones en SFMC.
+     - **Registro de eventos específicos**: El SDK permite registrar eventos de usuario, como la visualización de un producto o la finalización de una compra, en tiempo real.
+     - **Recopilación y sincronización de datos**: Los datos se sincronizan automáticamente con SFMC, ofreciendo insights para personalizar futuras campañas en función del comportamiento reciente del usuario.
 
    ***
 
-4. ### **`Links útiles`**:
+3. ### **`Links útiles`**:
 
    - **`Más sobre Mobile Push en`**: [Help Salesforce Mobile Push](https://help.salesforce.com/s/articleView?id=sf.mc_mp_mobilepush.htm&type=5).
    - **`Más sobre Mobile Connect en`**: [Help Salesforce Mobile Connect](https://help.salesforce.com/s/articleView?id=sf.mc_moc_mobileconnect.htm&type=5).
