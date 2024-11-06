@@ -2,7 +2,7 @@
 
 #### Introducción:
 
-Salesforce Marketing Cloud (SFMC) integra una plataforma de mensajería para enviar SMS, MMS, y mensajes de texto automatizados a los usuarios móviles. Permite gestionar campañas de mensajería, automatizar flujos de trabajo de mensajes y personalizar la comunicación con los clientes a través de canales de mensajería directa, como los mensajes de texto.
+Salesforce Marketing Cloud (SFMC) integra una plataforma de mensajería para enviar SMS, MMS, y mensajes de texto automatizados a los usuarios móviles. Permite gestionar campañas de mensajería, automatizar flujos de trabajo de mensajes y personalizar la comunicación con los clientes a través de canales de mensajería directa, como los mensajes de texto.  **Mobile Studio > MobileConnect**.
 
 ---
 
