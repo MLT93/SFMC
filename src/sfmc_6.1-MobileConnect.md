@@ -1,37 +1,160 @@
-# **`Mobile Connect en SFMC`**
+### **`Mobile Connect en SFMC`**
 
 #### Introducción:
 
-Salesforce Marketing Cloud (SFMC) integra una plataforma de mensajería para enviar SMS, MMS, y mensajes de texto automatizados a los usuarios móviles. Permite gestionar campañas de mensajería, automatizar flujos de trabajo de mensajes y personalizar la comunicación con los clientes a través de canales de mensajería directa, como los mensajes de texto.  **Mobile Studio > MobileConnect**.
+Salesforce Marketing Cloud (SFMC) integra una plataforma de mensajería para enviar SMS, MMS, y mensajes de texto automatizados a los usuarios móviles. Permite gestionar campañas de mensajería, automatizar flujos de trabajo de mensajes y personalizar la comunicación con los clientes a través de canales de mensajería directa, como los mensajes de texto. **Mobile Studio > MobileConnect**.
 
 ---
 
-1. ### **`Mobile Connect`**
+1. ### **`Características principales de SFMC MobileConnect`**
 
-   Mobile Connect es la herramienta de SFMC para gestionar y enviar mensajes SMS a dispositivos móviles, incluyendo desde notificaciones transaccionales hasta mensajes promocionales. Su enfoque es establecer un canal de comunicación más tradicional pero efectivo, permitiendo **interacciones bidireccionales y personalizadas**.
+   - **`Tipos de Mensajes SMS`**
 
-   - **`Gestión de campañas de SMS`**: Mobile Connect facilita la creación y ejecución de campañas de SMS, con distintos tipos de mensajes que incluyen confirmaciones de pedidos, recordatorios de citas, promociones y mensajes de seguridad.
+     MobileConnect permite el envío de diferentes tipos de mensajes para cubrir distintas necesidades de comunicación:
 
-     - **Mensajes transaccionales**: Mensajes automáticos para confirmar acciones específicas como compras, citas o entregas.
-     - **Mensajes comerciales**: Mensajes promocionales o de re-engagement, diseñados para incentivar la participación del usuario mediante ofertas o descuentos.
-     - **Mensajes de seguridad**: Envío de códigos de autenticación (MFA) u otras notificaciones de seguridad como cambios de contraseña.
+     - **Mensajes Transaccionales**:
+       - Usados para confirmaciones de compra, citas, o notificaciones de entrega. Son mensajes automáticos y de bajo nivel de personalización, pensados para brindar información crítica en el momento adecuado.
+     - **Mensajes Comerciales**:
+       - Enfocados en campañas de reactivación, estos mensajes buscan incentivar a los clientes mediante ofertas, descuentos y encuestas, dirigiéndolos también a sitios web o páginas de destino.
+     - **Mensajes de Seguridad**:
 
-   - **`Optimización de entrega y respuesta`**:
-     Mobile Connect permite personalizar el proceso de suscripción (opt-in) y cancelación (opt-out), y automatizar respuestas a interacciones específicas de los usuarios para mejorar la efectividad de las campañas.
-
-     - **Funcionalidades**:
-
-       - `Opt-in y Opt-out`: Proceso mediante el cual los usuarios se suscriben (opt-in) o cancelan (opt-out) la recepción de mensajes SMS.
-       - `Códigos cortos (Short Code) y largos (Long Code)`: Configuración de números desde los que se envían mensajes SMS; los códigos cortos son más comunes en campañas masivas.
-       - `Keywords personalizadas`: Palabras clave que los usuarios pueden enviar por SMS para suscribirse o cancelar, o para responder a promociones específicas.
+       - Incluyen notificaciones de autenticación multifactor (MFA), recordatorios de seguridad o directrices, útiles para transacciones seguras o contenido sensible.
 
      - **Aplicaciones**:
+       - Confirmaciones de citas, compras y entregas.
+       - Campañas de retención con descuentos y encuestas.
+       - Seguridad y autenticación en comunicaciones críticas.
 
-       - **Ofrecer interacciones bidireccionales en campañas de SMS**, permitiendo a los usuarios responder con palabras clave para obtener más información o participar en promociones.
-       - **Monitorear el rendimiento de las campañas** para optimizar estrategias y maximizar el retorno de inversión (ROI) en marketing SMS.
+   - **`Templates para SMS`**
+
+     MobileConnect ofrece plantillas predefinidas para facilitar la creación de campañas:
+
+     - **Outbound**: Ideal para mensajes de salida estándar a los suscriptores.
+     - **Test/Response**: Responde automáticamente a mensajes entrantes.
+     - **Vote/Survey**: Recoge respuestas de votación o encuesta de los usuarios.
+     - **Mobile Opt-In**: Facilita la suscripción a la lista de SMS mediante una palabra clave.
+     - **Info Capture**: Permite la captura de información adicional mediante respuestas interactivas.
+     - **Email Opt-In**: Invita a los usuarios a suscribirse a comunicaciones por correo electrónico.
+     - **Send Email**: Envía un correo electrónico activado tras la interacción de los usuarios.
+
+     - **Aplicaciones**:
+       - Interacciones de salida, encuestas y respuestas automáticas.
+       - Suscripciones SMS y email opt-in para enriquecer el perfil del usuario.
 
    ***
 
-2. ### **`Links útiles`**:
+2. ### **`Conceptos clave de configuración de SMS`**
 
-   - **`Más sobre Mobile Connect en`**: [Help Salesforce Mobile Connect](https://help.salesforce.com/s/articleView?id=sf.mc_moc_mobileconnect.htm&type=5).
+   - **Opt-In y Opt-Out**:
+
+     - **Single Opt-In**: Los usuarios se suscriben mediante una palabra clave o formulario.
+     - **Double Opt-In**: Requiere confirmación adicional para asegurar la suscripción del usuario.
+     - **Double Opt-In Age Validation**: Validación de edad durante el proceso de suscripción, útil para productos restringidos por edad.
+
+   - **Códigos SMS y Supermensajes**:
+
+     - **Short Code**: Número corto (5-6 dígitos) para campañas masivas de alta frecuencia.
+     - **Long Code**: Número largo (11-13 dígitos) con prefijo de país, adecuado para comunicaciones menos frecuentes y bidireccionales.
+     - **Private o Dedicated Code**: Exclusivo para campañas de alto volumen, sin compartirlo con otras cuentas.
+     - **Shared Code**: Código compartido entre cuentas para optimizar recursos.
+     - **Súper Mensajes**: Los SMS consumen súper mensajes, calculados según país y volumen de envío.
+
+   - **Restricciones de caracteres**:
+
+     - **GSM 3.38**: Máximo de 160 caracteres; si se supera, el mensaje se dividirá.
+     - **Unicode**: Permite 70 caracteres (ideal para emoticonos y caracteres especiales), limitados a 67 caracteres si se concatena.
+
+     **Aplicaciones**:
+
+     - Comunicación masiva con Short Codes o Long Codes para comunicaciones menos frecuentes.
+     - Control de volumen y segmentación mediante el uso de supermensajes y códigos dedicados.
+
+   ***
+
+3. ### **`Keywords en MobileConnect`**
+
+   - **Keywords** son palabras o frases que permiten la interacción directa con el canal SMS y la suscripción automática de usuarios:
+
+     - **Keyword de Ayuda**: Ej. “HELP” o “AYUDA”, brinda acceso rápido a soporte.
+     - **Keyword de Baja (Opt-Out)**: Ej. “STOP” o “BAJA”, permite cancelar la suscripción.
+     - **Keyword de Suscripción**: Ej. “SIGNUP” o “ALTA”, facilita la suscripción inicial y la segmentación de la audiencia.
+
+     **Aplicaciones**:
+
+     - Soporte inmediato, cancelación rápida y suscripción simplificada para el usuario.
+
+   ***
+
+4. ### **`Administración del Envío`**
+
+   **Modelo de Datos para Contactos**:
+
+   Cuando un usuario se suscribe a Mobile Studio, su información se registra en All Contacts dentro de Contact Builder. Los campos principales incluyen MobileNumber, Locale y ContactID.
+
+   **Envíos desde una Data Extension (DE) o Lista**:
+
+   - **Data Extension (DE)**: Requiere campos como MobileNumber y Locale. Ideal para audiencias segmentadas, con datos específicos.
+   - **Lista**: Usada para campañas con datos limitados. Solo se incluyen los campos estándar de Contact Builder.
+
+   **Restricciones**:
+
+   - **GSM** permite 160 caracteres y **Unicode** 70 caracteres. Las concatenaciones en GSM permiten 153 caracteres por mensaje.
+   - **Emojis y caracteres especiales** en Unicode reducen el límite a 67 caracteres por mensaje.
+
+   **Creación de SMS**:
+
+   MobileConnect permite visualizar y concatenar mensajes, además de ajustar las configuraciones de envío.
+
+   - **Aplicaciones**:
+     - Envíos personalizados desde Data Extensions y listas preconfiguradas.
+     - Creación y administración flexible de mensajes para optimizar la experiencia del usuario.
+
+   ***
+
+5. ### **`Formas de Envío de SMS`**
+
+   Existen varios métodos de envío en MobileConnect:
+
+   - **MobileConnect**: Permite envíos y recepción de SMS directamente desde el sistema.
+   - **JB SMS Activity**: Automatiza el envío en Journey Builder, permitiendo una personalización avanzada basada en el recorrido del cliente.
+   - **SMS API**: Conectividad para envíos de alto volumen y automatización de mensajes transaccionales.
+   - **Automation Studio**: Automatización avanzada de SMS en base a eventos o triggers.
+   - **Journey Builder**: Envía mensajes dentro de journeys personalizados, con opciones avanzadas de segmentación.
+
+   - **Aplicaciones**:
+     - Automatización de flujos de mensajes y envíos masivos en campañas personalizadas.
+
+   ***
+
+6. ### **`Reporting y Métricas`**
+
+   MobileConnect ofrece informes detallados que permiten analizar el rendimiento de las campañas SMS:
+
+   - **SMS Account Summary**: Resumen de actividad total, incluyendo el número de suscriptores y mensajes enviados y recibidos.
+   - **SMS Message Detail Report**: Detalles a nivel de suscriptor, con métricas sobre el estado de los mensajes enviados.
+   - **SMS Message Summary**: Comparación del rendimiento de campañas basadas en keywords.
+   - **Sendlog SMS**: Almacena automáticamente la información de los mensajes enviados, accesible sin configuraciones adicionales.
+
+   **Aplicaciones**:
+
+   - Seguimiento de efectividad de cada mensaje, optimización de campañas y comparación de keywords para mejorar la segmentación.
+
+   ***
+
+7. ### **`Best Practices para MobileConnect`**
+
+   - **Obtener consentimiento (Opt-In)** antes de enviar mensajes, respetando la privacidad del usuario.
+   - **Definir objetivos claros** para cada mensaje y asegurar su alineación con la estrategia de la campaña.
+   - **Frecuencia de envío adecuada**: Encontrar un balance en la cadencia de los mensajes.
+   - **Incluir opción de baja (Opt-Out)** en cada mensaje, permitiendo al usuario cancelar su suscripción.
+   - **Personalización y segmentación**: Aumenta la relevancia del mensaje adaptándolo al perfil del usuario.
+   - **Análisis constante**: Monitorear KPIs y ajustar la campaña en base a las métricas.
+
+   - **Aplicaciones**:
+     - Optimización continua de las campañas SMS mediante prácticas recomendadas y un análisis de datos proactivo para mejorar la experiencia del cliente y la efectividad de la comunicación.
+
+   ***
+
+8. ### **`Links útiles`**
+
+   - **Más sobre Mobile Connect en**: [Help Salesforce Mobile Connect](https://help.salesforce.com/s/articleView?id=sf.mc_moc_mobileconnect.htm&type=5).
