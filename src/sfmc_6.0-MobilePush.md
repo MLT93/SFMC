@@ -12,28 +12,25 @@ Salesforce Marketing Cloud (SFMC) integra una herramienta dedicada a la gestión
 
    - **`Envío de notificaciones push personalizadas`**: Mobile Push permite el envío de notificaciones breves que se muestran en el dispositivo cuando la aplicación pertinente está cerrada. Estas notificaciones pueden incluir contenido enriquecido como imágenes, videos o incluso enlaces directos a páginas específicas dentro de la app.
 
-     - **Funcionalidades**:
-
-       - **Outbound**: Se envían desde SFMC y aparecen en la pantalla de bloqueo del dispositivo.
-       - **In-App**: Tipo banner o pop-up que se muestran dentro de la app mientras el usuario la utiliza.
-       - **Inbox**: Mensajes que permanecen en una sección específica dentro de la app, permitiendo al usuario consultarlos en cualquier momento.
-       - **Geo-referenciación**:
-         - `Beacon`: Notificaciones push a través de dispositivos beacons (dispositivos de proximidad) que detectan al usuario cuando tiene el Bluetooth activado. Ej. Un supermercado.
-         - `Location-Entry`: Envía un push cuando el usuario se encuentre en una localización. Ej. Entrada al Barrio Chamberí.
-         - `Location-Exit`: Envía un push cuando el usuario sale de una localización.
+     - **Outbound**: Se envían desde SFMC y aparecen en la pantalla de bloqueo del dispositivo, siempre que la app tenga habilitadas las configuraciones de Mobile Push y el usuario haya dado permiso para recibir notificaciones.
+     - **In-App**: Tipo banner o pop-up que se muestran dentro de la app mientras el usuario la utiliza.
+     - **Inbox**: Mensajes que permanecen en una sección específica dentro de la app (ej. la campanita de notificaciones), permitiendo al usuario consultarlos en cualquier momento desde la app.
+     - **Geo-localización**:
+       - `Beacon`: Notificaciones push a través de dispositivos beacons (dispositivos de proximidad) que detectan al usuario cuando tiene el Bluetooth activado. Ej. Un supermercado.
+       - `Location-Entry`: Envía un push cuando el usuario se encuentre en una localización. Ej. Entrada al Barrio Chamberí.
+       - `Location-Exit`: Envía un push cuando el usuario sale de una localización.
 
    - **`Administración de audiencia`**:
      Mobile Push permite **segmentar audiencias** en función de distintos criterios de usuario y comportamiento, facilitando el envío de notificaciones push solo a quienes cumplan con características específicas.
 
-     - **Funcionalidades**:
-
-       - **Segmentación avanzada**: Desde Contact Builder se puede segmentar a los usuarios en función de características demográficas, comportamiento dentro de la app o eventos específicos.
-       - **Envío a dispositivos asociados a un contacto**: Cada usuario puede recibir notificaciones en todos los dispositivos donde tiene la app instalada.
-       - **Configuración de triggers automáticos**: Permite el envío de notificaciones push en función de eventos específicos (por ejemplo, después de una compra o al abandonar un carrito de compras).
+     - **Segmentación avanzada**: Desde Contact Builder se puede segmentar a los usuarios en función de características demográficas, comportamiento dentro de la app o eventos específicos.
+     - **Envío a dispositivos asociados a un contacto**: Cada usuario puede recibir notificaciones en todos los dispositivos donde tiene la app instalada.
+     - **Configuración de triggers automáticos**: Permite el envío de notificaciones push en función de eventos específicos (por ejemplo, después de una compra o al abandonar un carrito de compras).
 
    - **`Tipos de Envíos en Mobile Push`**:
 
      - **Alert**: Es una notificación push básica que envía un mensaje simple al dispositivo del usuario. Esta notificación aparece en la pantalla de bloqueo o en el centro de notificaciones del dispositivo, y no contiene enlaces ni contenido adicional. Al tocarla, generalmente solo abre la aplicación sin dirigir a una página específica o contenido adicional dentro de SFMC.
+     - **Alert + Inbox**: Este es un tipo de notificación en Mobile Push que combina dos métodos de entrega. Con Alert + Inbox, el mensaje push se envía como una alerta que aparece en la pantalla del dispositivo del usuario (como una notificación estándar) y, al mismo tiempo, se almacena en la bandeja de entrada de la aplicación móvil, si esta tiene una sección de inbox o mensajes.
      - **Alert + CloudPage**: Es una notificación push que, al ser abierta por el usuario, redirige a una CloudPage específica (página web), pero no se abre directamente dentro de la app. Al hacer clic en la notificación, el usuario es llevado a una página web alojada en SFMC, fuera de la aplicación, que puede contener contenido personalizado como promociones, detalles de productos o información específica.
      - **DeepLink + OpenDirect URL**: Aparece como notificación en la pantalla de bloqueo o en la barra de notificaciones del dispositivo. Cuando el usuario interactúa con esta notificación, se abre un enlace profundo (DeepLink) que redirige al usuario a una sección específica de la app o a una URL particular, proporcionando acceso rápido al contenido deseado sin necesidad de navegar manualmente por la app.
      - **Notificación Enriquecida**: Es una notificación push que incluye multimedia o interactividad adicional (Rich Notification) y que aparece fuera de la app (en la pantalla de bloqueo o en la barra de notificaciones). Proporciona mayor atractivo y más personalización. Al interactuar con esta notificación, el usuario puede ver más contenido visual o elegir acciones, como abrir una sección específica de la app o visitar una página web.
@@ -158,7 +155,7 @@ Salesforce Marketing Cloud (SFMC) integra una herramienta dedicada a la gestión
 
 6. ### **`SDK de Salesforce Mobile Push`**
 
-   - El **SDK de Salesforce Mobile Push** permite la integración entre una aplicación móvil y Salesforce Marketing Cloud (SFMC) para gestionar la comunicación bidireccional entre la aplicación y la plataforma de marketing.
+   - **`El SDK de Salesforce Mobile Push`** permite la integración entre una aplicación móvil y Salesforce Marketing Cloud (SFMC) para gestionar la comunicación bidireccional entre la aplicación y la plataforma de marketing.
 
    - **`¿Qué es un SDK y para qué se usa?`**
 
@@ -210,3 +207,25 @@ Salesforce Marketing Cloud (SFMC) integra una herramienta dedicada a la gestión
 8. ### **`Links útiles`**:
 
    - **`Más sobre Mobile Push en`**: [Help Salesforce Mobile Push](https://help.salesforce.com/s/articleView?id=sf.mc_mp_mobilepush.htm&type=5).
+
+# Guía detallada para crear comunicaciones Push en Salesforce Marketing Cloud (SFMC)
+
+1. #### **Caso de Uso: Enviar una notificación push utilizando una Data Extension**
+
+   - Accede a **Mobile Studio** dentro de Salesforce Marketing Cloud y selecciona **Mobile Push**.
+   - Haz clic en **Create Message** para iniciar un nuevo mensaje push.
+   - Selecciona la plantilla **Outbound** para enviar notificaciones push SFMC al dispositivo que tenga la aplicación.
+   - Define las propiedades del mensaje, incluyendo el título, el método de envío (por ejemplo, **Schedule** para programar) y el tipo de notificación (como **Alert** para una notificación simple de texto).
+   - En **Select Audience**, elige una **Data Extension** que contenga la información de contacto necesaria para la segmentación.
+   - En **Define Content**, personaliza el contenido del mensaje para captar la atención de los usuarios y ofrecer una experiencia atractiva.
+   - Finalmente, revisa y envía el mensaje en **Review and Send**.
+
+2. #### **Caso de Uso: Enviar una notificación push utilizando una lista de contactos**
+
+   - Ingresa a **Mobile Studio** y selecciona **Mobile Push**.
+   - Inicia la creación de un mensaje push con **Create Message**.
+   - Escoge la plantilla **Inbox** para que el mensaje aparezca en la bandeja de entrada de la aplicación.
+   - Define el nombre del mensaje, selecciona la aplicación a la que se enviará y elige **Schedule** para programar el envío.
+   - Usa una **Contact Filtered List** en **Select Audience** para segmentar la audiencia según tus criterios.
+   - Configura el contenido del mensaje en **Define Content** para captar el interés del usuario.
+   - Revisa y procede con el envío en la sección **Review and Send**.
