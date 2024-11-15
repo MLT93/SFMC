@@ -210,22 +210,47 @@ Salesforce Marketing Cloud (SFMC) integra una herramienta dedicada a la gestión
 
 # Guía detallada para crear comunicaciones Push en Salesforce Marketing Cloud (SFMC)
 
-1. #### **Caso de Uso: Enviar una notificación push utilizando una Data Extension**
+1. #### **Requisitos Previos:**
 
-   - Accede a **Mobile Studio** dentro de Salesforce Marketing Cloud y selecciona **Mobile Push**.
+   - **Gestión de permisos**:
+      - Es indispensable que el usuario haya aceptado recibir notificaciones push desde la aplicación móvil. Esto debe ser gestionado a través del SDK configurado en la app, donde los usuarios pueden otorgar el permiso al instalar la app o activarlo desde la configuración del dispositivo.  
+      - El estado de permiso (opt-in) debe estar registrado en la base de datos, normalmente en un campo como `Opt-in Status`.
+
+   - **Estructura de la Data Extension o Lista de contactos**:
+      - **Campos necesarios en una Data Extension**:
+        - **ContactKey o SubscriberKey** (Texto): Identificador único del usuario.
+        - **DeviceID** (Texto): Identificador único del dispositivo móvil.
+        - **Opt-in Status** (Booleano): Para verificar que el usuario permite recibir notificaciones push.
+        - **AppID** (Texto): Identificador de la aplicación, en caso de que trabajes con varias apps.
+      - Si usas una lista de contactos, asegúrate de que contenga los datos relevantes como mínimo: ContactKey y DeviceID, además del estado opt-in.
+
+2. #### **Caso de Uso: Enviar una notificación push utilizando una Data Extension**
+
+   - Accede a **Mobile Studio** y selecciona **Mobile Push**.
    - Haz clic en **Create Message** para iniciar un nuevo mensaje push.
-   - Selecciona la plantilla **Outbound** para enviar notificaciones push SFMC al dispositivo que tenga la aplicación.
-   - Define las propiedades del mensaje, incluyendo el título, el método de envío (por ejemplo, **Schedule** para programar) y el tipo de notificación (como **Alert** para una notificación simple de texto).
-   - En **Select Audience**, elige una **Data Extension** que contenga la información de contacto necesaria para la segmentación.
-   - En **Define Content**, personaliza el contenido del mensaje para captar la atención de los usuarios y ofrecer una experiencia atractiva.
+   - Selecciona la plantilla **Outbound** para enviar notificaciones push desde SFMC al dispositivo móvil que tenga la aplicación instalada.
+   - Define las propiedades del mensaje, incluyendo:
+     - **Nombre del mensaje**.
+     - **Método de envío**: Usa **Schedule** si deseas programarlo o envíalo de inmediato.
+     - **Tipo de notificación**: Selecciona **Alert** para una notificación simple de texto.
+   - En **Define Content**, personaliza el mensaje e incluye un **Deeplink**:
+     - **¿Qué es un Deeplink?**: Es un enlace que redirige al usuario a una sección específica dentro de la app.
+     - **Dónde se configura**: En la sección de contenido, agrega el esquema del enlace, por ejemplo, `myapp://ofertas/navidad`.  
+     - **Nota**: El SDK de la aplicación debe estar configurado para manejar este enlace y realizar la redirección correcta.
+   - En **Select Audience**, selecciona la **Data Extension** con los datos requeridos (ContactKey, DeviceID y Opt-in Status).
    - Finalmente, revisa y envía el mensaje en **Review and Send**.
 
-2. #### **Caso de Uso: Enviar una notificación push utilizando una lista de contactos**
+3. #### **Caso de Uso: Enviar una notificación push utilizando una lista de contactos**
 
-   - Ingresa a **Mobile Studio** y selecciona **Mobile Push**.
-   - Inicia la creación de un mensaje push con **Create Message**.
-   - Escoge la plantilla **Inbox** para que el mensaje aparezca en la bandeja de entrada de la aplicación.
-   - Define el nombre del mensaje, selecciona la aplicación a la que se enviará y elige **Schedule** para programar el envío.
-   - Usa una **Contact Filtered List** en **Select Audience** para segmentar la audiencia según tus criterios.
-   - Configura el contenido del mensaje en **Define Content** para captar el interés del usuario.
-   - Revisa y procede con el envío en la sección **Review and Send**.
+   - Accede a **Mobile Studio** y selecciona **Mobile Push**.
+   - Haz clic en **Create Message** para crear un mensaje push.
+   - Selecciona la plantilla **Inbox** para que el mensaje se almacene en la bandeja de entrada de la app.
+   - Define las propiedades del mensaje, incluyendo:
+     - **Nombre del mensaje** y la **aplicación móvil** correspondiente.
+     - **Método de envío**: Selecciona **Schedule** si necesitas programar el mensaje.
+   - En **Select Audience**, usa una **Contact Filtered List** y asegúrate de incluir campos clave como:
+     - **ContactKey o SubscriberKey**.
+     - **DeviceID**.
+     - **Opt-in Status**.
+   - Personaliza el contenido en **Define Content**, y si el mensaje debe incluir un Deeplink, asegúrate de configurarlo correctamente.
+   - Revisa y procede con el envío en **Review and Send**.

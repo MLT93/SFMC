@@ -125,16 +125,19 @@ Salesforce Marketing Cloud (SFMC) integra una plataforma de mensajería para env
      - Automatización de flujos de mensajes y envíos masivos en campañas personalizadas.
 
    Para enviar un SMS desde **Journey Builder** en Salesforce Marketing Cloud, se utilizan diferentes métodos para controlar cuándo y cómo se envía el mensaje. Estos son los métodos que puedes aplicar:
-   
+
    1. **Schedule (Programación)**:
+
       - En **Journey Builder**, el SMS puede programarse para enviarse en un momento específico o después de ciertos eventos dentro del flujo de Journey. Por ejemplo, podrías configurar un SMS para enviarse un día después de que el usuario se registre, utilizando un paso de **Wait** (espera) dentro del Journey.
-   
+
    2. **API Trigger**:
+
       - Journey Builder permite integrar eventos externos, disparados por API, para iniciar un Journey o un paso dentro del mismo. En este caso, un **API Event** podría activar el Journey y enviar el SMS en respuesta a una acción realizada por el usuario en otra plataforma, como una compra en un sitio web o una actualización en el sistema CRM.
-   
+
    3. **Automation Studio**:
+
       - Aunque menos común para Journey Builder, Automation Studio se usa en Salesforce Marketing Cloud para gestionar tareas repetitivas y envíos de SMS, especialmente cuando se requiere una integración compleja de datos o acciones recurrentes. Automation Studio también puede iniciar un Journey que luego envíe el SMS según el flujo.
-   
+
    4. **Ejemplo con Journey Builder**:
 
       - Journey Builder actúa como el principal orquestador. Después de crear y guardar el SMS en **Content Builder**, configuras el Journey como un flujo **multi-step** y defines cuándo se envía el SMS según las reglas y los pasos de Journey Builder, como la espera, el split de engagement, y otros puntos de decisión. Una vez activado el Journey, el SMS se envía automáticamente al cliente en el momento adecuado.
@@ -194,3 +197,58 @@ Salesforce Marketing Cloud (SFMC) integra una plataforma de mensajería para env
    - Configura el Journey como **multi-step** (con múltiples pasos) y selecciona una **Data Extension** como audiencia.
    - Personaliza el flujo del Journey para enviar el SMS en un momento adecuado, por ejemplo, al confirmar un registro o recordatorio de evento.
    - Activa el Journey y el cliente recibirá el SMS según las reglas del flujo.
+
+# Guía detallada para crear comunicaciones SMS en Salesforce Marketing Cloud (SFMC)
+
+1. #### **Requisitos Previos:**
+
+   - **Gestión de permisos**:
+
+     - El usuario debe haber aceptado recibir SMS (opt-in). Este estado puede gestionarse desde **Contact Builder** o integrarse desde sistemas externos.
+     - El permiso debe estar registrado en un campo como `Opt-in Status`.
+
+   - **Estructura de la Data Extension**:
+
+     - **Campos obligatorios**:
+       - **ContactKey o SubscriberKey** (Texto): Identificador único del usuario.
+       - **MobileNumber** (Teléfono): Número de teléfono en formato internacional.
+       - **Locale** (Texto): Idioma o región del usuario, si se personalizan los mensajes por localización.
+
+2. #### **Caso de Uso: Enviar un SMS comercial utilizando una Data Extension**
+
+   - Dirígete a **Mobile Studio** y selecciona **Mobile Connect**.
+   - Haz clic en **Create Message** para iniciar un nuevo mensaje SMS.
+   - Selecciona la plantilla **Outbound** para enviar mensajes comerciales.
+   - Configura las propiedades del mensaje:
+     - **Nombre del mensaje**.
+     - **Short/Long Code**: Número asignado por Salesforce para el envío.
+     - **Método de envío**: Usa **Schedule** para programarlo o envíalo de inmediato.
+   - En **Select Audience**, selecciona una **Data Extension** con los campos requeridos (ContactKey, MobileNumber, Opt-in Status).
+   - Personaliza el contenido del SMS en **Define Content**, asegurándote de que sea claro, directo y dentro del límite de caracteres.
+   - Revisa y envía el mensaje.
+
+3. #### **Caso de Uso: Crear un SMS en Content Builder para usar en un Journey**
+
+   - Accede a **Content Builder** y selecciona **Create** para iniciar un nuevo mensaje.
+   - Escoge **SMS Message** y personaliza el contenido del mensaje. Si el texto supera los 160 caracteres, activa la opción para concatenar.
+   - Guarda el mensaje y luego ve a **Journey Builder**.
+   - Configura el Journey como **multi-step** y selecciona una **Data Extension** con los datos requeridos.
+   - Define las reglas del Journey:
+     - Usa un **Wait Step** para programar el envío, por ejemplo, 1 día después de que un cliente se registre.
+     - Agrega un **Engagement Split** para verificar si el cliente abrió un correo electrónico antes de enviar el SMS.
+   - Activa el Journey y el cliente recibirá el SMS según las reglas.
+   - Ejemplo práctico en Journey Builder:
+
+      1. **Inicio**: Configura el Journey para iniciarse con una Data Extension que incluya nuevos registros.
+      2. **Paso 1**: Envía un SMS de bienvenida con un mensaje como:
+         ```
+         ¡Gracias por registrarte en [Marca]! Confirma tu cuenta aquí: [enlace].
+         ```
+      3. **Wait Step**: Configura una espera de 1 día.
+      4. **Engagement Split**:
+         - Rama 1: Si el cliente confirmó su cuenta, envía un mensaje de agradecimiento.
+         - Rama 2: Si no confirmó, envía un recordatorio:
+           ```
+           ¡No olvides confirmar tu cuenta! Haz clic aquí: [enlace].
+           ```
+      5. **Finaliza**: Completa el Journey.
