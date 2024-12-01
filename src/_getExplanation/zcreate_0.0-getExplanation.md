@@ -1,13 +1,11 @@
 Explica esto:
 
 ```
-1. Vamos a crear un email y con un bloque HTML.
-2.Crearemos un bloque de AMPScript con un par de variables (@n y @a) con nuestro nombre y apellido.
-3.Crearemos un bloque de SSJS donde recuperaremos las variables y las mostraremos con Write()
-4.Sobrescribiremos las variables de AMPScript por ‘Hola’ y ‘Mundo’.
-5.Crearemos otro bloque AMPScript donde sobre una variable nueva concatenaremos las variables para hacer la frase ‘Hola Mundo!’ y lo visualizaremos.
-6. Nota: Esta multi ejecución de bloques de código de diferentes lenguajes con comunicación entre ellos tiene un límite, por lo que hay que optimizar los procesos que se quieran realizar.
-7. Refs.: https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/ssjs_utilitiesVariable.html
+Automation Studio activity File Drop y update DE:
+1. Importar un archivo justo cuando este se deje en el SFTP y actualizar una DE.
+2. Realizar una importación de un archivo del FTP en formato .CSV.
+3. Este archivo debe ser importado justo cuando el archivo sea soltado en el FTP.
+4. Los datos importados deben añadirse y actualizarse en la DE sin sobreescribirse.
 ```
 
 Replica este modelo para la explicación con su indentación, letra y tamaño:

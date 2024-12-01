@@ -137,3 +137,115 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
 
    - **`Escalabilidad`**
      - Ideal para manejar grandes volúmenes de datos y audiencias complejas.
+
+# **Guía detallada para filtrar una Data Extension (DE) y enviar un email con Automation Studio a través de un Journey:**
+
+1. #### **Crear un filtro en Automation Studio:**
+   - Accede a **Automation Studio** desde la interfaz de Salesforce Marketing Cloud. **Journey Builder > Automation Studio**
+   - Selecciona **Activities** y crea un nuevo **Filter Activity**.
+   - Define los criterios del filtro:
+     - Usa la Data Extension **DE_CLIENTES_MD**.
+     - Aplica las condiciones:
+       - **Cumpleaños = Hoy**.
+       - **Edad > 25 años**.
+
+2. #### **Configura la automatización para enviar un email:**
+   - En **Automation Studio**, crea una nueva automatización.
+   - Incluye los siguientes pasos:
+     - **Filter Activity:** Selecciona el filtro creado en el paso anterior.
+     - **Send Email Activity:** Configura el email que será enviado a los contactos resultantes del filtro.
+
+3. #### **Programa la ejecución de la automatización:**
+   - Configura la ejecución automática de la automatización:
+     - **Hora:** 6:00 PM.
+     - **Frecuencia:** Diariamente.
+     - **Fecha de finalización:** Sin fecha de finalización (hasta que se detenga manualmente).
+
+4. #### **Conecta la automatización con un Journey:**
+   - **¿Por qué conectar con Journey Builder?**  
+     Automation Studio es ideal para manejar tareas repetitivas, como segmentar y enviar correos. Sin embargo, al conectar el resultado de la automatización con Journey Builder, puedes agregar pasos adicionales y aprovechar capacidades como mensajes multicanal (SMS, Push), interacciones basadas en el comportamiento del usuario, o personalización avanzada.
+
+   - **Pasos detallados para la conexión:**
+     1. **Configura el evento de entrada en Journey Builder:**
+        - Accede a **Journey Builder** y crea un nuevo **Journey**.
+        - Selecciona el evento de entrada adecuado para la conexión:
+          - **Automation Studio Entry Event:** Este evento te permite usar la salida de una automatización como punto de entrada.
+          - Configura este evento para que reciba los contactos filtrados desde Automation Studio.
+
+     2. **Asocia la automatización al Journey:**
+        - Desde la pestaña de configuración del evento de entrada, selecciona la automatización que creaste en los pasos anteriores.
+        - Verifica que los datos (atributos) que pasarán desde Automation Studio al Journey estén correctamente mapeados.
+
+     3. **Construye el Journey:**
+        - Define las etapas adicionales que seguirán los contactos que ingresen al Journey:
+          - Ejemplo: Enviar un SMS o notificación Push tras el email.
+          - Agregar condiciones basadas en aperturas, clics u otras métricas del correo inicial.
+        - Opcionalmente, puedes replicar el mismo email en el Journey para asegurar consistencia en el mensaje.
+
+     4. **Prueba la conexión:**
+        - Activa el Journey y realiza una prueba manual desde Automation Studio para verificar que los contactos ingresan correctamente al flujo.
+
+   - **Ventajas de usar Journey Builder en combinación con Automation Studio:**
+     - **Flexibilidad:** Puedes expandir el alcance de la automatización inicial con pasos adicionales, como enviar mensajes por múltiples canales o aplicar reglas dinámicas.
+     - **Personalización en tiempo real:** Los contactos pueden recibir interacciones más relevantes dependiendo de su comportamiento dentro del Journey.
+     - **Análisis más profundo:** Journey Builder permite rastrear cada interacción de los contactos a lo largo del flujo, lo que facilita medir el impacto y el éxito de las campañas.
+
+---
+
+5. #### **Opcional: Configuración del Journey en Journey Builder:**
+   - Si decides no agregar pasos adicionales en el Journey, puedes configurarlo de forma básica:
+     - Solo asegúrate de que el evento de entrada recibe correctamente los datos desde Automation Studio.
+     - Incluye el mismo email que configuraste en **Send Email Activity** de la automatización.
+
+# **Guía detallada para configurar la actividad File Drop y actualizar una Data Extension (DE) en Automation Studio**
+
+1. #### **Configura un FTP en Salesforce Marketing Cloud:**
+
+   - Asegúrate de tener acceso al **FTP** de tu Business Unit en SFMC.
+   - Configura un directorio específico dentro del FTP donde se depositará el archivo.
+   - **Ejemplo:** `/Import`.
+
+2. #### **Crea una nueva Automatización en Automation Studio:**
+
+   - Accede a **Automation Studio** desde la interfaz de SFMC.
+   - Haz clic en **Create Automation** y selecciona **File Drop** como el **Starting Source**.
+   - Define el directorio en el FTP donde se monitoreará la llegada de archivos:
+     - Selecciona el directorio previamente configurado.
+     - Especifica las condiciones del archivo, como la extensión `.csv` (todo esto está explicado en `sfmc_2.3-Cargar-files-entre-DE-y-FTP-con-Automation`).
+
+3. #### **Configura la actividad de importación de datos:**
+
+   - En la misma automatización, agrega una actividad de tipo **Import File**:
+     - Selecciona el archivo CSV que se importará.
+     - Especifica la **Data Extension (DE)** donde se importarán los datos.
+     - Configura la **opción de actualización** para que los datos se agreguen o actualicen sin sobrescribir:
+       - **Update Only:** Actualiza los registros existentes.
+       - **Add and Update:** Agrega nuevos registros y actualiza los existentes.
+
+4. #### **Configura la actividad File Drop:**
+
+   - Define las propiedades de la actividad:
+     - Especifica que la automatización debe activarse automáticamente cada vez que un archivo sea depositado en el FTP.
+     - Configura el monitoreo para que reconozca solo archivos con nombres y extensiones específicos (ej. `Archivo.csv`).
+
+5. #### **Guarda y activa la automatización:**
+
+   - Revisa que la configuración esté completa:
+     - Monitoreo del directorio FTP correcto.
+     - Actividad de importación bien configurada.
+   - Haz clic en **Save and Activate** para habilitar la automatización.
+
+6. #### **Prueba el flujo:**
+
+   - Deposita un archivo de prueba en el directorio FTP configurado.
+   - Verifica que:
+     - La automatización se activa automáticamente al detectar el archivo.
+     - Los datos del archivo se importan correctamente en la DE.
+     - Los datos nuevos se agregan o actualizan según lo configurado.
+
+7. #### **Resumen de Configuración**
+
+   - **FTP Monitor:** Directorio `/Import` monitoreado.
+   - **Archivo de entrada:** CSV con formato correcto.
+   - **Destino:** Data Extension actualizada sin sobrescribir.
+   - **Activación:** Automática al detectar un archivo.
