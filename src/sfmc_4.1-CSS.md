@@ -189,7 +189,9 @@ Este documento explora los fundamentos del uso de **CSS (Cascading Style Sheets)
 
    - **`Position`**
      - Controla la colocación exacta de un elemento. Los valores comunes son **static**, **relative**, **absolute** y **fixed**.
-     - Recuerda que **absolute** toma referencia de la ventana de la página web y **relative** toma referencia de sí mismo (el contenedor).cada
+  
+        `** Recuerda: **absolute** toma referencia de la ventana de la página web y **relative** toma referencia de sí mismo, pudiendo convertirse en el contenedor de un absolute`.
+
      - **Ejemplo**:
        ```css
        .absoluto {

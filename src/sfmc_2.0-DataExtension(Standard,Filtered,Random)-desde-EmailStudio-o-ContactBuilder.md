@@ -95,7 +95,7 @@ Las Data Extensions en Salesforce son tablas de bases de datos que permiten alma
    );
    ```
 
-   `** Para trabajar con SQL se hace a través de automation, hay que tener en cuenta este punto`.
+   `** Recuerda: Para trabajar con SQL se hace a través de automation, hay que tener en cuenta este punto`.
 
    - **`Importar datos desde archivos o lista de contactos`**:
 
@@ -103,7 +103,10 @@ Las Data Extensions en Salesforce son tablas de bases de datos que permiten alma
      2. Selecciona el método de importación **Import Into Data Extension** o **Create Import Definition**
      3. Puedes importar datos desde un archivo CSV, TXT, o directamente desde una lista de contactos.
      4. Selecciona el archivo que deseas importar.
-     5. Mapea las columnas del archivo a los campos de la Data Extension. Recuerda que el archivo importado debe poseer los mismos campos que tu DE.
+     5. Mapea las columnas del archivo a los campos de la Data Extension. 
+     
+        `** Recuerda: El archivo importado debe poseer los mismos campos que tu DE`.
+
      6. Configura las opciones de importación, como la acción a realizar en caso de duplicados (por ejemplo, sobrescribir o actualizar registros existentes).
 
    - **`Revisar y Ejecutar`**:
@@ -253,7 +256,10 @@ Las Data Extensions en Salesforce son tablas de bases de datos que permiten alma
    - **Subir los datos**:
 
      - Selecciona la DE creada y haz clic en **Import**.
-     - Sube el archivo adjunto en el ejercicio (Formato .CSV Excel). Recuerda que también se puede subir con formato .TXT.
+     - Sube el archivo adjunto en el ejercicio (Formato .CSV Excel). 
+     
+        `** Recuerda: También se puede subir con formato .TXT`.
+
      - Mapea los campos del archivo con los campos de la DE.
      - Completa la importación y verifica que los datos se han subido correctamente.
 
@@ -307,7 +313,8 @@ Las Data Extensions en Salesforce son tablas de bases de datos que permiten alma
    - **Vincular la DE**:
      - Dentro del grupo de atributos, selecciona **Link Data Extension**.
      - Vincula la DE creada anteriormente al grupo de atributos.
-     - Recuerda que para relacionar correctamente los campos deben tener el mismo **Data Type**.
+        
+        `** Recuerda: Para relacionar correctamente los campos deben tener el mismo **Data Type**`.
 
 6. ### Resumen de Pasos
 

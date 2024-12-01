@@ -24,7 +24,7 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
      - **Optimización de campañas**: Los datos almacenados te permiten hacer análisis profundos sobre el rendimiento de las campañas y ajustar la estrategia.
 
    - **`Ejemplo de uso`**:
-     Supongamos que deseas saber cuántos suscriptores hicieron clic en un enlace de tu última campaña. Puedes hacer una consulta a la **Data View \_Click** que te mostrará la lista de suscriptores que hicieron clic en el enlace, junto con detalles como la fecha y hora del clic. Esto te ayudará a identificar qué enlaces generan más interés y ajustar tu contenido para futuras campañas.
+     Supongamos que deseas saber cuántos suscriptores hicieron clic en un enlace de tu última campaña. Puedes hacer una consulta a la **Data View _Click** que te mostrará la lista de suscriptores que hicieron clic en el enlace, junto con detalles como la fecha y hora del clic. Esto te ayudará a identificar qué enlaces generan más interés y ajustar tu contenido para futuras campañas.
 
    ***
 
@@ -54,7 +54,7 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
      Ahora estamos en la sección de configuración de la **Query Activity** con los siguientes pasos:
 
      1. `PROPERTIES`: Las propiedades como **Name** (Nombre de la Activity), **External Key** (Identificador), **Folder Location** (Dónde se guardará) y **Description** (Descripción).
-     2. `QUERY`: Donde se crea el código SQL. Recuerda que en SFMC el utilizo de <;> y <\*>. [SQL Query ACtivity](https://help.salesforce.com/s/articleView?id=sf.mc_as_optimize_the_query_activity.htm&type=5), [Trailhead SQL](https://trailhead.salesforce.com/es-MX/content/learn/modules/marketing-cloud-data-management/query-data-with-sql).
+     2. `QUERY`: Donde se crea el código SQL. En SFMC el utilizo de <;> y <*>. [SQL Query ACtivity](https://help.salesforce.com/s/articleView?id=sf.mc_as_optimize_the_query_activity.htm&type=5), [Trailhead SQL](https://trailhead.salesforce.com/es-MX/content/learn/modules/marketing-cloud-data-management/query-data-with-sql).
         - **Query Studio**: Se aconseja realizar tests antes de automatizar las query en la Automation. [Query Studio](https://www.marketinet.com/blog/query-studio-de-salesforce-marketing-cloud-que-es-como-funciona/#:~:text=En%20primer%20lugar%2C%20debemos%20tener%20permisos%20de%20administrador,en%20%C2%ABInstalar%E2%80%9D%20y%20aceptamos%20los%20t%C3%A9rminos%20y%20condiciones.).
      3. `TARGET DATA EXTENSION`: Donde se guardarán los registros después de la consulta. Selecciona cómo se guardará la información:
         - **Append** (escribe los registros en la DE)
@@ -65,9 +65,9 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
    - **`Paso 3: Ejecutar la consulta`**:
      Puedes programar la consulta para que se ejecute automáticamente creando una Automation desde **Journey Builder > Automation Studio > Overview > New Automation** con el **Schedule** o ejecutarla manualmente desde **Journey Builder > Automation Studio > Activities** seleccionando la SQL Activity creada y haciendo clic en con **Run Once**. Una vez que se ejecuta, los datos estarán disponibles en la Data Extension que se haya definido.
 
-   **\*Recuerda que todo el proceso también se puede crear desde **Journey Builder > Automation Studio > Overview > New Automation\*\* como una Automation común. Además, la DE donde se guardará la información debe tener los campos exactamente igual a los campos de la Data View, de lo contrario devolverá un error.
+   `** Recuerda: Todo el proceso también se puede crear desde **Journey Builder > Automation Studio > Overview > New Automation** como una Automation común. Además, la DE donde se guardará la información debe tener los campos exactamente igual a los campos de la Data View, de lo contrario devolverá un error`.
 
-   Por ejemplo, para obtener una lista de correos enviados en los últimos 30 días, podrías usar la Data View **\_Sent** con una consulta como la siguiente:
+   Por ejemplo, para obtener una lista de correos enviados en los últimos 30 días, podrías usar la Data View **_Sent** con una consulta como la siguiente:
 
    ```sql
    SELECT SubscriberKey, EventDate, JobID, BatchID, SubscriberID
@@ -87,11 +87,11 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
 
    **Tablas comunes de Data Views**:
 
-   - **\_Sent**: Datos sobre los correos enviados.
-   - **\_Open**: Información sobre las aperturas de correos.
-   - **\_Click**: Detalles de los clics en enlaces dentro de los correos.
-   - **\_Unsubscribe**: Información sobre las bajas de suscriptores.
-   - **\_Job**: Información sobre los detalles generales de los envíos de emails.
+   - **_Sent**: Datos sobre los correos enviados.
+   - **_Open**: Información sobre las aperturas de correos.
+   - **_Click**: Detalles de los clics en enlaces dentro de los correos.
+   - **_Unsubscribe**: Información sobre las bajas de suscriptores.
+   - **_Job**: Información sobre los detalles generales de los envíos de emails.
 
    ***
 
@@ -104,7 +104,10 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
 
    - **Datos de los Data Extensions relacionados**:
 
-     - **Esto se refiere a**: Cuando usas una Data Extension como audiencia en el envío de correos, te permite capturar campos adicionales de esa DE en el SendLog. Recuerda que los campos deben tener el mismo nombre tanto en la DE como en el SendLog para que se vuelquen correctamente los datos.
+     - **Esto se refiere a**: Cuando usas una Data Extension como audiencia en el envío de correos, te permite capturar campos adicionales de esa DE en el SendLog. 
+     
+        `** Recuerda: Los campos deben tener el mismo nombre tanto en la DE como en el SendLog para que se vuelquen correctamente los datos`.
+
      - **Información capturada**: Cualquier campo adicional que incluyas en tu Data Extension relacionada con los suscriptores a los cuales envíes el correo.
 
    ***
@@ -141,26 +144,26 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
 
 1. #### **Crear las Data Extensions para las Data Views**:
 
-   Las **Data Views** en Salesforce Marketing Cloud son tablas de sistema que contienen datos sobre las actividades y eventos de los suscriptores, como envíos de correos electrónicos, aperturas, clics, bajas, entre otros. En este caso, te piden que crees **Data Extensions** personalizadas basadas en las Data Views **\_Job**, **\_Open**, y **\_Sent**.
+   Las **Data Views** en Salesforce Marketing Cloud son tablas de sistema que contienen datos sobre las actividades y eventos de los suscriptores, como envíos de correos electrónicos, aperturas, clics, bajas, entre otros. En este caso, te piden que crees **Data Extensions** personalizadas basadas en las Data Views **_Job**, **_Open**, y **_Sent**.
 
    - **Crear una carpeta en el sistema**:
 
      - Dentro de la estructura de carpetas de **Data Extensions**, crea una carpeta llamada **C4_DataViews** para organizar estas **Data Extensions**.
 
-   - **Crear las Data Extensions para albergar la info de las Data Views** para las tablas Data Views **\_Job**, **\_Open**, y **\_Sent**:
+   - **Crear las Data Extensions para albergar la info de las Data Views** para las tablas Data Views **_Job**, **_Open**, y **_Sent**:
 
      - Ve a **Email Studio** > **Data Extensions** > **Create** > **Standard Data Extension**.
      - Configura cada **Data Extension** con las siguientes columnas basadas en los campos relevantes de las Data Views (los campos de las DE deben ser iguales a los que queremos consultar en las Data Views. Esto es para evitar errores en el momento de volcar los datos de la DV a la DE).
 
-     - **\_Job**: Esta Data View contiene información sobre el trabajo de envío de correos electrónicos.
+     - **_Job**: Esta Data View contiene información sobre el trabajo de envío de correos electrónicos.
 
        - Campos recomendados: `JobID`, `JobStatus`, `SendTime`, `EmailName`, etc.
 
-     - **\_Open**: Contiene datos sobre las aperturas de los correos electrónicos.
+     - **_Open**: Contiene datos sobre las aperturas de los correos electrónicos.
 
        - Campos recomendados: `JobID`, `SubscriberKey`, `EventDate`, `IsUnique`, etc.
 
-     - **\_Sent**: Registra los correos electrónicos que se han enviado.
+     - **_Sent**: Registra los correos electrónicos que se han enviado.
        - Campos recomendados: `JobID`, `SubscriberKey`, `EventDate`, `EmailName`, etc.
 
    - **Comprobar los datos que queremos volcar a través de Query Studio**.
@@ -171,7 +174,10 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
    - **Crear Automation para el volcado de datos de Data View a DE**.
      - Ve a **Journey Builder > Automation Studio** y crea una nueva Automation con **New Automation**.
      - Configura tu **Starting Source**. Aconsejo **Schedule** para una ejecución programada (elige cada cuanto tiempo se realizará esa Automation).
-     - Elige **SQL Query** para el Step 1. Recuerda que Automation funciona sea en serie como en paralelo. Por lo tanto, puedes poner varias Activities que realicen más consultas en el mismo **Step**.
+     - Elige **SQL Query** para el Step 1. 
+     
+     `** Recuerda: Automation funciona en serie como en paralelo. Por lo tanto, puedes poner varias Activities que realicen más consultas en el mismo **Step**`.
+
      - Dale a **Save** (Guardar). Ahora cada vez que se cumpla el tiempo configurado, se ejecutará el volcado de datos en tu DE.
      - En este momento estás en la sub-categoría **Overview**. Si deseas realizar una ejecución manual sin tener que esperar pasa a la sub-categoría **Activities**, busca **SQL Query**, encuentra la activity que deseas ejecutar manualmente, pincha en ella y haz clic en **Run Once**.
 
@@ -188,13 +194,16 @@ Salesforce Marketing Cloud (SFMC) es una plataforma robusta que permite a los eq
      - En **Email Studio > Email > Subscribers > Data Extensions**, crea una nueva DE con **Create** y elige **Standard Data Extension**. En el dropdown **Create Method** elige **Create from Template** y elige **SendLog**.
      - Acaba la configuración de la DE con la **Data Retention Policy** (si se borra después de un tiempo) y **Fields** (los campos de la tabla). Esta tabla debe contener tanto los campos estándar como los personalizados que definas.
 
-     `** Recuerda que para aprovechar al máximo su registro de envíos, es importante asegurarse de que las extensiones de datos que pueden enviarse usen los mismos nombres que las columnas en la extensión de datos del registro de envíos. Resulta útil crear una plantilla para realizar un seguimiento de todos los envíos a través del registro de envíos`.
+     `** Recuerda: Para aprovechar al máximo su registro de envíos, es importante asegurarse de que las extensiones de datos que pueden enviarse usen los mismos nombres que las columnas en la extensión de datos del registro de envíos. Resulta útil crear una plantilla para realizar un seguimiento de todos los envíos a través del registro de envíos`.
 
    - **Añadir campos custom**:
 
      - `Datos de los campos personalizados adicionales que sean útiles para tu análisis o reporting`. Esto se refiere a que puedes personalizar los datos que se guardan en el SendLog usando AMPscript o personalización de plantillas al enviar el correo.
        - Información capturada: Son datos específicos como el nombre del suscriptor, ID de cliente, preferencias del suscriptor, etc.
-     - `Datos de los Data Extensions relacionados`. Esto se refiera a cuando usas una Data Extension como audiencia en el envío de correos. Te permite capturar campos adicionales de esa DE en el SendLog. Recuerda que los campos deben tener el mismo nombre tanto en la DE como en el SendLog para que se vuelquen correctamente los datos.
+     - `Datos de los Data Extensions relacionados`. Esto se refiera a cuando usas una Data Extension como audiencia en el envío de correos. Te permite capturar campos adicionales de esa DE en el SendLog. 
+     
+        `** Recuerda: Los campos deben tener el mismo nombre tanto en la DE como en el SendLog para que se vuelquen correctamente los datos`.
+
        - Información capturada: cualquier campo adicional que incluyas en tu Data Extension relacionada con los suscriptores a los cuales envíes el correo.
 
    - **Guardar el SendLog dentro de la carpeta C4_SendLogs**.

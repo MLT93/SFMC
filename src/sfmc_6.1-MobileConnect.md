@@ -13,17 +13,17 @@ Salesforce Marketing Cloud (SFMC) integra una plataforma de mensajería para env
      MobileConnect permite el envío de diferentes tipos de mensajes para cubrir distintas necesidades de comunicación:
 
      - **Mensajes Transaccionales**:
-       - Usados para confirmaciones de compra, citas, o notificaciones de entrega. Son mensajes automáticos y de bajo nivel de personalización, pensados para brindar información crítica en el momento adecuado.
+        - Usados para confirmaciones de compra, citas, o notificaciones de entrega. Son mensajes automáticos y de bajo nivel de personalización, pensados para brindar información crítica en el momento adecuado.
      - **Mensajes Comerciales**:
-       - Enfocados en campañas de reactivación, estos mensajes buscan incentivar a los clientes mediante ofertas, descuentos y encuestas, dirigiéndolos también a sitios web o páginas de destino.
+        - Enfocados en campañas de reactivación, estos mensajes buscan incentivar a los clientes mediante ofertas, descuentos y encuestas, dirigiéndolos también a sitios web o páginas de destino.
      - **Mensajes de Seguridad**:
 
-       - Incluyen notificaciones de autenticación multifactor (MFA), recordatorios de seguridad o directrices, útiles para transacciones seguras o contenido sensible.
+        - Incluyen notificaciones de autenticación multifactor (MFA), recordatorios de seguridad o directrices, útiles para transacciones seguras o contenido sensible.
 
      - **Aplicaciones**:
-       - Confirmaciones de citas, compras y entregas.
-       - Campañas de retención con descuentos y encuestas.
-       - Seguridad y autenticación en comunicaciones críticas.
+        - Confirmaciones de citas, compras y entregas.
+        - Campañas de retención con descuentos y encuestas.
+        - Seguridad y autenticación en comunicaciones críticas.
 
    - **`Templates para SMS`**
 

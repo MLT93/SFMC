@@ -33,7 +33,7 @@ Salesforce Marketing Cloud (SFMC) es una plataforma potente para la gestión del
    - **Ejemplo**:
      Si "ModaX" envía correos desde el dominio **"modax.com"** o para pruebas **"modaxtesting.com"**, este dominio debe estar registrado y verificado en SFMC (esto se hace en **Setup > Platform Tools > Feature Settings > Email Studio > From Address Management** y crear un dominio en **Register Domain**). De esta manera, los correos enviados desde **"info@modax.com"** tendrán una mejor tasa de entrega, evitando ser bloqueados por filtros de spam.
 
-   *** Recuerda que esta parte debe ser completada después de configurar el usuario que envía el correo en **Sender Profiles**.
+   `** Recuerda que esta parte debe ser completada después de configurar el usuario que envía el correo en **Sender Profiles**`.
 
    ***
 

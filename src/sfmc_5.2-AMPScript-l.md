@@ -51,7 +51,8 @@ En este documento se verán algunas características la sintaxis, control de flu
      Incluyen operadores de comparación (`==`, `!=`), matemáticos (`+`, `-`, `*`, `/`), y booleanos (`AND`, `OR`, `NOT`) para crear condiciones lógicas.
    
    - **`Operadores usados conjuntamente`**:
-     Recuerda que **AND == multiplicación** y **OR == suma**. Esto es necesario saberlo cuando se hace un conjunto de operaciones lógicas entre sí para saber qué operación se evalúa antes que otra. Por lo tanto, un **AND** se ejecutará antes que un **OR**.
+     
+     `** Recuerda: **AND == multiplicación** y **OR == suma**. Esto es necesario saberlo cuando se hace un conjunto de operaciones lógicas entre sí para saber qué operación se evalúa antes que otra. Por lo tanto, un **AND** se ejecutará antes que un **OR**`.
 
      ```ampscript
      /* Comparaciones simples */
