@@ -156,7 +156,7 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
      - **Send Email Activity:** Configura el email que será enviado a los contactos resultantes del filtro.
 
 3. #### **Programa la ejecución de la automatización:**
-   - Configura la ejecución automática de la automatización:
+   - Configura la ejecución automática de la automatización con el **Schedule Starting Source**:
      - **Hora:** 6:00 PM.
      - **Frecuencia:** Diariamente.
      - **Fecha de finalización:** Sin fecha de finalización (hasta que se detenga manualmente).
