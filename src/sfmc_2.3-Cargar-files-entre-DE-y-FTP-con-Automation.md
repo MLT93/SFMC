@@ -2,7 +2,7 @@
 
 #### Introducción:
 
-A continuación, se detalla el proceso para **descargar un archivo desde FTP a SFMC y cargarlo en una DE** y **subir un archivo desde una DE de SFMC al FTP** utilizando **Journey Builder > Automation Studio**. Este apartado sirve para crear **ejecuciones automáticas en base a eventos o condiciones** principalmente.
+A continuación, se detalla el proceso para **descargar un archivo desde FTP a SFMC y cargarlo en una DE** y **subir un archivo desde una DE de SFMC al FTP** utilizando **Journey Builder > Automation Studio**. Este apartado sirve para crear **ejecuciones automáticas en base a eventos o condiciones** y así poder segmentar audiencia y manejar datos de las tablas.
 
 ---
 

@@ -60,7 +60,7 @@
    - **Contenido de los correos** (texto, imágenes, etc.).
    - **Llamados a la acción** (botones, links).
 
-8. #### **`Pruebas y Visualización Multidispositivo`**:
+8. #### **`Pruebas y Visualización Multi-dispositivo`**:
 
    Una función clave de Content Builder es la capacidad de realizar pruebas en **diferentes dispositivos** y **clientes de correo electrónico**. Esto asegura que los correos electrónicos se vean bien tanto en computadoras de escritorio como en dispositivos móviles. Puedes usar la herramienta de vista previa para ver cómo se verá tu correo electrónico en Gmail, Outlook, dispositivos iOS, Android, entre otros.
 
@@ -82,7 +82,7 @@
 
 13. #### **`Compatibilidad con Otras Herramientas de Marketing Cloud`**:
 
-   Content Builder se integra fácilmente con otras herramientas de Salesforce Marketing Cloud, como **Journey Builder** para la creación de recorridos de cliente automatizados, **Automation Studio** para automatizar envíos, y **Mobile Studio** para enviar mensajes SMS. Esta integración permite crear experiencias de marketing personalizadas y cohesivas en múltiples canales.
+   Content Builder se integra fácilmente con otras herramientas de Salesforce Marketing Cloud, como **Journey Builder** para la creación de recorridos personalziados de envíos hacia el cliente, **Automation Studio** para automatizar la segmentación de los datos del cliente o de la misma audiencia y **Mobile Studio** para enviar mensajes SMS. Esta integración permite crear experiencias de marketing personalizadas y cohesivas en múltiples canales.
 
 14. #### **`Conclusión`**:
 

@@ -49,12 +49,16 @@ Salesforce Marketing Cloud (SFMC) integra una herramienta dedicada a la gestión
         - Permite integrar las notificaciones push como parte de un **viaje multicanal** que involucra a todos los dispositivos asociados a un contacto.
         - Ideal para **campañas basadas en el recorrido del cliente**, ya que los mensajes pueden dispararse automáticamente en momentos clave (ej. bienvenida, recordatorios de actividad, etc.).
 
+          `** Recuerda: Journey Builder sirve para maquetar el recorrido para contactar a los clientes`.
+
      3. **Automation Studio**:
 
         - Permite configurar **flujos de trabajo automatizados** para el envío de notificaciones push en momentos específicos, como:
           - `Después de un registro en la app`.
           - Al `realizar una acción específica`, como completar un formulario o interactuar con contenido.
         - Muy útil para **campañas recurrentes o basadas en condiciones predefinidas**, en donde es necesario que la notificación se envíe en un tiempo o acción específicos sin intervención manual.
+
+          `** Recuerda: Automation Studio también sirve para la manipulación de los datos entre las tablas de los clientes`.
 
      4. **Los Triggers**:
 

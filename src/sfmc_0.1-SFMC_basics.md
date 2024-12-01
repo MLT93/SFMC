@@ -100,7 +100,7 @@ Salesforce Marketing Cloud (SFMC) es una plataforma de **marketing automation** 
    ***
 
    - **`Journey Builder`**
-     Herramienta para crear recorridos automatizados y personalizados para los clientes, optimizando cada punto de interacción en su ciclo de vida.
+     Herramienta para crear recorridos automatizados y personalizados para contactar los clientes, optimizando cada punto de interacción en su ciclo de vida.
 
      - **Funcionalidades**:
        - Diseño de recorridos multicanal automatizados.
