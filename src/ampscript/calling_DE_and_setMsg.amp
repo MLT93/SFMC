@@ -22,9 +22,9 @@
   /* Busca en una DE y obtiene las filas de la Tabla según un filtro (los argumentos posteriores) */
   SET @quantityRows = RowCount(@rowSet)
   FOR @i = 1 TO @quantityRows DO
-    /* Devuelve una fila (con todos los campos de ese index) en cada iteración a trvés de Row() */
+    /* Devuelve una fila (con todos los campos de ese index) en cada iteración a través de Row() */
     SET @element = Row(@rowSet, @i)
-    /* Inicialización del resto de variables con Field() (toma un campo de la fila) */
+    /* Inicializar el resto de variables con Field() (toma un campo de la fila) */
     SET @numPedido = Field(@element, 'NumPedido')
     SET @numArticulo = Field(@element, 'NumArticulos')
     SET @precio = Field(@element, 'Precio')

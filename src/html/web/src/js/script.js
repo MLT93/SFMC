@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   handleElementsVisibility();
 
   // Resize de la Web
-  window.addEventListener('resize', handleElementsVisibility);
+  window.addEventListener('resize', handleElementsVisibility());
 
   // Modal
   modalContent.classList.add('toggle-visibility');

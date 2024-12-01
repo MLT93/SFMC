@@ -153,7 +153,7 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
    - En **Automation Studio**, crea una nueva automatización.
    - Incluye los siguientes pasos:
      - **Filter Activity:** Selecciona el filtro creado en el paso anterior.
-     - **Send Email Activity:** Configura el email que será enviado a los contactos resultantes del filtro.
+     - **Send Email Activity:** Configura el email que será enviado a los contactos resultantes del filtro en el siguiente **Step**.
 
 3. #### **Programa la ejecución de la automatización:**
    - Configura la ejecución automática de la automatización con el **Schedule Starting Source**:
@@ -163,37 +163,43 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
 
 4. #### **Conecta la automatización con un Journey:**
    - **¿Por qué conectar con Journey Builder?**  
-     Automation Studio es ideal para manejar tareas repetitivas, como segmentar y enviar correos. Sin embargo, al conectar el resultado de la automatización con Journey Builder, puedes agregar pasos adicionales y aprovechar capacidades como mensajes multicanal (SMS, Push), interacciones basadas en el comportamiento del usuario, o personalización avanzada.
+     Automation Studio es ideal para manejar tareas repetitivas, como segmentar las DE y manipular los datos de los Subscribers. Por ello, al conectar una Automation con un Journey Builder se añaden pasos adicionales y se aprovechan capacidades como mensajes multicanal (Email, SMS, Push, etc...), interacciones basadas en el comportamiento del usuario o personalización avanzada. En pocas palabras se aprovecha la manipulación de los datos estructurando los envíos de las comunicaciones con un Journey.
 
    - **Pasos detallados para la conexión:**
      1. **Configura el evento de entrada en Journey Builder:**
         - Accede a **Journey Builder** y crea un nuevo **Journey**.
         - Selecciona el evento de entrada adecuado para la conexión:
-          - **Automation Studio Entry Event:** Este evento te permite usar la salida de una automatización como punto de entrada.
+          - **Automation Studio Entry Event:** Este evento permite usar la salida de una automatización como punto de entrada.
           - Configura este evento para que reciba los contactos filtrados desde Automation Studio.
 
      2. **Asocia la automatización al Journey:**
         - Desde la pestaña de configuración del evento de entrada, selecciona la automatización que creaste en los pasos anteriores.
         - Verifica que los datos (atributos) que pasarán desde Automation Studio al Journey estén correctamente mapeados.
+        - Mapea los atributos de los contactos que ingresarán al Journey:
+        - Ejemplo: Nombre, Email, Fecha de Cumpleaños.
+        - Verifica que los campos mapeados coincidan con los atributos requeridos por el Journey.
+        - Especifica cómo manejar contactos que intenten entrar varias veces al Journey:
+        - **Allow duplicates:** Permite múltiples entradas si un contacto cumple nuevamente con los criterios.
+        - **No duplicates:** Restringe las entradas repetidas.
+        - La automatización debe estar activa para poder utilizarse.
 
-     3. **Construye el Journey:**
+          `** Recuerda: En caso de modificar una Automation asociada a un Journey, se deberá para y reiniciar el Journey para que vuelva a funcionar`.
+
+     3. **Construye el flujo del Journey:**
         - Define las etapas adicionales que seguirán los contactos que ingresen al Journey:
           - Ejemplo: Enviar un SMS o notificación Push tras el email.
+          - Otro Ejemplo: Agregar un envío de correo inicial, seguido de una regla de decisión para identificar contactos que abrieron el correo y enviar un SMS solo a ellos. 
           - Agregar condiciones basadas en aperturas, clics u otras métricas del correo inicial.
         - Opcionalmente, puedes replicar el mismo email en el Journey para asegurar consistencia en el mensaje.
+        - Personaliza el flujo según tus objetivos de la campaña.
 
      4. **Prueba la conexión:**
-        - Activa el Journey y realiza una prueba manual desde Automation Studio para verificar que los contactos ingresan correctamente al flujo.
-
-   - **Ventajas de usar Journey Builder en combinación con Automation Studio:**
-     - **Flexibilidad:** Puedes expandir el alcance de la automatización inicial con pasos adicionales, como enviar mensajes por múltiples canales o aplicar reglas dinámicas.
-     - **Personalización en tiempo real:** Los contactos pueden recibir interacciones más relevantes dependiendo de su comportamiento dentro del Journey.
-     - **Análisis más profundo:** Journey Builder permite rastrear cada interacción de los contactos a lo largo del flujo, lo que facilita medir el impacto y el éxito de las campañas.
-
----
+        - Guarda y activa el Journey. Realiza una prueba manual desde Automation Studio para verificar que los contactos ingresan correctamente al flujo o utiliza Postman para realizar un envío de prueba.
+        
+          `** Recuerda: Para crear testing utilizando Postman debes crear previamente un usuario Ficticio con tus datos de comunicación en la DE relacionada para que el envío llegue unicamente a ti`.
 
 5. #### **Opcional: Configuración del Journey en Journey Builder:**
-   - Si decides no agregar pasos adicionales en el Journey, puedes configurarlo de forma básica:
+   - Si decides evitar el agregado de pasos adicionales en el Journey, puedes configurarlo de forma básica:
      - Solo asegúrate de que el evento de entrada recibe correctamente los datos desde Automation Studio.
      - Incluye el mismo email que configuraste en **Send Email Activity** de la automatización.
 
