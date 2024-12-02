@@ -1,0 +1,4 @@
+id,name,birthday,money,isSendable,alreadyMailed,email
+1,Alfredo,1998-12-31,20000.00,true,none,user1@email.com
+2,Juan,1980-06-21,13500.00,false,yes,user2@email.com
+3,Luisa,2012-07-04,7500.34,true,none,user3@email.com
