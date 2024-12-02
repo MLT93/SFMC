@@ -78,7 +78,7 @@ A continuación, se detalla el proceso para **descargar un archivo desde FTP a S
             - **External Key**: Código identificativo que se crea automáticamente.
             - **Send notification email to**: Checkbox para recibir si al completarse la Automation recibimos un correo (esto posee pocos detalles).
          2. `SOURCE`: Es el dónde buscar los datos.
-            - **Data Extension**: Copia la información de una DE.
+            - **Data Extension**: Copia la información de una DE para usarla en otro lugar.
             - **File Location**: Busca información desde el FTP. Aparece el árbol de la carpeta **/import**, el **File Naming Pattern** para buscar el patrón del archivo (hay que escribir también su extensión), también aparece el **Date Format** para definir el formato de fechas en la tabla, su delimitador **Delimiter** y el **Bad Data Behavior**. Además, tenemos un desplegable **Advanced File Options** para los condicionales de tiempo de ejecución de la Automation.
          3. `DESTINATION`: El destino donde se copiarán los archivos (la otra Data Extension).
          4. `MAPPING`:
@@ -206,7 +206,7 @@ Entendido. Aquí tienes la explicación detallada siguiendo el modelo proporcion
      - Define el **File Naming Pattern**.
 
    - **Destination**:
-     - Selecciona la Data Extension de destino.
+     - Selecciona la Data Extension de destino. Si aún la debes crear, créala.
 
    - **Mapping**:
      - Relaciona las columnas del archivo con los campos de la Data Extension.
