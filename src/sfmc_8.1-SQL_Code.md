@@ -108,6 +108,7 @@ FROM SQL Operaciones
 
 ## CONVERT(nuevo_tipo_de_dato, campo_a_convertir, style(opcional))
 
+- Convierte un dato a otro. Es mejor que CAST en todos los sentidos
 - El parámetro "style" en la función CONVERT() de SQL Server es un argumento opcional de tipo INT que sirve para especificar el formato de salida de los datos, especialmente cuando se trabaja con conversiones de fecha y hora a cadenas de caracteres. Sigue esta guía: https://www.sqlshack.com/sql-convert-function/
 
 ```sql
@@ -118,6 +119,27 @@ SELECT id_contrato, fecha_alta,
     END AS cantidad_meses_baja
 FROM DE_Contrato20241120
 ```
+
+<div style="page-break-after: always;"></div>
+
+## CAST(campo_a_convertir AS nuevo_tipo_dato)
+
+- Convierte un dato a otro. Es particularmente útil para las fechas!
+
+```sql
+SELECT CAST('123' AS INT) -- Convierte '123' de texto a número entero (INT)
+```
+
+```sql
+SELECT 
+    id_contrato,
+    CAST(fecha_contrato AS DATE) AS fecha_contrato_convertida
+FROM 
+    DE_Contrato
+```
+
+- Permite convertir casi cualquier tipo de dato a otro tipo de dato compatible. Por ejemplo, puedes convertir de VARCHAR() a INT(), de DATE a DATETIME, de DECIMAL() a FLOAT, etc...
+- CAST no solo es útil para conversiones simples, sino también para asegurarse de que los valores sean tratados de manera correcta en operaciones o comparaciones.
 
 <div style="page-break-after: always;"></div>
 
@@ -318,6 +340,8 @@ WHERE row_num = 1;  -- Filtra para obtener solo el registro más reciente por cl
 - Se realizan abriendo paréntesis y creando la otra consulta dentro de ellos.
 - Recuerda que el último comando al ejecutarse dentro de una consulta es el SELECT (lo que devuélve la consulta). Por lo tanto, cada subconsulta deberá devolver una fila, una columna o una lista de valores que a su vez será utilizado en la consulta padre
 - Pueden aparecer en varias partes de una consulta SQL, dependiendo de lo que necesites lograr
+- Sub-Query Relacional dentro del SELECT
+- Sub_Query Sin Relación dentro del WHERE
 
 ```
 SELECT

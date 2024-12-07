@@ -157,6 +157,87 @@ WHERE co.id_contrato IS NULL;
 ### **¿Qué son las subconsultas?**
 Son consultas anidadas dentro de otra consulta.
 
+### **Regla general de las subconsultas en SQL:**
+
+Las **subconsultas** pueden ser de dos tipos principales:
+
+1. **Subconsultas correlacionadas**: Dependen de la tabla externa y utilizan columnas de la tabla externa dentro de la subconsulta.
+2. **Subconsultas no correlacionadas**: Son independientes de la tabla externa y no utilizan ninguna columna de la consulta principal.
+
+### **¿Puedes usar columnas de la tabla externa en cualquier subconsulta?**
+- **En subconsultas correlacionadas** (como en tu caso, cuando las subconsultas están dentro del `SELECT`, `WHERE`, `HAVING`, etc.), **sí puedes usar columnas de la tabla externa**, pero debes tener en cuenta **cómo se escriben** estas subconsultas.
+
+#### **Subconsultas correlacionadas:**
+Una **subconsulta correlacionada** se **refiere a columnas de la tabla externa**, es decir, dentro de la subconsulta, usas valores de la tabla principal en la consulta externa. Sin embargo, estas subconsultas **deben estar correctamente correlacionadas**, y esa relación tiene que hacerse explícita.
+
+**Una sub-consulta o sub-query relacionada debe estar dentro del SELECT**
+
+Por ejemplo:
+```sql
+SELECT
+  comports.id_cliente,
+  (
+    SELECT TOP 1 fecha_baja
+    FROM DE_Contrato20241120 AS co
+    WHERE co.id_cliente = comports.id_cliente -- con correlación
+    AND co.gasto6meses > 1000
+    ORDER BY co.fecha_baja DESC
+  ) AS f_baja_contrato
+FROM DE_Comportamiento20241120 AS comports;
+```
+
+En este caso:
+- **`co.id_cliente = comports.id_cliente`** es una **relación explícita** entre la subconsulta y la tabla externa. La subconsulta usa el campo `id_cliente` de la tabla externa **`DE_Comportamiento20241120`** (aliased como `comports`), y esta relación es válida.
+
+### **Errores comunes al usar subconsultas correlacionadas:**
+- El **error más común** ocurre cuando intentas **referenciar** columnas de la tabla externa fuera del contexto adecuado. Por ejemplo, si intentas hacer una subconsulta sin correlacionarla adecuadamente con la tabla principal, o si tratas de usar una columna de la tabla principal en un lugar donde no está permitido.
+
+### **Subconsultas no correlacionadas:**
+Las **subconsultas no correlacionadas** no dependen de la tabla externa, ya que devuelven un valor o conjunto de valores independiente de los registros de la tabla principal.
+
+Una sub-consulta o sub-query sin correlacionar debe estar en el WHERE
+
+```sql
+SELECT
+  id_cliente,
+  (
+    SELECT MAX(fecha_baja)
+    FROM DE_Contrato20241120
+    WHERE tipo_contrato = 'PRESHIPOTECA' -- sin correlación
+  ) AS fecha_baja_max
+FROM DE_Comportamiento20241120;
+```
+
+En este caso, la subconsulta no depende de ninguna columna de la tabla externa **`DE_Comportamiento20241120`**. Solo obtiene el **valor máximo de `fecha_baja`** de la tabla **`DE_Contrato20241120`** donde el tipo de contrato sea `'PRESHIPOTECA'`. Esta es una **subconsulta no correlacionada**, ya que no hace referencia a ninguna columna externa.
+
+### **Resumen y reglas**:
+
+1. **Subconsulta correlacionada**:
+   - **Sí puedes usar columnas de la tabla externa**, pero debe haber una relación clara y explícita entre la subconsulta y la tabla principal. **La subconsulta debe estar correlacionada correctamente**.
+   - En el caso de subconsultas **en el `SELECT`**, la condición **debe estar bien definida** para que la subconsulta funcione correctamente con la tabla externa.
+
+2. **Subconsulta no correlacionada**:
+   - **No depende de la tabla externa**, por lo que puedes hacer la subconsulta sin tener que correlacionar columnas. Esta subconsulta es **independiente** y se puede usar directamente en el `SELECT`, `WHERE`, etc.
+
+### **¿Cuándo no puedes usar columnas de la tabla externa en una subconsulta?**
+
+El problema generalmente ocurre cuando intentas usar columnas de la tabla externa **sin una relación clara**. Es decir, cuando no hay una **referencia explícita** entre las columnas de la subconsulta y las de la tabla externa, el motor de base de datos no sabe cómo relacionarlas, lo que lleva a un error.
+
+Por ejemplo, esto sería incorrecto:
+
+```sql
+SELECT
+  id_cliente,
+  (
+    SELECT fecha_baja
+    FROM DE_Contrato20241120
+    WHERE tipo_contrato = comports.tipo_contrato -- Esto está mal si comports no es parte de la subconsulta
+  ) AS f_baja_contrato
+FROM DE_Comportamiento20241120 AS comports;
+```
+
+En este caso, **`comports.tipo_contrato`** no es referenciado correctamente en la subconsulta, porque **la subconsulta no está correlacionada adecuadamente**.
+
 ### **Ejemplo: Contratos con monto mayor al promedio**
 ```sql
 SELECT id_contrato, monto
