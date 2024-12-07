@@ -1,4 +1,4 @@
-## IN 
+## IN
 
 - Puede ser todo lo que esté dentro los paréntesis ("que sea todo esto, o esto, o esto otro..."). Es el OR abreviado
 
@@ -11,7 +11,7 @@ WHERE Provincia IN (
 )
 ```
 
-## NOT IN 
+## NOT IN
 
 - La negación de todo lo que esté dentro los paréntesis ("que sea distinto a todo esto..."). Es el AND negado
 
@@ -24,7 +24,7 @@ WHERE Provincia NOT IN (
 )
 ```
 
-## LIKE 
+## LIKE
 
 - Se utiliza en consultas para buscar patrones específicos dentro de registros de tipo texto
 
@@ -41,7 +41,7 @@ Nombre LIKE '_a%' --Busca nombres que tengan "a" como segundo carácter
 
 <div style="page-break-after: always;"></div>
 
-## IS NULL | NOT IS NULL 
+## IS NULL | IS NOT NULL
 
 - El campo No Ha sido inicializado Nunca | El campo es distinto a No Ha sido inicializado Nunca. Para definir si es "undefined" se pone el campo vacío ('')
 
@@ -64,7 +64,7 @@ END AS idioma_completo
 FROM DE_Cliente_20241120
 ```
 
-## ISNULL(campo_a_evaluar, valor_de_reemplazo) 
+## ISNULL(campo_a_evaluar, valor_de_reemplazo)
 
 ```sql
 SELECT id_contrato, fecha_alta,
@@ -72,23 +72,25 @@ DATEDIFF(MONTH, ISNULL(fecha_baja, 'Campo nulo'), GETDATE()) AS cantidad_meses_b
 FROM DE_Contrato20241120
 ```
 
-## ORDER BY 
+## ORDER BY
 
 - El TOP es obligatorio para definir la cantidad de registros devueltos, es como el LIMIT en SQL. Se puede añadir ASC o DESC también
 
 ```sql
-SELECT TOP 100 
-    IDCliente, 
-    Nombre
-FROM 
-    SQL_Cliente
-WHERE 
-    Provincia NOT IN ('Madrid', 'Sevilla');
+SELECT
+  TOP 100 IDCliente,
+  Nombre
+FROM
+  SQL_Cliente
+WHERE
+  Provincia NOT IN ('Madrid', 'Sevilla')
+ORDER BY
+  Nombre ASC
 ```
 
 <div style="page-break-after: always;"></div>
 
-## COUNT(), MAX(), MIN(), AVG(), SUM() 
+## COUNT(), MAX(), MIN(), AVG(), SUM()
 
 ```sql
 SELECT COUNT(IDCliente)
@@ -104,7 +106,7 @@ SELECT MIN(fecha), AVG(operaciones), SUM(gasto)
 FROM SQL Operaciones
 ```
 
-## CONVERT(nuevo_tipo_de_dato, campo_a_convertir, style(opcional)) 
+## CONVERT(nuevo_tipo_de_dato, campo_a_convertir, style(opcional))
 
 - El parámetro "style" en la función CONVERT() de SQL Server es un argumento opcional de tipo INT que sirve para especificar el formato de salida de los datos, especialmente cuando se trabaja con conversiones de fecha y hora a cadenas de caracteres. Sigue esta guía: https://www.sqlshack.com/sql-convert-function/
 
@@ -119,10 +121,10 @@ FROM DE_Contrato20241120
 
 <div style="page-break-after: always;"></div>
 
-## CASE-WHEN-END 
+## CASE WHEN ... THEN ... END AS ...
 
 - Es como una mezcla entre If-Else_If-Else y un switch. Importante: En cuanto cumple una condición, sale de la ejecución. El AS nos proporciona un Alias donde se reflejará el resultado.
-El CASE se sitúa siempre en la parte del SELECT (lo que devuélves)
+  El CASE se sitúa siempre en la parte del SELECT (lo que devuélves)
 
 ```sql
 SELECT EmployeeID, Name,
@@ -154,14 +156,14 @@ FROM Orders
 
 <div style="page-break-after: always;"></div>
 
-## DATEADD(datepart(unidad de tiempo MONTH, DAY...), number(cantidad a sumar o a restar sobre la unidad de tiempo), startdate(fecha de inicio)) 
+## DATEADD(datepart(unidad de tiempo MONTH, DAY...), number(cantidad a sumar o a restar sobre la unidad de tiempo), startdate(fecha de inicio))
 
 ```sql
 SELECT
 DATEADD(DAY, 7, GETUTCDATE()) AS future_date
 ```
 
-## FORMAT(valor_a_formatear, 'string para definir el formato que queramos. Ej. "yyyy-MM-dd"', 'locale(optional)') 
+## FORMAT(valor_a_formatear, 'string para definir el formato que queramos. Ej. "yyyy-MM-dd"', 'locale(optional)')
 
 ```sql
 SELECT
@@ -170,11 +172,11 @@ FORMAT(GETUTCDATE(), 'yyyy-MM-dd') AS FormattedUTCDate,
 FORMAT(GETUTCDATE(), 'dddd, dd MMMM yyyy', 'es-ES') AS SpanishUTCFormat
 ```
 
-## GETUTCDATE() 
+## GETUTCDATE()
 
 - Devuelve la fecha de Greenwitch
 
-## DATEDIFF(datepart(unidad de tiempo MONTH, DAY...), startdate, enddate) 
+## DATEDIFF(datepart(unidad de tiempo MONTH, DAY...), startdate, enddate)
 
 - DATEDIFF devuelve únicamente valores numéricos enteros (integers)
 - La función calcula la diferencia entre dos fechas y retorna el resultado como un número entero que representa la cantidad de unidades de tiempo especificadas (como días, meses o años) entre las fechas proporcionadas
@@ -269,7 +271,7 @@ GROUP BY id_cliente; // Dame el cliente, que tenga la cantidad de X contratos y 
 
 <div style="page-break-after: always;"></div>
 
-## WITH 
+## WITH
 
 - El WITH en SQL se utiliza para definir sub-consultas comunes (o CTEs, por sus siglas en inglés: Common Table Expressions). Estas sub-consultas permiten escribir consultas más legibles y estructuradas al darles un nombre y, en muchos casos, hacerlas reutilizables dentro de una consulta más compleja.
 
@@ -309,7 +311,7 @@ WHERE row_num = 1;  -- Filtra para obtener solo el registro más reciente por cl
 
 <div style="page-break-after: always;"></div>
 
-## SUB-QUERIES 
+## SUB-QUERIES
 
 - En cuanto a las sub-queries:
 - Son consultas anidadas dentro de otras y sirven para realizar queries más complejas o que están sin relacionar, como los JOINS
@@ -338,7 +340,7 @@ WHERE departamento_id = e.departamento_id
 
 <div style="page-break-after: always;"></div>
 
-## ROW_NUMBER() 
+## ROW_NUMBER()
 
 - Quita duplicados de una tabla. Para ello, creamos grupos/particiones "PARTITION" de la tabla. El orden de cada partición se marcará a través de una condición asignada con "ORDER BY". Esto me devolverá en del "SELECT" cada partición ordenada a través de un número. Ese número es el número de la línea/row/fila que yo quiero devolver. Debido a esto, se consigue la eliminación de duplicados. Cada parte, debe de estar dentro de una subconsulta para que pueda funcionar, y es debido a que el "SELECT" es la última ejecución que realiza SQL. Si deseara ejecutar una consulta sin obtener previamente el resultado deseado, obtendría valores distintos. Por eso se hacen las sub-consultas
 
@@ -365,7 +367,7 @@ ROW_NUMBER() OVER (PARTITION BY id_cliente ORDER BY prioridad DESC, fecha_regist
 
 <div style="page-break-after: always;"></div>
 
-## DISTINCT 
+## DISTINCT
 
 - Cuando se aplica a una columna o combinación de columnas, analiza los registros y devuelve solo las filas donde los valores (de 1 o todas las columnas que evalúa) sean únicos
 - Si seleccionas varias columnas con DISTINCT, SQL evalúa todas las columnas juntas para identificar filas únicas
@@ -378,7 +380,7 @@ FROM DE_Contrato20241120;
 
 <div style="page-break-after: always;"></div>
 
-## JOINS 
+## JOINS
 
 - Forma de enlazar tablas que tengan una relación establecida (Foreign Key o FK). En SFMC se enlazan con el Data Designer para establecer el Modelo de Datos
 
@@ -429,7 +431,7 @@ INNER JOIN DE_Cliente_20241120 AS clients ON comprts.id_cliente = clients.id_cli
 
 <div style="page-break-after: always;"></div>
 
-## UNION 
+## UNION
 
 - Junta dos tablas una arriba de la otra sin más
 
