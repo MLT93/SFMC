@@ -1,4 +1,4 @@
-Utiliza el PDF adjunto, explícame detalladamente su contenido siguiendo la estructura establecida a continuación, modifica el título y la introducción según el contenido del PDF adjunto y sé lo más detallado posible:
+Utiliza el PDF adjunto, explícame detalladamente su contenido siguiendo la estructura de texto establecida a continuación. Modifica el título y la introducción según el contenido del PDF adjunto y sé lo más detallado posible en la explicación: 
 
 # **`SFMC y sus características`**
 

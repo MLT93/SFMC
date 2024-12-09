@@ -1,0 +1,46 @@
+<h3>¡Mira lo que tenemos para ti %%FIRST_NAME%%!</h3>
+
+<p>
+  Desde Gift Shop, ¡Te deseamos un día lleno de ilusión y magia! Hemos pensado que al ser una fecha tan importante te mereces un descuento de hasta el 20% en todos los productos tecnológicos porque sabemos que te encantan.
+</p>
+
+%%[
+  VAR @Nombre, @Msg, @FCumple, @AnoCumple, @Edad, @Msg2
+  /* 
+    Operador ternario como JS. La diferencia es que la variable se pone antes porque es una función
+      1. argumento que evalúa la condición 
+      2. arg si es true
+      3. arg si es false
+
+    Para la referencia de los campos dentro y fuera de funciones:
+      1. Esto %%SEX%% se puede llamar fuera de funciones
+      2. Esto [SEX] se puede llamar dentro de funciones
+  */
+  SET @Msg = IIF([SEX] == 'Male', '¡Querido', '¡Querida')
+]%%
+
+<p>%%=V(@Msg)=%% %%LAST_NAME%% hoy es el día!</p>
+
+%%[
+  /*
+    FormatDate() PARA FECHAS => https://ampscript.guide/formatdate/
+    Convierto String a String pero recorto solo el año de la fecha
+  */
+  SET @AnoCumple = FormatDate([DATE_OF_BIRTH], "YYYY")
+  /*
+    Subtract() PARA NÚMEROS => https://developer.salesforce.com/docs/marketing/marketing-cloud-ampscript/references/mc-ampscript-math/mc-ampscript-reference-math.html
+    Esta función realiza la resta entre 2 números convirtiendo los argumentos a Number si o sí
+    Convierto String a Number para poder trabajar con el número
+  */
+  SET @Edad = Subtract(2024, @AnoCumple)
+
+  IF @Edad > 40 THEN
+    SET @Msg2 = '¡Sos Como el vino, a cada año más rico! ¡Disfruta tu cumple!'
+  ELSEIF @Edad == 40 THEN
+    SET @Msg2 = '¡40 años de éxitos, celébralo con nosotros!'
+  ELSE
+    SET @Msg2 = '¡Celebra esta fecha con un regalo especial!'
+  ENDIF
+]%%
+
+<h4>%%=V(@Msg2)=%%</h4>

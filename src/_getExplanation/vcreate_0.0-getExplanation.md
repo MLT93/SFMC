@@ -1,11 +1,15 @@
 Explica esto:
 
 ```
-Automation Studio activity File Drop y update DE:
-1. Importar un archivo justo cuando este se deje en el SFTP y actualizar una DE.
-2. Realizar una importación de un archivo del FTP en formato .CSV.
-3. Este archivo debe ser importado justo cuando el archivo sea soltado en el FTP.
-4. Los datos importados deben añadirse y actualizarse en la DE sin sobreescribirse.
+Componer un Jounrey Builder desde cero:
+1. El caso de uso es un Journey de cumpleaños con los siguientes requerimientos del cliente:
+2. La comunicación (vía email) del envío se tiene que diferenciar según el género, hombre o mujer, y si tiene más o menos de 40 años.
+3. La creatividad por defecto será la correspondiente para hombres menores de 40 años.
+4. Si la persona tiene 40 años, se le enviará la creatividad de menos de 40.
+5. Os adjunto una base de datos que será la fuente de datos para este caso de uso.
+6. Tened en cuenta que hay que crear los HTML, la Data Extension o Data Extensions, según lo veáis necesario, el Automation y el Journey. 
+7. Como ya vimos, no hay una única manera válida de sacar el caso de uso, echadle imaginación e id escogiendo aquella manera que consideréis más buena, más óptima o que os convenza más. Y sobre todo aprended mucho en el proceso.
+8. El objetivo principal del ejercicio es que seáis capaces de realizar un flujo completo, pasando desde el entendimiento de requerimientos, el diseño y el desarrollo de un caso de uso real.
 ```
 
 Replica este modelo para la explicación con su indentación, letra y tamaño:

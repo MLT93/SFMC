@@ -1,4 +1,4 @@
-# **Automatización de Marketing y SQL en SFMC**
+# **`Automatización de Marketing y SQL en SFMC`**
 
 #### Introducción:
 Salesforce Marketing Cloud (SFMC) utiliza SQL para gestionar datos almacenados en **Data Extensions (DE)**, permitiendo segmentar audiencias, combinar tablas y generar métricas personalizadas. Este documento explora en detalle el uso de SQL en SFMC, cubriendo conceptos clave, ejemplos prácticos y mejores prácticas.
@@ -274,3 +274,175 @@ WHERE rn = 1;
    - Filtra resultados después de aplicar funciones de agregación.
 4. **Utilizar `JOIN` eficientemente:**
    - Combina datos relevantes para análisis cruzados.
+
+# Guía detallada para crear consultas SQL en Query Studio y SQL Activity de Automation Studio
+
+### **SQL Query 1**: Manejo de datos de préstamos personales
+
+1. #### **Importar los ficheros .csv**:
+   - Sube los tres ficheros **.csv** en **Data Extensions** (DEs) dentro de Marketing Cloud.  
+   - Configura cada DE asegurándote de que coincidan los campos con los datos del archivo.
+
+2. #### **Obtener los IDs de los contratos de préstamo personal**:
+   - Crea una consulta en Query Studio o SQL Activity que filtre los contratos con tipo **préstamo personal**:
+     ```sql
+     SELECT ID_CONTRATO
+     FROM DE_CONTRATOS
+     WHERE TIPO_CONTRATO = 'Préstamo Personal'
+     ```
+   - Los resultados se guardan en una nueva Data Extension de destino (Target DE).
+
+3. #### **Generar el alias IDIOMA_COMPLETO**:
+   - En la misma o una nueva consulta, utiliza una cláusula `CASE` para asignar valores según el idioma:
+     ```sql
+     SELECT 
+         ID_CONTRATO, 
+         IDIOMA,
+         CASE 
+             WHEN IDIOMA = 'ES' THEN 'CASTELLANO'
+             WHEN IDIOMA = 'EN' THEN 'INGLÉS'
+             ELSE 'NO APLICA'
+         END AS IDIOMA_COMPLETO
+     FROM DE_CONTRATOS
+     ```
+   - Configura el Target DE para agregar y actualizar los datos, seleccionando la opción "Update and Append".
+
+4. #### **Evitar la sobrescritura en la Data Extension de destino**:
+   - Al crear la SQL Activity, asegúrate de seleccionar la opción **Update Only** o **Add and Update** según la lógica deseada.
+
+### **SQL Query 2**: Análisis de contratos dados de baja
+
+1. #### **Diferencia de meses entre la baja y la fecha actual**:
+   - Calcula la diferencia de meses utilizando `DATEDIFF` con `GETDATE()`:
+     ```sql
+     SELECT 
+         ID_CONTRATO, 
+         DATEDIFF(MONTH, FECHA_BAJA, GETDATE()) AS MESES_DESDE_BAJA
+     FROM DE_CONTRATOS
+     WHERE ESTADO = 'Baja'
+     ```
+
+2. #### **Fecha del último uso de los contratos dados de baja**:
+   - Selecciona la fecha más reciente de uso para estos contratos:
+     ```sql
+     SELECT 
+         ID_CONTRATO, 
+         MAX(FECHA_USO) AS FECHA_ULTIMO_USO
+     FROM DE_USO_CONTRATOS
+     WHERE ID_CONTRATO IN (SELECT ID_CONTRATO FROM DE_CONTRATOS WHERE ESTADO = 'Baja')
+     GROUP BY ID_CONTRATO
+     ```
+
+3. #### **Consulta consolidada**:
+   - Combina los datos relevantes en una única consulta:
+     ```sql
+     SELECT 
+         C.ID_CLIENTE, 
+         C.NOMBRE, 
+         C.ID_CONTRATO, 
+         C.TIPO_CONTRATO, 
+         U.FECHA_ULTIMO_USO, 
+         G.GASTO_MES
+     FROM DE_CONTRATOS C
+     JOIN DE_USO_CONTRATOS U ON C.ID_CONTRATO = U.ID_CONTRATO
+     JOIN DE_GASTOS G ON C.ID_CONTRATO = G.ID_CONTRATO
+     WHERE C.ESTADO = 'Baja'
+     ```
+   - Exporta el resultado a una nueva Data Extension.
+
+4. #### **Consulta adicional interesante**:
+   - Identifica clientes activos con gastos mensuales superiores al promedio del último trimestre:
+     ```sql
+     SELECT 
+         C.ID_CLIENTE, 
+         C.NOMBRE, 
+         C.ID_CONTRATO, 
+         AVG(G.GASTO_MES) AS PROMEDIO_GASTOS
+     FROM DE_CONTRATOS C
+     JOIN DE_GASTOS G ON C.ID_CONTRATO = G.ID_CONTRATO
+     WHERE C.ESTADO = 'Activo'
+         AND G.FECHA_GASTO >= DATEADD(MONTH, -3, GETDATE())
+     GROUP BY C.ID_CLIENTE, C.NOMBRE, C.ID_CONTRATO
+     HAVING AVG(G.GASTO_MES) > (
+         SELECT AVG(GASTO_MES) 
+         FROM DE_GASTOS 
+         WHERE FECHA_GASTO >= DATEADD(MONTH, -3, GETDATE())
+     )
+     ```
+   - **Explicación**:
+     - Se unen tablas de contratos y gastos.
+     - Se calcula el gasto promedio por contrato de clientes activos.
+     - La condición filtra aquellos con gastos superiores al promedio global del último trimestre.
+
+# Guía detallada sobre Data Views, la función Convert() y subqueries en SQL
+
+1. #### **Utilidad de las Data Views en SQL (SFMC)**:
+
+   - **Definición**:  
+     Las Data Views son tablas del sistema en Salesforce Marketing Cloud que contienen información clave sobre eventos y actividades de los suscriptores, como envíos, aperturas, clics y bajas. Son útiles para generar reportes personalizados y analizar métricas de campañas.
+
+   - **Uso práctico**:  
+     Se utilizan para responder preguntas como:  
+       - ¿Qué suscriptores abrieron una campaña específica?  
+       - ¿Qué enlaces generaron más clics?  
+       - ¿Qué contactos han sido marcados como no válidos (bounces)?  
+
+   - **Ejemplo de consulta**:  
+     Para obtener la lista de suscriptores que abrieron un email en la última semana:  
+     ```sql
+     SELECT 
+         SubscriberKey, 
+         EventDate, 
+         JobID, 
+         EmailName
+     FROM _Open
+     WHERE EventDate >= DATEADD(DAY, -7, GETDATE())
+     ```
+     - **_Open**: Data View que registra aperturas de emails.
+     - **Conclusión**: Estas tablas son esenciales para obtener métricas avanzadas y optimizar estrategias de marketing.
+
+---
+
+2. #### **El parámetro "Style" en la función Convert()**:
+
+   - **Función Convert()**:  
+     Se utiliza para convertir valores de un tipo de datos a otro, como de `DATETIME` a `VARCHAR`, y el parámetro **Style** define el formato del resultado.
+
+   - **Resumen del parámetro "Style"**:  
+     - Especifica el formato de salida para datos de tipo fecha o número al convertirlos a texto.  
+     - Los valores varían entre idiomas, pero los más comunes incluyen:  
+       - `101`: MM/DD/YYYY  
+       - `103`: DD/MM/YYYY  
+       - `112`: YYYYMMDD (sin separadores)  
+
+   - **Ejemplo**: Convertir una fecha a formato `DD/MM/YYYY`:  
+     ```sql
+     SELECT 
+         CONVERT(VARCHAR, GETDATE(), 103) AS FechaFormateada
+     ```
+
+---
+
+3. #### **Definición y creación de una subquery**:
+
+   - **Definición**:  
+     Una subquery es una consulta SQL anidada dentro de otra consulta. Sirve para filtrar o calcular datos que se usan en la consulta principal.
+
+   - **Ejemplo con un archivo `.csv`**:  
+     - Considerando un archivo llamado **Clientes.csv** importado en la DE **DE_Clientes**, queremos obtener los clientes con contratos activos y gastos mayores al promedio.
+
+     ```sql
+     SELECT 
+         ID_CLIENTE, 
+         NOMBRE, 
+         GASTO_MENSUAL 
+     FROM DE_Clientes
+     WHERE GASTO_MENSUAL > (
+         SELECT AVG(GASTO_MENSUAL)
+         FROM DE_Clientes
+         WHERE ESTADO_CONTRATO = 'Activo'
+     )
+     ```
+     - **Explicación**:
+       - La subquery calcula el gasto promedio de clientes con contratos activos.
+       - La consulta principal selecciona solo los clientes cuyo gasto supera ese promedio.

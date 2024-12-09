@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- START STYLES -->
+    <style>
+      .birthday {
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+      }
+      .birthday__title {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    </style>
+    <!-- END STYLES -->
+  </head>
+  <body>
+    <!-- START TITLE -->
+    <table class="birthday">
+      <tr>
+        <td>
+          <p class="birthday__title">¡QUE SEA EL MEJOR AÑO DE TODOS!</p>
+        </td>
+      </tr>
+    </table>
+    <!-- END TITLE -->
+    <!-- START TEXT -->
+    <table>
+      <tr>
+        <td>
+          <h3>¡Mira lo que tenemos para ti %%FIRST_NAME%%!</h3>
+          %%[ VAR @Msg SET @Msg = IIF(%%SEX%% == 'Male', 'Querido', 'Querida') ]%%
+          <p>%%=V(@Msg)=%% %%LAST_NAME%%\, hoy es el día!</p>
+          <p>
+            Desde Gift Shop te deseamos un día lleno de ilusión y mágia! Hemos pensado que al ser una fecha
+            tan importante te mereces un descuento de hasta el 20% en todos los productos tecnológicos porque
+            sabemos que te encantan!
+          </p>
+        </td>
+      </tr>
+    </table>
+    <!-- END TEXT -->
+  </body>
+</html>

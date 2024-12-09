@@ -1,0 +1,80 @@
+<!--  START BLOCK: Preheader Oculto -->
+<table width="100%" class="deviceWidth" align="center" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; border-collapse: collapse; border-spacing: 0px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+     <td bgcolor="#F5F5F5" align="center" class="preheader" style="border-collapse: collapse; color: #F5F5F5; display: none !important; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; mso-hide: all; opacity: 0; overflow: hidden; visibility: hidden;">
+     &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+     </td>
+    </tr>
+   </table>
+   <!--  END BLOCK: Preheader Oculto -->
+  <!-- START BLOCK: PAGINA ESPEJO -->
+  <table width="100%" class="totalWidth" align="center" role="presentation" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; border-collapse: collapse; border-spacing: 0px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td bgcolor="#F5F5F5" class="text-11-gris06 alCenter pall1p" style="border-collapse: collapse; color: #A2A2A2; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 18px; mso-line-height-rule: exactly; padding: 1%;" align="center">
+            %%[
+            set @apnomper = ProperCase(AttributeValue("APNOMPER"))
+            set @client_name_full = ProperCase(AttributeValue("CLIENT_NAME_FULL"))
+            set @client_fullname = ProperCase(AttributeValue("CLIENT_FULLNAME"))
+            set @username = ProperCase(AttributeValue("USERNAME"))
+            set @codcliente = AttributeValue("CODCLIENTE")
+            set @cliente = AttributeValue("NUM_CLIENTE")
+            set @subscriberkey = _subscriberkey
+            set @ti = "ti"
+            set @you = "you"
+            set @tu = "tu"
+            set @mensaje = ""
+            set @VAR = @variable
+        IF EMPTY(@VAR) THEN
+            /* Define el valor de @VAR con el nombre en función de los campos disponibles */
+            IF NOT EMPTY(@apnomper) THEN
+              SET @VAR = @apnomper
+            ELSEIF NOT EMPTY(@client_name_full) THEN
+              SET @VAR = @client_name_full
+            ELSEIF NOT EMPTY (@client_fullname) THEN
+              SET @VAR = @client_fullname
+            ELSEIF NOT EMPTY(@username) THEN
+              SET @VAR = @username
+            ELSE
+            /* Define el valor de @num_cliente con el id disponible en caso de que no haya nombres */
+              IF NOT EMPTY(@codcliente) THEN
+                SET @num_cliente = @codcliente
+              ELSEIF NOT EMPTY(@cliente) THEN
+                SET @num_cliente = @cliente
+              ELSE
+                SET @num_cliente = @subscriberkey
+              ENDIF
+            /* Realiza búsquedas en tablas de personas físicas y jurídicas */
+            SET @fisicas = LOOKUP("DE_personas_fisicas_orig", "apnomper", "num_cliente", @num_cliente)
+            SET @juridicas = LOOKUP("DE_personas_juridicas_origen", "nom_socied", "num_cliente", @num_cliente)
+            /* Asigna el nombre según si es persona física o jurídica */
+              IF NOT EMPTY(@fisicas) THEN
+                SET @VAR = ProperCase(@fisicas)
+              ELSEIF NOT EMPTY(@juridicas) THEN
+                SET @VAR = ProperCase(@juridicas)
+              ELSE
+              /* Si no se encuentran valores, usa el número de cliente o muestra "NO DISPONIBLE" */
+                IF NOT EMPTY(@num_cliente) THEN
+                  SET @VAR = @num_cliente
+                ELSE
+                  SET @VAR = "NO DISPONIBLE"
+                ENDIF
+              ENDIF
+            ENDIF
+           ENDIF
+            /*  */
+            IF @LANGUAGE == "CA" THEN
+              SET @mensaje = TreatAsContent("<strong>Si no visualitzes correctamente aquest email fes clic
+              <a class='gris06 subrayado' href='%%view_email_url%%' style='color: #A2A2A2; text-decoration: underline;'>aquí</a></strong><br>Aquest email és per a %%=IIF(NOT EMPTY(@juridicas), concat('<strong style=''color: #000000;''>', ' ', @VAR, '</strong>'), IIF(NOT EMPTY(@fisicas) OR (@VAR == @apnomper OR @VAR == @client_name_full OR @VAR == @client_fullname OR @VAR == @username), concat(@tu, ', <strong style=''color: #000000;''>', @VAR, '</strong>'), IIF(@VAR == @num_cliente OR @VAR == 'NO DISPONIBLE', @tu, '')))=%%.")
+            ELSEIF @LANGUAGE == "EN" THEN
+              SET @mensaje = TreatAsContent("<strong>If you are unable to view this email correctly, please click
+              <a class='gris06 subrayado' href='%%view_email_url%%' style='color: #A2A2A2; text-decoration: underline;'>here</a></strong><br>This email is for %%=IIF(NOT EMPTY(@juridicas), concat('<strong style=''color: #000000;''>', ' ', @VAR, '</strong>'), IIF(NOT EMPTY(@fisicas) OR (@VAR == @apnomper OR @VAR == @client_name_full OR @VAR == @client_fullname OR @VAR == @username), concat(@you, ', <strong style=''color: #000000;''>', @VAR, '</strong>'), IIF(@VAR == @num_cliente OR @VAR == 'NO DISPONIBLE', @you, '')))=%%.")
+            ELSE /* Español o idioma por defecto */
+              SET @mensaje = TreatAsContent("<strong>Si no visualizas correctamente este email haz click
+              <a class='gris06 subrayado' href='%%view_email_url%%' style='color: #A2A2A2; text-decoration: underline;'>aquí</a></strong><br>Este email es para  %%=IIF(NOT EMPTY(@juridicas), concat('<strong style=''color: #000000;''>', ' ', @VAR, '</strong>'), IIF(NOT EMPTY(@fisicas) OR (@VAR == @apnomper OR @VAR == @client_name_full OR @VAR == @client_fullname OR @VAR == @username OR @VAR == @variable), concat(@ti, ', <strong style=''color: #000000;''>', @VAR, '</strong>'), IIF(@VAR == @num_cliente OR @VAR == 'NO DISPONIBLE', @ti, '')))=%%.")
+            ENDIF
+            ]%%
+            <!-- Mostramos el mensaje final en HTML -->
+            %%=v(@mensaje)=%%
+        </td>
+    </tr>
+  </table>

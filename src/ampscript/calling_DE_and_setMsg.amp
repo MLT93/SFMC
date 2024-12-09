@@ -9,44 +9,48 @@
     -Precio
     -Artículo1
     -Articulo2 (si lo tiene)
-    -OK (si el precio es mayor a 25 o hay 2 artículos) o KO en caso contrario
+    -OK (si el Precio es mayor a 25 o hay 2 artículos) o KO en caso contrario
   3. Poner todo en una sola linea por cada pedido, separando cada uno de los datos con guión (-). Para que quede tal que así:
     "1-2-15-Gafas-Camiseta-OK" 
   */
 
   /* Declaración variables */
-  VAR @rowSet, @numPedido, @numArticulo, @precio, @articuloUno, @articuloDos, @isOk, @msg
-  /* Buscar en una DE (ya sea sendable o menos) */
+  VAR @RowSet, @NumPedido, @NumArticulo, @Precio, @ArticuloUno, @ArticuloDos, @IsOk, @Msg
+  /* 
+    Busca una DE ya sea sendable o menos (1er argumento) 
+    Devuelve todas las filas que pasen el filtro establecido (2do y 3er argumentos) 
+  */
   SET @region = "Europa"
-  SET @rowSet = LookupRows('ENT.DE_JTalent24_Tienda', 'Region', @region)
-  /* Busca en una DE y obtiene las filas de la Tabla según un filtro (los argumentos posteriores) */
-  SET @quantityRows = RowCount(@rowSet)
+  SET @RowSet = LookupRows('ENT.DE_JTalent24_Tienda', 'Region', @region)
+  /* Cuenta la cantidad de filas que se devolvieron */
+  SET @quantityRows = RowCount(@RowSet)
+  /* Recorre el número de filas y almacena los valores de los campos en variables */
   FOR @i = 1 TO @quantityRows DO
     /* Devuelve una fila (con todos los campos de ese index) en cada iteración a través de Row() */
-    SET @element = Row(@rowSet, @i)
+    SET @element = Row(@RowSet, @i)
     /* Inicializar el resto de variables con Field() (toma un campo de la fila) */
-    SET @numPedido = Field(@element, 'NumPedido')
-    SET @numArticulo = Field(@element, 'NumArticulos')
-    SET @precio = Field(@element, 'Precio')
-    SET @articuloUno = Field(@element, 'Articulo1')
-    SET @articuloDos = Field(@element, 'Articulo2')
+    SET @NumPedido = Field(@element, 'NumPedido')
+    SET @NumArticulo = Field(@element, 'NumArticulos')
+    SET @Precio = Field(@element, 'Precio')
+    SET @ArticuloUno = Field(@element, 'Articulo1')
+    SET @ArticuloDos = Field(@element, 'Articulo2')
     /* Comprobaciones */
-    IF @precio > 25 OR @numArticulo > 1 THEN /* @precio > 25 OR @articuloDos != "" || @precio > 25 OR NOT Empty(@articuloDos) */
-      SET @isOk = "OK" 
+    IF @Precio > 25 OR @NumArticulo > 1 THEN /* @Precio > 25 OR @ArticuloDos != "" || @Precio > 25 OR NOT Empty(@ArticuloDos) */
+      SET @IsOk = "OK" 
     ELSE
-      SET @isOk = "KO"
+      SET @IsOk = "KO"
     ENDIF
     /* Msg */
-    SET @msg = Concat(
+    SET @Msg = Concat(
       "El valor obtenido es: <b>", 
-      @numPedido, "-", @numArticulo, "-", @precio, "-", @articuloUno
+      @NumPedido, "-", @NumArticulo, "-", @Precio, "-", @ArticuloUno
     )
-    IF NOT Empty(@articuloDos) THEN
-      SET @msg = Concat(@msg, "-", @articuloDos)
+    IF NOT Empty(@ArticuloDos) THEN
+      SET @Msg = Concat(@Msg, "-", @ArticuloDos)
     ENDIF
-    SET @msg = Concat(@msg, "-", @isOk, "</b><br />")
+    SET @Msg = Concat(@Msg, "-", @IsOk, "</b><br />")
     /* Print */
-    Output(Concat(@msg))
+    Output(Concat(@Msg))
   NEXT @i
 ]%%
 </section>

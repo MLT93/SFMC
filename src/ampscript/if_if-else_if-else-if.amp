@@ -1,24 +1,24 @@
 %%[
-/* IF */
-VAR @Vaucher, @Msg
-SET @Vaucher = 0453
-IF @Vaucher == 0453 THEN
-  SET @Msg = 'Hemos aplicato tu descuento!'
-ENDIF
+  /* IF */
+  VAR @Vaucher, @Msg
+  SET @Vaucher = 0453
+  IF @Vaucher == 0453 THEN
+    SET @Msg = 'Hemos aplicato tu descuento!'
+  ENDIF
 
-/* IF-ELSE */
-VAR @Day, @Weekend
-IF @Day == 'Friday' THEN
-  SET @Weekend = True
-ELSE
-  SET @Weekend = False
-ENDIF
+  /* IF-ELSE */
+  VAR @Day, @Weekend
+  IF @Day == 'Friday' THEN
+    SET @Weekend = True
+  ELSE
+    SET @Weekend = False
+  ENDIF
 
-/* IF-ELSE-IF */
-VAR @Day, @Month, @HappyNewYear
-IF @Day == 24 AND @Month == 12 THEN
-  SET @HappyNewYear = 'Feliz Navidad'
-ELSEIF @Day == 1 AND @Month == 1 THEN
-  SET @HappyNewYear = 'Feliz Año Nuevo'
-ENDIF
+  /* IF-ELSE-IF */
+  VAR @Day, @Month, @HappyNewYear
+  IF @Day == 24 AND @Month == 12 THEN
+    SET @HappyNewYear = 'Feliz Navidad'
+  ELSEIF @Day == 1 AND @Month == 1 THEN
+    SET @HappyNewYear = 'Feliz Año Nuevo'
+  ENDIF
 ]%%
