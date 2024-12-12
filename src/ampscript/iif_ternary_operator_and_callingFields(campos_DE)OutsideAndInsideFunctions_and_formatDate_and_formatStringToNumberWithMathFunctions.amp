@@ -13,8 +13,8 @@
       3. arg si es false
 
     Para la referencia de los campos dentro y fuera de funciones:
-      1. Esto %%SEX%% se puede llamar fuera de funciones
-      2. Esto [SEX] se puede llamar dentro de funciones
+      1. Esto `%%SEX%%` se puede llamar en código HTML. Se puede ver usado dentro de código AMPScript, pero es inservible al interno de funciones de todas formas
+      2. Esto `[SEX]` se puede llamar dentro de bloques AMPScript. Se aconseja utilizar siempre esta forma al interno de código AMPScript y es útil dentro de funciones también
   */
   SET @Msg = IIF([SEX] == 'Male', '¡Querido', '¡Querida')
 ]%%
