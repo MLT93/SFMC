@@ -1,21 +1,21 @@
 %%[ 
-/* Descendente */
-VAR @Num
-SET @Num = 1
-FOR @i = 5 DOWNTO @Num DO
+  /* Descendente */
+  VAR @Num
+  SET @Num = 1
+  FOR @i = 5 DOWNTO @Num DO
 ]%%
 <p>Elemento %%=v(@i)=%%</p>
 %%[ 
-NEXT @i 
+  NEXT @i 
 ]%%
-
+<!-- *********************************************************** -->
 %%[ 
-/* Ascendente */
-VAR @Num
-SET @Num = 5
-FOR @i = 1 TO @Num DO
+  /* Ascendente */
+  VAR @Num
+  SET @Num = 5
+  FOR @i = 1 TO @Num DO
 ]%%
 <p>Elemento %%=v(@i)=%%</p>
 %%[ 
-NEXT @i 
+  NEXT @i 
 ]%%
