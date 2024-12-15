@@ -255,3 +255,105 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
      - La automatización se activa automáticamente al detectar el archivo.
      - Los datos del archivo se importan correctamente en la DE.
      - Los datos nuevos se agregan o actualizan según lo configurado.
+
+# Guía detallada para refrescar una Data Extension (DE) automáticamente
+
+1. #### **Determina cómo quieres refrescar la Data Extension**
+
+   Antes de configurar una automatización en Automation Studio, identifica el método que mejor se adapte a tus necesidades para actualizar la Data Extension (DE):
+
+   - **Opción 1: Importar datos desde un archivo**
+      - **Descripción**: Si los datos provienen de un archivo CSV o TXT cargado periódicamente (por ejemplo, a través de un servidor FTP), esta es la mejor opción.
+      - **Requisitos**:
+        - Un archivo con la información estructurada.
+        - Acceso a un servidor SFTP (si el archivo se transfiere automáticamente).
+      - **Ejemplo**:
+        - Importar un archivo diario con nuevos registros de suscriptores desde un CRM externo.
+   
+   - **Opción 2: Actualizar con una consulta SQL**
+      - **Descripción**: Si los datos deben ser filtrados, combinados o transformados usando lógica SQL a partir de otras Data Extensions en Salesforce Marketing Cloud.
+      - **Requisitos**:
+        - Una consulta SQL que defina cómo se procesarán los datos.
+        - Data Extensions Fuente y Destino bien configuradas.
+      - **Ejemplo**:
+        - Crear una DE con los clientes que hicieron compras en los últimos 7 días.
+
+2. #### **Configuración de la Automation**
+
+   1. Accede a **Journey Builder > Automation Studio** en SFMC.
+   2. Haz clic en **New Automation** para crear una nueva automatización.
+   3. Asigna un nombre descriptivo, como:  
+      - *"Refrescar DE Diario"* o  
+      - *"Actualizar DE Clientes Activos"*.
+   4. Elige un **tipo de activador** para la automatización:
+      - **Schedule**:
+        - **Uso**: Configura la automatización para que se ejecute automáticamente en un intervalo fijo.
+        - **Configuración**:
+          1. Selecciona la opción **Recurring**.
+          2. Define la **frecuencia**:
+             - Diaria (Daily), semanal (Weekly) o mensual (Monthly).
+             - Ejemplo: Ejecutar la Automation todos los días a las 6:00 AM.
+          3. Configura el **inicio y fin**:
+             - Especifica la fecha y hora de inicio.
+             - Define una fecha de finalización si es necesaria.
+        - **Ventaja**: Es ideal para procesos repetitivos que no dependen de eventos externos.
+
+      - **File Drop**:
+        - **Uso**: Activa la automatización manualmente o en respuesta a un evento, como la recepción de un archivo en un servidor FTP.
+        - **Configuración**:
+          1. Selecciona la opción **File Drop** si la automatización se activará por la llegada de un archivo.
+          2. Especifica la ubicación del archivo en el servidor FTP.
+          3. Define un patrón de nombre de archivo (por ejemplo: `Clientes*.csv`) para identificar el archivo correcto.
+          4. Opcionalmente, añade filtros por tipo de archivo o tamaño.
+        - **Ventaja**: Útil para flujos dinámicos que dependen de eventos externos.
+
+3. #### **Añade los pasos necesarios a la automatización**
+
+   - **Opción 1: Importar datos desde un archivo**
+      1. **Transferir el archivo (opcional)**:
+         - Arrastra la actividad **File Transfer** si el archivo proviene de un servidor SFTP externo. Configura:
+           - La conexión al servidor.
+           - La carpeta de destino dentro de SFMC.
+      2. **Configurar la actividad "Import File"**:
+         - Arrastra la actividad **Import File** al flujo.
+         - Configura:
+           - **Origen del archivo**: Selecciona el archivo que contiene los datos.
+           - **Destino**: Especifica la DE donde se cargarán los datos.
+           - **Método de carga**:
+             - **Overwrite**: Elimina los datos existentes en la DE antes de cargar los nuevos.
+             - **Add and Update**: Añade nuevos registros y actualiza los existentes según el `Primary Key`.
+   
+   - **Opción 2: Usar una consulta SQL**
+      1. **Añade la actividad "SQL Query"**:
+         - Arrastra **SQL Query** al flujo.
+         - Escribe una consulta SQL para definir cómo se procesarán los datos:
+           ```sql
+           SELECT
+               SubscriberKey,
+               Email,
+               Nombre,
+               Apellido
+           FROM Clientes_Master
+           WHERE Estado = 'Activo'
+           ```
+         - Configura el destino:
+           - **Target Data Extension**: La DE donde se guardarán los resultados.
+           - **Método de carga**:
+             - **Overwrite**: Reemplaza los registros existentes.
+             - **Append**: Añade nuevos datos sin borrar los existentes.
+             - **Update**: Modifica registros existentes y añade nuevos cuando sea necesario.
+
+4. #### **Configura el tiempo de ejecución**
+   - Si usaste **Schedule**:
+        - Frecuencia: Selecciona "Recurring".
+        - Intervalo: Elige "Daily", "Weekly" o "Monthly".
+        - Hora: Define la hora exacta de ejecución, por ejemplo, 6:00 AM.
+        - Fecha de inicio y fin: Programa las fechas si el proceso es temporal.
+   - Si usaste **File Drop**:
+        - Ubicación: Selecciona el servidor FTP donde se recibirá el archivo.
+        - Nombre del archivo: Especifica el patrón (por ejemplo: `Clientes*.csv`).
+        - Acción al recibir el archivo: Activa automáticamente la Automation.
+
+5. #### **Publica y activa la automatización**
+   1. Revisa todas las configuraciones para asegurarte de que los pasos sean correctos.
+   2. Haz clic en **Activate** para que la automatización comience a ejecutarse automáticamente según el horario definido o al recibir un archivo.
