@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Feliz Cumpleaños</title>
     <!-- START STYLES -->
     <style>
       .birthday {
@@ -33,8 +35,8 @@
       <tr>
         <td>
           <h3>¡Mira lo que tenemos para ti %%FIRST_NAME%%!</h3>
-          %%[ VAR @Msg SET @Msg = IIF(%%SEX%% == 'Male', 'Querido', 'Querida') ]%%
-          <p>%%=V(@Msg)=%% %%LAST_NAME%%\, hoy es el día!</p>
+          %%=SET @Msg = Iif([SEX] == 'Male', 'Querido', 'Querida')=%%
+          <p>%%=V(@Msg)=%% %%LAST_NAME%% hoy es el día!</p>
           <p>
             Desde Gift Shop te deseamos un día lleno de ilusión y mágia! Hemos pensado que al ser una fecha
             tan importante te mereces un descuento de hasta el 20% en todos los productos tecnológicos porque

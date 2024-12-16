@@ -1,0 +1,17 @@
+/*
+  Para cargar un Snippet existen 3 formas:
+    1. ContentBlockByName()
+    2. ContentBlockById()
+    3. ContentBlockByKey()
+  
+  Cada uno utilizará un identificador único que aparece en los detalles del 
+  contenido que se desea cargar dentro de `Content` para el caso de imágenes, rutas, HTML, etc...
+  Esto es así porque cada creación en SFMC recibe:
+    - el nombre que le damos a la creación (name)
+    - un identificador único (id)
+    - un definitionKey (key)
+*/
+
+%%=ContentBlockbyId(NUMERIC, STRING, BOOLEAN, STRING, NUMERIC)=%%
+%%=ContentBlockbyKey(STRING, STRING, BOOLEAN, STRING, NUMERIC)=%%
+%%=ContentBlockbyName(STRING, STRING, BOOLEAN, STRING, NUMERIC)=%%

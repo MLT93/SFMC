@@ -1,0 +1,30 @@
+<!-- START IMG SELECTION -->
+<tr>
+  <td>
+    %%[
+      /*
+        FormatDate() PARA FECHAS => https://ampscript.guide/formatdate/
+        Convierto String a String pero recorto solo el año de la fecha
+      */
+      SET @AnoCumple = FormatDate([DATE_OF_BIRTH], "YYYY")
+      /*
+        Subtract() PARA NÚMEROS => https://developer.salesforce.com/docs/marketing/marketing-cloud-ampscript/references/mc-ampscript-math/mc-ampscript-reference-math.html
+        Esta función realiza la resta entre 2 números convirtiendo los argumentos a Number si o sí
+        Convierto String a Number para poder trabajar con el número
+      */
+      SET @Edad = Subtract(2024, @AnoCumple)
+
+
+      IF @Edad > 40 THEN
+        SET @ImgValue = 'https://image.e.bmind.es/lib/fe3b11717564057d721674/m/1/72e8f393-c803-4527-a215-1243106350bc.png'
+      ELSEIF @Edad == 40 THEN
+        SET @ImgValue = 'https://image.e.bmind.es/lib/fe3b11717564057d721674/m/1/86ffe17e-b93c-4134-9062-14e0100b1f07.png'
+      ELSE
+        SET @ImgValue = 'https://image.e.bmind.es/lib/fe3b11717564057d721674/m/1/d82f71a5-3675-4cfe-983a-8baa57156d93.png'
+      ENDIF
+    ]%%
+
+    <img src="%%=V(@ImgValue)=%%" alt="Imagen felicitaciones para mayores de 40 años" title="Imagen de felicitación">
+  </td>
+</tr>
+<!-- END IMG SELECTION -->
