@@ -10,7 +10,6 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
 
    - **`Definición`**:
      Journey Builder permite construir recorridos dinámicos que conectan a los clientes con las marcas en momentos clave de su experiencia. Es una herramienta diseñada para optimizar las campañas mediante mensajes relevantes enviados en el momento y lugar adecuados.
-
    - **`Componentes clave`**:
 
      - **Automatización**: Reduce la intervención manual, permitiendo que los flujos de trabajo se ejecuten automáticamente según las condiciones predefinidas.
@@ -30,8 +29,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
      - **Retención de clientes**: Campañas que buscan reenganchar a clientes inactivos.
      - **Promociones por ciclos de vida**: Como recordatorios de renovación o cumpleaños.
 
-     **Ejemplo práctico**:  
-     Una campaña de renovación de contrato que envía recordatorios 30, 15 y 5 días antes de la fecha límite.
+     **Ejemplo práctico**:Una campaña de renovación de contrato que envía recordatorios 30, 15 y 5 días antes de la fecha límite.
 
    - **`Transactional Send Journey`**:
      Centrado en envíos únicos basados en interacciones puntuales del cliente, como:
@@ -39,8 +37,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
      - Confirmaciones de compra.
      - Cambios de contraseña o actualizaciones de perfil.
 
-     **Ejemplo práctico**:  
-     Confirmar la recepción de una orden en un eCommerce inmediatamente después de la compra.
+     **Ejemplo práctico**:Confirmar la recepción de una orden en un eCommerce inmediatamente después de la compra.
 
    - **`Single Send Journey`**:
      Pensado para comunicaciones simples y directas, como:
@@ -48,7 +45,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
      - Envío de promociones únicas.
      - Notificaciones de eventos.
 
-     **Ejemplo práctico**:  
+     **Ejemplo práctico**:
      Informar a todos los clientes de una oferta especial limitada a través de un solo correo.
 
    ***
@@ -64,7 +61,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
        - **Eventos de Service Cloud**: Como la creación de casos de soporte.
        - **Inyección vía API**: Habilita la entrada en tiempo real, como en casos de abandono de carrito.
 
-       **Ejemplo práctico de API**:  
+       **Ejemplo práctico de API**:
        Una API que registra los datos de clientes que abandonaron su carrito, inyectándolos en un journey para enviarles un correo recordatorio.
 
      ```json
@@ -89,7 +86,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
        - **Engagement Split**: Clasifica a los contactos según interacciones como clics o aperturas.
        - **Decision Split**: Segmenta según atributos específicos como la ubicación o edad.
 
-       **Ejemplo práctico**:  
+       **Ejemplo práctico**:
        Dividir clientes según su preferencia de idioma (español o inglés) para enviarles contenido personalizado.
 
    - **`Actividades de Mensajería`**:
@@ -105,7 +102,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
      - **Einstein STO**: Calcula el mejor momento para enviar mensajes, aumentando las tasas de apertura.
      - **Einstein Scoring Split**: Segmenta contactos por probabilidad de realizar acciones específicas.
 
-     **Ejemplo práctico**:  
+     **Ejemplo práctico**:
      Enviar correos promocionales en las horas con mayor probabilidad de apertura según el historial de cada cliente.
 
    ***
@@ -119,7 +116,6 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
 
    - **`History & Audit Logs`**:
      Proporcionan un registro detallado de todas las interacciones en el journey, facilitando la solución de problemas.
-
    - **`Pruebas y validación`**:
      Journey Builder incluye un modo de prueba que simula envíos con hasta 10 contactos seleccionados para garantizar que los flujos estén configurados correctamente.
 
@@ -172,6 +168,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
         - Asocia el **EventDefinitionKey** del API Entry Event con el Journey.
 
      3. **Configura las actividades dentro del Journey**:
+
         - Después de configurar el Entry Event, puedes agregar las actividades que deseas realizar para los contactos que ingresen al Journey, como el **Decision Split**, **Send Email**, etc.
 
    - **`Configurar el Trigger API Entry Event`**
@@ -192,7 +189,6 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
      - **Realizar el POST para activar el Journey**:
 
        - Usa el **EventDefinitionKey** obtenido en el paso anterior y realiza un `POST` a la API de Marketing Cloud para activar el Journey y enviar los datos de los nuevos contactos.
-
        - **URL del POST (Endpoint de la API de Marketing Cloud)**:
 
          ```
@@ -215,6 +211,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
          ```
 
        - **Explicación del cuerpo de la solicitud**:
+
          - `"ContactKey"`: Es un identificador único para cada contacto. Este es el valor que permite identificar al contacto dentro de la plataforma.
          - `"EventDefinitionKey"`: El **EventDefinitionKey** que obtuviste al configurar el API Entry Event en el Journey.
          - `"Data"`: Los datos que deseas pasar al Journey. En este caso, incluyen **Email**, **FirstName**, **LastName**, y **BirthDate**, pero puedes incluir cualquier campo que esté en la **Data Extension** que estás utilizando para el Journey.
@@ -231,6 +228,7 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
        ```
 
      - **Ejecuta el POST**:
+
        - Usa herramientas como **Postman** o tu propio código en una aplicación para ejecutar el `POST`.
        - Cuando el `POST` se realice correctamente, el contacto será agregado a la **Data Extension de entrada** y, si la condición para activar el **API Entry Event** se cumple, el Journey se activará automáticamente para ese contacto.
 
@@ -272,14 +270,16 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
 
    - Necesitamos una **Data Extension** que almacene la información relevante de todos los contactos, como género, edad y fecha de nacimiento.
    - **Pasos para crear la DE**:
+
      - Entra en **Email Studio > Email > Subscribers > Data Extension** y dale a **Create**.
      - Campos de la tabla:
        - **user_id** (clave única del contacto, configurada como **Primary Key**)
-       - **first_name	** (primer nombre)
+       - **first_name ** (primer nombre)
        - **last_name** (apellido)
        - **sex** (correo electrónico)
        - **email** (género)
        - **date_of_birth** (fecha de nacimiento, tipo Date)
+
    - **Formato de los datos**:
 
      ```csv
@@ -292,20 +292,18 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
 
 4. #### **Crea las creatividades/piezas (HTML)**:
 
-   - **Para hombres menores de 40 años**:  
-     Crea una plantilla de correo electrónico que sea dinámica y contenga contenido específico para hombres jóvenes.
+   - **Para hombres menores de 40 años**:Crea una plantilla de correo electrónico que sea dinámica y contenga contenido específico para hombres jóvenes.
 
      - **Asunto**: "¡Feliz cumpleaños, Juan! Celebra tu día con un regalo especial."
      - **Cuerpo del email**: "Juan, disfruta de nuestro descuento exclusivo para celebrar tu cumpleaños."
 
-   - **Para mujeres menores de 40 años**:  
-     Crea una plantilla similar pero con contenido adaptado para mujeres jóvenes.
+   - **Para mujeres menores de 40 años**:Crea una plantilla similar pero con contenido adaptado para mujeres jóvenes.
 
      - **Asunto**: "¡Feliz cumpleaños, María! Te tenemos una sorpresa de cumpleaños."
      - **Cuerpo del email**: "María, gracias por ser parte de nuestra comunidad. ¡Celebra tu día con nosotros!"
 
-   - **Para personas con 40 años**:  
-     Personaliza el correo para que se adapte específicamente a personas que cumplen 40 años.
+   - **Para personas con 40 años**:Personaliza el correo para que se adapte específicamente a personas que cumplen 40 años.
+
      - **Asunto**: "¡40 años de éxitos, Juan! Celebra con nosotros."
      - **Cuerpo del email**: "Juan, 40 años es un gran logro, y queremos celebrarlo contigo."
 
@@ -319,15 +317,15 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
    - **Paso 5**: Añade una actividad **SQL Query** para filtrar los contactos que cumplen años ese día (el SQL usará la primera DE y luego la guardará en la otra):
      ```sql
      SELECT
-         SubscriberKey,
-         FirstName,
-         LastName,
-         Email,
-         Gender,
-         BirthDate
+         user_id,
+         first_name,
+         last_name,
+         sex,
+         email,
+         date_of_birth
      FROM DE_Cumpleanios
-     WHERE MONTH(BirthDate) = MONTH(GETDATE())
-     AND DAY(BirthDate) = DAY(GETDATE())
+     WHERE MONTH(date_of_birth) = MONTH(GETDATE())
+     AND DAY(date_of_birth) = DAY(GETDATE())
      ```
      - Guarda los resultados en `DE_Cumpleanios_Del_Dia` en el apartado **Target Data Extension** y elige la opción **Overwrite** para que siempre haya registros del día en esa DE.
 
@@ -339,38 +337,39 @@ Journey Builder es un componente clave de Salesforce Marketing Cloud, diseñado 
      - Utiliza el Entry Source **Data Extension** y selecciona la DE `DE_Cumpleanios_Del_Dia` como fuente de entrada.
      - Asegúrate de que esta DE esté actualizada con los contactos que cumplen años el día de la ejecución.
    - **Paso 4**: Configura el **Schedule**:
-     - Este paso debe configurarse con una fecha posterior a la establecida en la carga de información dentro de la Automation que se conecta a este Journey.
-     - También debe ser diario.
+     - Este paso debe configurarse con una fecha posterior a la establecida en la carga de información dentro de la Automation que se conecta a este Journey y también debe ser diario.
      - Los contactos evaluados serán todos **All Records**.
    - **Paso 5**: Añadir un **Decision Split** basado en edad y género:
-   	 - En el Journey Builder, añade un **Decision Split** después de la entrada.
-   	 - Configura las condiciones del **Decision Split** para que divida a los contactos en segmentos específicos:
-   	   ```plaintext
-   	   Condición 1: Edad < 40 AND Género = "Male"
-   	   Condición 2: Edad < 40 AND Género = "Female"
-   	   Condición 3: Edad = 40
-   	   ```
-   	 - Asegúrate de que cada grupo esté correctamente definido para evitar errores en el flujo.
+     - En el Journey Builder, añade un **Decision Split** después de la entrada.
+     - Configura las condiciones del **Decision Split** para que divida a los contactos en segmentos específicos:
+       ```plaintext
+       Condición 1: Edad < 40 AND Género = "Male"
+       Condición 2: Edad < 40 AND Género = "Female"
+       Condición 3: Edad > 40 AND Género = "Male"
+       Condición 4: Edad > 40 AND Género = "Female"
+       Condición 5: Edad = 40 // Sea hombre y mujer
+       ```
+     - Asegúrate de que cada grupo esté correctamente definido para evitar errores en el flujo.
    - **Paso 6**: Enviar los correos electrónicos:
-   	 - Para cada grupo del **Decision Split**, asigna el correo electrónico correspondiente:
-   	   - Para hombres menores de 40 años, selecciona la plantilla con contenido para hombres.
-   	   - Para mujeres menores de 40 años, selecciona la plantilla con contenido para mujeres.
-   	   - Para personas de 40 años, selecciona la plantilla correspondiente a esa edad.
-   	 - Asegúrate de que las plantillas de correo estén personalizadas correctamente utilizando **Dynamic Content** según los criterios definidos.
+     - Para cada grupo del **Decision Split**, asigna el correo electrónico correspondiente:
+       - Para hombres menores de 40 años, selecciona la plantilla con contenido para hombres.
+       - Para mujeres menores de 40 años, selecciona la plantilla con contenido para mujeres.
+       - Para personas de 40 años, selecciona la plantilla correspondiente a esa edad.
+     - Asegúrate de que las plantillas de correo estén personalizadas correctamente utilizando **Dynamic Content** según los criterios definidos. Puedes utilizar bloques **Snippets** para crear un único email que tenga contenido distinto.
 
 7. #### **Revisión y pruebas**:
 
    - **Paso 1**: Revisa el Journey y las condiciones de los **Decision Splits**.
    - **Paso 2**: Realiza pruebas con un pequeño grupo de contactos para asegurarte de que las creatividades y los mensajes se envíen correctamente según los criterios de edad y género.
 
-8.  #### **Activar el Journey**:
+8. #### **Activar el Journey**:
 
-    - Una vez que todo esté configurado y probado, **activa el Journey** para que comience a enviar correos electrónicos automáticamente a los contactos según sus cumpleaños.
+   - Una vez que todo esté configurado y probado, **activa el Journey** para que comience a enviar correos electrónicos automáticamente a los contactos según sus cumpleaños.
 
-9.  #### **Monitoreo y optimización**:
+9. #### **Monitoreo y optimización**:
 
-    - **Paso 1**: Monitorea el rendimiento del Journey usando los **Reportes de Email Send** y los **Event Results**.
-    - **Paso 2**: Si es necesario, realiza ajustes en las creatividades o en la segmentación para mejorar los resultados del Journey.
+   - **Paso 1**: Monitorea el rendimiento del Journey usando los **Reportes de Email Send** y los **Event Results**.
+   - **Paso 2**: Si es necesario, realiza ajustes en las creatividades o en la segmentación para mejorar los resultados del Journey.
 
 10. ### **Resumen de especificaciones**:
 
