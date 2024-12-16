@@ -361,7 +361,7 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
      - Fecha de inicio y fin: Programa las fechas si el proceso es temporal.
    - Si usaste **File Drop**:
      - Ubicación: Selecciona el servidor FTP donde se recibirá el archivo.
-     - Nombre del archivo: Especifica el patrón (por ejemplo: `Clientes*.csv`).
+     - Nombre del archivo: Especifica el patrón (por ejemplo: `Clientes.csv`).
      - Acción al recibir el archivo: Activa automáticamente la Automation.
 
 5. #### **Publica y activa la automatización**
