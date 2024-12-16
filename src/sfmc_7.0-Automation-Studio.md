@@ -275,7 +275,8 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
 
    - **Opción 2: Actualizar con una consulta SQL**
 
-     - **Descripción**: Si los datos deben ser filtrados, combinados o transformados usando lógica SQL a partir de otras Data Extensions en Salesforce Marketing Cloud.
+     - **Descripción**: Si los datos deben ser filtrados, combinados o transformados usando lógica SQL a partir de otras Data Extensions en Salesforce Marketing Cloud. 
+     - **Nota**: Si utilizas el formato de **Overwrite** y eliges que la Automation tenga un **Schedule** que se refresca a diario o que se active la Automation cuando se cargue información a través del **File Drop**, siempre trabajarás con información actualizada y reciente.
      - **Requisitos**:
        - Una consulta SQL que defina cómo se procesarán los datos.
        - Data Extensions Fuente y Destino bien configuradas.
