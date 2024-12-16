@@ -1,18 +1,19 @@
 Explica esto:
 
 ```
-Componer un Jounrey Builder desde cero:
-1. El caso de uso es un Journey de cumpleaños con los siguientes requerimientos del cliente:
-2. La comunicación (vía email) del envío se tiene que diferenciar según el género, hombre o mujer, y si tiene más o menos de 40 años.
-3. La creatividad por defecto será la correspondiente para hombres menores de 40 años.
-4. Si la persona tiene 40 años, se le enviará la creatividad de menos de 40.
-5. Os adjunto una base de datos que será la fuente de datos para este caso de uso.
-6. Tened en cuenta que hay que crear los HTML, la Data Extension o Data Extensions, según lo veáis necesario, el Automation y el Journey. 
-7. Como ya vimos, no hay una única manera válida de sacar el caso de uso, echadle imaginación e id escogiendo aquella manera que consideréis más buena, más óptima o que os convenza más. Y sobre todo aprended mucho en el proceso.
-8. El objetivo principal del ejercicio es que seáis capaces de realizar un flujo completo, pasando desde el entendimiento de requerimientos, el diseño y el desarrollo de un caso de uso real.
+Todos los ejercicios deben entregarse en formato blueprint en un documento con las correspondientes respuestas y capturas de pantalla para demostrar la resolución. 
+
+1) Implementar un Journey:
+Implementar un journey: Pensar el objetivo y cumplir los pasos comentados. Bonus: Utilizar actividades que no se hayan utilizado en la clase.
+2) Realizar un caso de uso con un Update Contact
+Pensar un caso de uso para realizar un Update Contact e implementarlo en SFMC.
+3) Monitorizar un Journey
+Monitorizar uno de los journeys realizados. Realizarlo tanto por journey builder, reports, tracking send como por datorama.
+4) Bonus: Realizar caso Uso con Journey API
+Pensar un caso de uso para realizar un journey con llamada API eimplementarlo en SFMC.
 ```
 
-Replica este modelo para la explicación con su indentación, letra y tamaño:
+Usa el siguiente formato de texto para la explicación:
 
 # Guía detallada para crear una Business Unit (BU) en Salesforce Marketing Cloud (SFMC):
 

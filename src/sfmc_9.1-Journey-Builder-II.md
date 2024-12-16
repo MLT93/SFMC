@@ -295,3 +295,122 @@ A lo largo de esta explicación, se presentan ejemplos reales aplicados a contex
        - Permite identificar cuellos de botella o puntos críticos en journeys complejos.
        - **Ejemplo real**:  
          Una empresa optimiza su campaña de retención al identificar que los clientes no completan un formulario clave.
+
+# **Guía detallada para implementar un Journey con API Event como Entry Source en Salesforce Marketing Cloud (SFMC)**
+
+1. #### **Inicia sesión en Salesforce Marketing Cloud (SFMC)**:
+
+   - Inicia sesión en tu cuenta de Salesforce Marketing Cloud.
+   - Dirígete a **Journey Builder > Journey Builder** desde el menú principal para empezar a crear el Journey.
+
+2. #### **Selecciona la opción de crear un nuevo Journey**:
+
+   - Haz clic en **Create New Journey** para empezar con la creación de un nuevo Journey.
+
+   - Un **API Event** en Journey Builder es un evento que permite que el Journey sea activado por una llamada API. El primer paso es crear un **Event Definition** que permita recibir y procesar los datos de esa llamada.
+
+3. #### **Accede a la configuración de Entry Sources**:
+
+   - Dentro de **Journey Builder**, selecciona **Entry Sources** en la pantalla de configuración de tu Journey.
+   - En la pantalla de entrada del Journey, selecciona **API Event** como el **Entry Source**.
+
+4. #### **Define el Event**:
+
+   - En **Journey Builder**, dirígete a **Journey Builder > Events** y haz clic en **Create New Event**.
+   - **Event Name**: Ingresa un nombre descriptivo para tu evento, por ejemplo, "Pedido Confirmado".
+   - **Event Definition Key**: Aquí crearás un identificador único para el evento. Este **Event Definition Key** se usará cuando realices la llamada API para activar el Journey. Ejemplo: "ConfirmacionPedidoEvent".
+
+5. #### **Configura los campos de datos esperados**:
+
+   - **Contact Key**: Este campo se usará para identificar al contacto que desencadenará el evento.
+   - **Data Fields**: Define los datos que se enviarán a través de la llamada API. Ejemplo:
+     - **OrderID**: El ID del pedido.
+     - **Total**: El monto del pedido.
+     - **Email**: El correo electrónico del contacto.
+   
+   Los **data fields** pueden ser personalizados según las necesidades del caso de uso (por ejemplo, puedes agregar campos como "DiscountCode" o "ShippingAddress").
+
+4. #### **Accede a Journey Builder**:
+
+   - Vuelve a la pantalla principal de **Journey Builder**.
+   - Elige **Create New Journey**.
+
+5. #### **Configura el Entry Source**:
+
+   - En la pantalla de creación de tu Journey, selecciona **API Event** como el **Entry Source**.
+   - En la configuración del API Event, ingresa el **Event Definition Key** que definiste previamente ("ConfirmacionPedidoEvent").
+   
+   Este será el vínculo entre la llamada API externa y el Journey dentro de SFMC.
+
+6. #### **Diseña el Journey**:
+
+   - **Send Email**: Una vez que el Journey se active, la primera actividad podría ser el envío de un correo de confirmación del pedido.
+     - En esta actividad, puedes incluir datos dinámicos como el **OrderID**, **Total**, o el **DiscountCode** recibido de la llamada API.
+   - **Wait Activity**: Configura una espera de 24 horas para enviar otro correo o mensaje de seguimiento.
+   - **Decision Split**: Basado en el valor del pedido (por ejemplo, si es mayor a un monto determinado), puedes segmentar a los contactos para enviar diferentes mensajes o hacer seguimiento.
+
+7. #### **Obtener el Access Token para autenticar la llamada API**:
+
+   - Para realizar una llamada API a SFMC, necesitarás un **Access Token**.
+   - Realiza una solicitud `POST` para obtener el token. Aquí tienes un ejemplo de cómo hacerlo con Postman:
+   
+     **Request**:
+     ```http
+     POST https://{{subdomain}}.auth.marketingcloudapis.com/v2/token
+     Content-Type: application/x-www-form-urlencoded
+     
+     grant_type=client_credentials&client_id={{ClientID}}&client_secret={{ClientSecret}}
+     ```
+
+   - **Response**: Recibirás un **Access Token** que podrás utilizar en las siguientes solicitudes.
+
+8. #### **Realiza la llamada API para activar el Event**:
+
+   - Con el **Access Token** y el **Event Definition Key**, realiza una solicitud **POST** al endpoint de Marketing Cloud para activar el Journey mediante la API.
+
+   **Request**:
+   ```http
+   POST https://{{subdomain}}.rest.marketingcloudapis.com/interaction/v1/events
+   Content-Type: application/json
+   Authorization: Bearer {{AccessToken}}
+   
+   {
+     "ContactKey": "12345",
+     "EventDefinitionKey": "ConfirmacionPedidoEvent",
+     "Data": {
+       "OrderID": "A123",
+       "Total": "99.99",
+       "Email": "cliente@ejemplo.com"
+     }
+   }
+   ```
+
+   - En esta solicitud, debes incluir los datos que has definido en el **Event** (por ejemplo, **OrderID**, **Total**, **Email**).
+   - **Response**: Si la llamada es exitosa, el Journey se activará para el **ContactKey** especificado.
+
+9. #### **Monitoreo en Journey Builder**:
+
+   - Accede a **Journey Builder > Journey Analytics** para revisar el progreso de los contactos.
+   - Asegúrate de que los contactos que activan el Journey mediante la llamada API estén entrando correctamente en el flujo.
+
+10. #### **Verifica los datos**:
+
+   - Revisa si los datos recibidos en el Journey (por ejemplo, **OrderID**, **Total**, **Email**) son correctos y se están utilizando en las actividades del Journey.
+
+11. #### **Revisa el Journey**:
+
+   - Asegúrate de que todas las actividades estén correctamente configuradas.
+   - Realiza pruebas con datos de ejemplo para verificar que el Journey se activa correctamente mediante la llamada API.
+
+12. #### **Activa el Journey**:
+
+   - Una vez que el Journey esté completamente configurado y probado, haz clic en **Activate** para comenzar a procesar los contactos que ingresen a través del API Event.
+
+13. #### **Resumen de Especificaciones**
+
+   - **Evento de Activación**: API Event, configurado con **Event Definition Key**.
+   - **Datos Esperados**: **ContactKey**, **OrderID**, **Total**, **Email**.
+   - **Actividades en el Journey**: **Send Email**, **Decision Split**, **Wait Activity**.
+   - **Acción API**: Se activa el Journey mediante una llamada API POST con los datos del pedido del cliente.
+   - **Monitoreo**: Utiliza **Journey Analytics** para verificar el desempeño y la entrada de datos en el Journey.
+   
