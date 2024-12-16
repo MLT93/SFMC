@@ -23,9 +23,9 @@
   SET @region = "Europa"
   SET @RowSet = LookupRows('ENT.DE_JTalent24_Tienda', 'Region', @region)
   /* Cuenta la cantidad de filas que se devolvieron */
-  SET @quantityRows = RowCount(@RowSet)
+  SET @QuantityRows = RowCount(@RowSet)
   /* Recorre el número de filas y almacena los valores de los campos en variables */
-  FOR @i = 1 TO @quantityRows DO
+  FOR @i = 1 TO @QuantityRows DO
     /* Devuelve una fila (con todos los campos de ese index) en cada iteración a través de Row() */
     SET @element = Row(@RowSet, @i)
     /* Inicializar el resto de variables con Field() (toma un campo de la fila) */

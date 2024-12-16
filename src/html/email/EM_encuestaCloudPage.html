@@ -1,4 +1,3 @@
-%%[ VAR @Msg, @AnoCumple, @Edad, @ImgValue, @Msg2 ]%%
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -6,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Feliz Cumpleaños</title>
+    <title>Encuesta Cloud Page</title>
     <!-- START STYLES -->
     <style>
-      .birthday {
+      .encuesta {
         max-width: 600px;
         width: 100%;
         text-align: center;
       }
-      .birthday__title {
+      .encuesta__title {
         font-size: 1.5rem;
         font-weight: 600;
       }
@@ -46,7 +45,7 @@
       bgcolor="#FFFFFF"
       width="600"
       align="center"
-      class="birthday"
+      class="encuesta"
       style="
         -ms-text-size-adjust: 100%;
         -webkit-text-size-adjust: 100%;
@@ -61,42 +60,26 @@
       <!-- START TITLE -->
       <tr>
         <td>
-          <p class="birthday__title">¡QUE SEA EL MEJOR AÑO DE TODOS!</p>
+          <p class="encuesta__title">¡ENCUESTA!</p>
         </td>
       </tr>
       <!-- END TITLE -->
-
-      <!-- START IMG SELECTION -->
-      %%=ContentBlockByName("ContentBuilder\marcos_tests_emails\src\ampscript\snippets\CS_exercise_day17_evaluatingAge")=%%
-      <!-- END IMG SELECTION -->
-
-      <!-- START FELICITACIONES -->
+      <!-- START TEXTO -->
       <tr>
         <td>
-          <h3>¡Mira lo que tenemos para ti %%FIRST_NAME%%!</h3>
-          <p>
-            Desde Gift Shop, ¡Te deseamos un día lleno de ilusión y magia! Hemos pensado que al ser una fecha
-            tan importante te mereces un descuento de hasta el 20% en todos los productos tecnológicos porque
-            sabemos que te encantan.
-          </p>
-          %%[ IF [SEX] == 'Male' THEN SET @Msg = '¡Querido!' ELSE SET @Msg = '¡Querida!' ENDIF ]%%
-          <p>%%=V(@Msg)=%% %%LAST_NAME%% hoy es el día!</p>
-          %%[ IF @Edad > 40 THEN SET @Msg2 = '¡Sos Como el vino, a cada año más rico! ¡Disfruta tu cumple!'
-          ELSEIF @Edad == 40 THEN SET @Msg2 = '¡40 años de éxitos, celébralo con nosotros!' ELSE SET @Msg2 =
-          '¡Celebra esta fecha con un regalo especial!' ENDIF ]%%
-          <h4>%%=V(@Msg2)=%%</h4>
+          Hola %%Nombre%% Su contrato %%NumContrato%% está a punto de finalizar y queremos conocer su opinión
+          mediante el siguiente formulario.
         </td>
       </tr>
-      <!-- END FELICITACIONES -->
-
+      <!-- END TEXTO -->
       <!-- START BUTTON -->
       <tr>
         <td align="center">
           <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+            <br />
+            <br />
             <tr>
               <td
-                class="innertd buttonblock"
-                align="center"
                 bgcolor="#3313D3"
                 style="
                   border-radius: 10px;
@@ -121,23 +104,23 @@
                     -moz-border-radius: 10px;
                     -webkit-border-radius: 10px;
                   "
-                  class="buttonstyles"
-                  href="http://###"
+                  href="%%=RedirectTo(CloudPagesURL(9715, 'NC', [NumContrato]))=%%"
                   title="Quiero mi descuento"
                   alias=""
                   conversion="false"
-                  data-linkto="http://"
-                  >Quiero mi descuento</a
+                  data-linkto="%%=RedirectTo(CloudPagesURL(9715, 'NC', [NumContrato]))=%%"
+                  >Acceder</a
                 >
               </td>
             </tr>
           </table>
+          <br />
+          <br />
         </td>
       </tr>
       <br />
       <br />
       <!-- END BUTTON -->
-
       <!-- START FOOTER -->
       <br />
       <tr class="footer">
@@ -170,5 +153,8 @@
       <!-- END FOOTER -->
     </table>
     <!-- END MAIN -->
+    <!-- START TRACKING -->
+    <custom name="opencounter" type="tracking" />
+    <!-- END TRACKING -->
   </body>
 </html>
