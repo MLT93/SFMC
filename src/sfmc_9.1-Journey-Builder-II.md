@@ -241,7 +241,7 @@ A lo largo de esta explicación, se presentan ejemplos reales aplicados a contex
      - **Ejemplo real**:  
        Enviar una solicitud para verificar que el journey se activa correctamente cuando un cliente agrega un producto al carrito.
 
----
+   ***
 
 4. ### **`Gestión y optimización de journeys`**
 
@@ -301,116 +301,291 @@ A lo largo de esta explicación, se presentan ejemplos reales aplicados a contex
 1. #### **Inicia sesión en Salesforce Marketing Cloud (SFMC)**:
 
    - Inicia sesión en tu cuenta de Salesforce Marketing Cloud.
-   - Dirígete a **Journey Builder > Journey Builder** desde el menú principal para empezar a crear el Journey.
+   - Dirígete a **Setup** y controla que tengas una Aplicación disponible. De lo contrario, más abajo se explica cómo crearla.
 
-2. #### **Selecciona la opción de crear un nuevo Journey**:
+2. #### **Define el API Event**:
 
-   - Haz clic en **Create New Journey** para empezar con la creación de un nuevo Journey.
+   - Un **API Event** en Journey Builder es un evento que permite que el Journey sea activado por una llamada API. El primer paso es crear un **Event Definition** que permita recibir y procesar los datos de consultas API que contengan un ID único que crearemos bajo el apartado de **Event Definition Key**. Ese ID nos permite referenciar la consulta con el Journey.
 
-   - Un **API Event** en Journey Builder es un evento que permite que el Journey sea activado por una llamada API. El primer paso es crear un **Event Definition** que permita recibir y procesar los datos de esa llamada.
+   - En **Journey Builder**, dirígete a **Journey Builder > Journey Builder > Events > Entry Sources** y haz clic en **+ New Event**. Ahora te aparecerá la posibilidad de elegir cómo se proporcionará ese evento. En este caso elegiremos **API Event**.
 
-3. #### **Accede a la configuración de Entry Sources**:
+   - Configuramos el evento:
+     - **Event Name**: Ingresa un nombre descriptivo para tu evento, por ejemplo, "Pedido Confirmado".
+     - **Event Definition Key**: Aquí crearás un identificador único para el evento. Este código se usará cuando realices la llamada API para activar el Journey usando Postman, por ejemplo.
+   - Elige una **Sendable DE** que se utilizará en el Journey para realizar las comunicaciones. Por ejemplo, `DE_exercise_day18_ApìEvent_FinContratoEncuesta`. Los usuarios de esta Data Extension recibirán un email que los enviará a una CloudPage para proporcionar una encuesta de satisfacción.
+   - Selecciona un filtro en particular si deseas filtrar la DE que se utiliza desde el inicio en **Contact Filter**. Esto es opcional.
 
-   - Dentro de **Journey Builder**, selecciona **Entry Sources** en la pantalla de configuración de tu Journey.
-   - En la pantalla de entrada del Journey, selecciona **API Event** como el **Entry Source**.
+3. #### **Obtener el Access Token para autenticar la llamada API**:
 
-4. #### **Define el Event**:
-
-   - En **Journey Builder**, dirígete a **Journey Builder > Events** y haz clic en **Create New Event**.
-   - **Event Name**: Ingresa un nombre descriptivo para tu evento, por ejemplo, "Pedido Confirmado".
-   - **Event Definition Key**: Aquí crearás un identificador único para el evento. Este **Event Definition Key** se usará cuando realices la llamada API para activar el Journey. Ejemplo: "ConfirmacionPedidoEvent".
-
-5. #### **Configura los campos de datos esperados**:
-
-   - **Contact Key**: Este campo se usará para identificar al contacto que desencadenará el evento.
-   - **Data Fields**: Define los datos que se enviarán a través de la llamada API. Ejemplo:
-     - **OrderID**: El ID del pedido.
-     - **Total**: El monto del pedido.
-     - **Email**: El correo electrónico del contacto.
-   
-   Los **data fields** pueden ser personalizados según las necesidades del caso de uso (por ejemplo, puedes agregar campos como "DiscountCode" o "ShippingAddress").
-
-4. #### **Accede a Journey Builder**:
-
-   - Vuelve a la pantalla principal de **Journey Builder**.
-   - Elige **Create New Journey**.
-
-5. #### **Configura el Entry Source**:
-
-   - En la pantalla de creación de tu Journey, selecciona **API Event** como el **Entry Source**.
-   - En la configuración del API Event, ingresa el **Event Definition Key** que definiste previamente ("ConfirmacionPedidoEvent").
-   
-   Este será el vínculo entre la llamada API externa y el Journey dentro de SFMC.
-
-6. #### **Diseña el Journey**:
-
-   - **Send Email**: Una vez que el Journey se active, la primera actividad podría ser el envío de un correo de confirmación del pedido.
-     - En esta actividad, puedes incluir datos dinámicos como el **OrderID**, **Total**, o el **DiscountCode** recibido de la llamada API.
-   - **Wait Activity**: Configura una espera de 24 horas para enviar otro correo o mensaje de seguimiento.
-   - **Decision Split**: Basado en el valor del pedido (por ejemplo, si es mayor a un monto determinado), puedes segmentar a los contactos para enviar diferentes mensajes o hacer seguimiento.
-
-7. #### **Obtener el Access Token para autenticar la llamada API**:
-
-   - Para realizar una llamada API a SFMC, necesitarás un **Access Token**.
+   - Para realizar una llamada API a SFMC, necesitarás un **Access Token**. Para ello, primero tendrás que crearte una App para poder obtener el `ClientID` y el `ClientSecret`.
+   - Ve a **Setup > Platform Tools > Apps > Installed Package** y elige la App que usarás. Si aún estás sin tu App de pruebas, crea una en **New**.
+     - Dale un nombre a tu App
+     - Crea un Componente como **API Integration** (es donde aparecerá el `ClientID` y el `ClientSecret`) y elige su privacidad y utilidad. Puede ser **Public**, **Web** o **Server-to-server**.
+     - Elige qué se va a poder hacer en esa App con el **Scope**. Desde editar y borrar correos, o push, o SMS hasta crear Data Extensions y manejar datos sensibles. En este caso, seleccionaremos todas las casillas para poder jugar con la App y probarlo todo.
+     - Ahora podrás utilizar la URI **Authentication Base URI** para hacer la consulta y recibir el **AccessToken**. Además, necesitarás el **ClientID**, el **ClientSecret** y el **MID Business Unit** para llevar a cabo la consulta HTTP.
    - Realiza una solicitud `POST` para obtener el token. Aquí tienes un ejemplo de cómo hacerlo con Postman:
-   
-     **Request**:
-     ```http
-     POST https://{{subdomain}}.auth.marketingcloudapis.com/v2/token
-     Content-Type: application/x-www-form-urlencoded
-     
-     grant_type=client_credentials&client_id={{ClientID}}&client_secret={{ClientSecret}}
+
+     - **Request Body**: POST https://{{Subdomain}}.auth.marketingcloudapis.com/v2/token
+
+     ```json
+     {
+       "account_id": "{{MID_BusinessUnit}}",
+       "client_id": "{{App_ClientId}}",
+       "client_secret": "{{App_ClientSecret}}",
+       "grant_type": "client_credentials",
+       "scope": "tracking_events_write event_notification_subscription_delete event_notification_subscription_update event_notification_subscription_read event_notification_subscription_create event_notification_callback_delete event_notification_callback_update event_notification_callback_read event_notification_callback_create marketing_cloud_connect_send marketing_cloud_connect_write marketing_cloud_connect_read ott_channels_write ott_channels_read ott_chat_messaging_send ott_chat_messaging_read workflows_read tags_read approvals_read tags_write approvals_write workflows_write webhooks_write webhooks_read users_write users_read accounts_write accounts_read campaign_write campaign_read calendar_write calendar_read tracking_events_read file_locations_write file_locations_read data_extensions_write data_extensions_read list_and_subscribers_write list_and_subscribers_read web_write web_publish social_write social_read social_publish social_post sms_write sms_send sms_read push_write push_send push_read email_write email_send email_read journeys_write journeys_read journeys_execute automations_write automations_read automations_execute saved_content_write saved_content_read documents_and_images_write documents_and_images_read offline"
+     }
      ```
 
-   - **Response**: Recibirás un **Access Token** que podrás utilizar en las siguientes solicitudes.
+     - **Response**: Aquí recibes el **Access Token** que te permite utilizar la API REST.
 
-8. #### **Realiza la llamada API para activar el Event**:
-
-   - Con el **Access Token** y el **Event Definition Key**, realiza una solicitud **POST** al endpoint de Marketing Cloud para activar el Journey mediante la API.
-
-   **Request**:
-   ```http
-   POST https://{{subdomain}}.rest.marketingcloudapis.com/interaction/v1/events
-   Content-Type: application/json
-   Authorization: Bearer {{AccessToken}}
-   
-   {
-     "ContactKey": "12345",
-     "EventDefinitionKey": "ConfirmacionPedidoEvent",
-     "Data": {
-       "OrderID": "A123",
-       "Total": "99.99",
-       "Email": "cliente@ejemplo.com"
+     ```json
+     {
+       "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IjQiLCJ2ZXIiOiIxIiwidHlwIjoiSldUIn0.eyJhY2Nlc3NfdG9rZW4iOiJYWlAwTHBMeG9ZdUV3NHFiSUdjMjNsczMiLCJjbGllbnRfaWQiOiIwYWFhdzRnOG5oZmNxM3IwNGI5Zzl3dTgiLCJlaWQiOjUxMDAwMTQ0NCwic3RhY2tfa2V5IjoiUzUwIiwicGxhdGZvcm1fdmVyc2lvbiI6MiwiY2xpZW50X3R5cGUiOiJTZXJ2ZXJUb1NlcnZlciIsInBpZCI6MzIwfQ.y7wSlTmUNRRlwSHa4rrBq18WFXNKp7r_DY1X7OMH0eU.6ov2Yewf06usRgpVRpPMJTO9I7XY6SHN9HsTiMXwD1DN7ZXorIMUxPGF5AFtS5aofHa5qkCJiwFpKW1wDErmuze5iFj-5HivqF7EUgUfX6jlagtON2QQQ2GTfoMWo7imnijKtMM9qpj-CQHixTn7ScnFiqE-mITSqUT2a",
+       "token_type": "Bearer",
+       "expires_in": 1079,
+       "scope": "tracking_events_write event_notification_subscription_delete event_notification_subscription_update event_notification_subscription_read event_notification_subscription_create event_notification_callback_delete event_notification_callback_update event_notification_callback_read event_notification_callback_create marketing_cloud_connect_send marketing_cloud_connect_write marketing_cloud_connect_read ott_channels_write ott_channels_read ott_chat_messaging_send ott_chat_messaging_read workflows_read tags_read approvals_read tags_write approvals_write workflows_write webhooks_write webhooks_read users_write users_read accounts_write accounts_read campaign_write campaign_read calendar_write calendar_read tracking_events_read file_locations_write file_locations_read data_extensions_write data_extensions_read list_and_subscribers_write list_and_subscribers_read web_write web_publish social_write social_read social_publish social_post sms_write sms_send sms_read push_write push_send push_read email_write email_send email_read journeys_write journeys_read journeys_execute automations_write automations_read automations_execute saved_content_write saved_content_read documents_and_images_write documents_and_images_read offline",
+       "soap_instance_url": "https://mcm3-rvv-d4cz50jm6nszgy0rzn4.soap.marketingcloudapis.com/",
+       "rest_instance_url": "https://mcm3-rvv-d4cz50jm6nszgy0rzn4.rest.marketingcloudapis.com/"
      }
-   }
-   ```
+     ```
 
-   - En esta solicitud, debes incluir los datos que has definido en el **Event** (por ejemplo, **OrderID**, **Total**, **Email**).
-   - **Response**: Si la llamada es exitosa, el Journey se activará para el **ContactKey** especificado.
+4. #### **Realiza una consulta API para cargar usuarios en la DE**:
 
-9. #### **Monitoreo en Journey Builder**:
+   - Con el **Access Token** podemos realizar una llamada API que nos permita poblar nuestra Data Extension.
+   - Haz el set del **Authorization** como **Bearer Token** y pon ahí el JWT que te devuelve en la response de la petición auth bajo el nombre de **access_token**
+   - Recuerda que un tiempo determinado en el cual podrás realizar peticiones con ese Token. Una vez que termine, cualquier petición devolverá un **401 Unauthorized** y deberás volver a realizar la consulta al Auth para obtener otro Token. En pocas palabras, se acaba la sesión y debes reiniciarla.
 
-   - Accede a **Journey Builder > Journey Analytics** para revisar el progreso de los contactos.
+     - **Request**: POST https://{{Subdomain}}.rest.marketingcloudapis.com/hub/v1/dataevents/key:{{ExternalKey}}/rowset
+
+     - El `ExternalKey` en la URI es el **External Key** propio de la Data Extension (se usa para poderla referenciar).
+     
+     - El `SubscriberKey` puede ser modificado por `ContactKey`. Cada uno hace referencia al costumer de SFMC. El primero es para email unicamente y el otro es para todas las comunicaciones.
+
+     ```json
+     [
+         {
+             "keys": {
+                 "SubscriberKey": "f666db28-e841-4e21-bcb6-789f7f1b54ez"
+             },
+             "values": {
+                 "NumContrato": "J-7898258",
+                 "Email": "user1@mail.com",
+                 "Nombre": 666333555,
+                 "Contactable": 1
+             }
+         },
+         {
+             "keys": {
+                 "SubscriberKey": "f333db28-e841-4e20-bcb6-789f7f1b54jk"
+             },
+             "values": {
+                 "NumContrato": "K-7898369",
+                 "Email": "user2@mail.com",
+                 "Nombre": 666777333,
+                 "Contactable": 0
+             }
+         }
+     ]
+     ```
+
+   - **Response**: Si la llamada es exitosa, se obtendrá un código parecido al de arriba mostrando la información pertinente.
+
+5. #### **Crea el Journey**
+
+   - Entra en **Journey Builder > Journey Builder**.
+
+   - Haz clic en **Create New Journey** para empezar con la creación y elegimos el **Multi-Step Journey**. Le damos un nombre y continuamos.
+
+   - Selecciona el **Entry Sources** en la pantalla de entrada del Journey y elige **API Event** como el **Entry Source**.
+   
+   - Selecciona el Evento creado y continúa con la configuración del Journey:
+     - **Wait Until Event**: Espera hasta que el evento haya terminado.
+     - **Frequency Split**: Utiliza la AI de Einstein para ver si el usuario está muy saturado en las comunicaciones recibidas.
+     - **Email**: Se envían distintos correos en base a la saturación del usuario.
+     - **Decision Split**: Si está próximo a estar saturado, se envía la comunicación y se comprueba que el usuario haya dado de baja las comunicaciones comerciales. Además, si el usuario sigue siendo contactable, se realiza una espera de 12h y se manda otra comunicación con una oferta especial para mantener el usuario cercano y activo.
+     - **Update Contact**: Se utiliza en el mismo Decision Split de arriba en el caso que el usuario haya decidido cancelar la suscripción para actualizar la tabla y mantener la información actualizada en tiempo real.
+
+6. #### **Realiza la conexión del Journey con el API Event usando una consulta HTTP**
+
+   - Para realizar la conexión al Journey utilizando el Entry Source **API Event** es necesario tener usuarios reales. Eso quiere decir que tendremos que crear un contacto verdadero en **Email Studio > Email > Subscribers > All Subscribers**. Recuerda que al crear el **Contact Key** del usuario, se está definiendo un ID único para buscarlo y éste mismo será igual al **Subscriber Key** porque es exactamente lo mismo, sólo que el Subscriber Key se usa sólo para emails debido a la antigua plataforma ExactTarget.
+
+   - **Request**: POST https://{{Subdomain}}.rest.marketingcloudapis.com/interaction/v1/events
+   - El `ExternalKey` es el **External Key** de la Data Extension
+
+    ```json
+    {
+        "ContactKey": "subscriber_exercise_day18",
+        "EventDefinitionKey": "exercise_day18",
+        "Data": {
+            "SubscriberKey": "subscriber_exercise_day18",
+            "NumContrato": "J-7893215",
+            "Email": "manolo28@mail.com",
+            "Nombre": "628351578",
+            "Contactable": "True"
+        }
+    }
+    ```
+
+7.  #### **Monitoreo en Journey Builder**:
+
+   - Accede a **Journey Builder > Journey Builder** y busca un icono que diga **Journey Analytics** para revisar el progreso de los contactos.
    - Asegúrate de que los contactos que activan el Journey mediante la llamada API estén entrando correctamente en el flujo.
 
-10. #### **Verifica los datos**:
+8.  #### **Activa el Journey**:
 
-   - Revisa si los datos recibidos en el Journey (por ejemplo, **OrderID**, **Total**, **Email**) son correctos y se están utilizando en las actividades del Journey.
+    - Una vez que el Journey esté completamente configurado y probado, haz clic en **Activate** para comenzar a procesar los contactos que ingresen a través del API Event.
 
-11. #### **Revisa el Journey**:
+9.  #### **Revisa el Journey**:
 
-   - Asegúrate de que todas las actividades estén correctamente configuradas.
-   - Realiza pruebas con datos de ejemplo para verificar que el Journey se activa correctamente mediante la llamada API.
+    - Asegúrate de que todas las actividades estén correctamente configuradas.
+    - Realiza pruebas con datos de ejemplo para verificar que el Journey se activa correctamente mediante la llamada API.
 
-12. #### **Activa el Journey**:
+# **Guía detallada para configurar Google Analytics Tracking en Salesforce Marketing Cloud (SFMC)**
 
-   - Una vez que el Journey esté completamente configurado y probado, haz clic en **Activate** para comenzar a procesar los contactos que ingresen a través del API Event.
+1. #### **Configuración inicial de Google Analytics en Salesforce Marketing Cloud**
 
-13. #### **Resumen de Especificaciones**
+   - La integración de **Google Analytics Tracking** en SFMC permite rastrear el rendimiento de los correos electrónicos y enlaces en los journeys agregando automáticamente **parámetros UTM**. Además, esta integración te brinda una visión más clara del tráfico y las conversiones generadas por tus campañas en Google Analytics (GA).
 
-   - **Evento de Activación**: API Event, configurado con **Event Definition Key**.
-   - **Datos Esperados**: **ContactKey**, **OrderID**, **Total**, **Email**.
-   - **Actividades en el Journey**: **Send Email**, **Decision Split**, **Wait Activity**.
-   - **Acción API**: Se activa el Journey mediante una llamada API POST con los datos del pedido del cliente.
-   - **Monitoreo**: Utiliza **Journey Analytics** para verificar el desempeño y la entrada de datos en el Journey.
+   - **Accede a Setup en SFMC**:
+
+     - Inicia sesión en tu cuenta de Salesforce Marketing Cloud.
+     - Ve al menú principal y selecciona **Setup > Platform Tools > Apps > Google Analytics Integration**.
+
+   - **Habilita Google Analytics Integration**:
+
+     - Este proceso nos llevará a **Administration > Data Management > Parameter Management**.
+     - Vamos a **Google Analytics Tracking** y **Edit**. Esto nos lleva a una página que muestra cómo se integra el tracking en una URI a través de Query Params y que nos deja elegir qué analítica usar. En este caso, elegimos GA4 (Google Analytics 4).
+     - Volvemos a **Platform Tools > Apps > Google Analytics Integration** y le damos a **Manage**.
+     - Seleccionamos la cuenta a asociar, el checkbox y guardamos.
+
+   - **Define los parámetros UTM predeterminados**:
+     - Ve a **Administration > Data Management > Parameter Management > Google Analytics Tracking** y dale a **Edit**.
+     - En la sección de configuración, especifica los valores predeterminados para los siguientes campos UTM:
+       - **utm_source**: Define la fuente (por ejemplo, `salesforce` o `email_marketing`).
+       - **utm_medium**: Especifica el medio (generalmente `email`).
+       - **utm_campaign**: Define cómo se nombrarán las campañas (puedes usar macros dinámicas como el nombre del email o del journey).
+     - Guarda la configuración.
+
+2. #### **Parámetros UTM predeterminados**
+
+   Cuando activas Google Analytics Tracking, SFMC agrega automáticamente los siguientes parámetros UTM a los enlaces rastreados:
+
+   | **Parámetro UTM** | **Descripción**                 | **Valor asignado por SFMC**              |
+   | ----------------- | ------------------------------- | ---------------------------------------- |
+   | `utm_source`      | Fuente del tráfico              | `salesforce` (o el valor configurado)    |
+   | `utm_medium`      | Medio de marketing              | `email`                                  |
+   | `utm_campaign`    | Nombre de la campaña            | Nombre del email o del Journey           |
+   | `utm_term`        | Término de búsqueda (opcional)  | Personalizable si lo configuras en la DE |
+   | `utm_content`     | Contenido del enlace específico | Descripción del enlace o botón           |
+
+   - **Ejemplo de un enlace modificado**:
+     ```plaintext
+     https://example.com/product?utm_source=salesforce&utm_medium=email&utm_campaign=promo_julio&utm_content=cta1
+     ```
+
+3. #### **Configura Google Analytics Tracking en tu Journey**
+
+   - **Accede al Journey Builder**:
    
+     - Ve a **Journey Builder > Journey Builder** y abre el Journey que deseas configurar.
+   
+   - **Activa Google Analytics Tracking**:
+     - Haz clic en el botón **Settings** en la esquina superior derecha del Journey.
+     - En esta sección a parte de poder configurar los **re-entry** de los Journeys y los números para los SMS, podemos seleccionar el tracking a través de la casilla **Track links for messages in this journey** en **Google Analytics Tracking**.
+     - Esta parte te pedirá que escribas un dominio. Ése dominio, es el dominio de los enlaces pertinentes a los links dentro de las comunicaciones en el Journey.
+
+4. #### **Configuración en Google Analytics**
+
+   - **Accede a Google Analytics**:
+
+     - Inicia sesión en tu cuenta de **Google Analytics**.
+     - Ve a **Email Studio > Email > Admin > Tracking Configuration** para ver qué pasa con eso. Eventualmente, inmediatamente abajo en **Salesforce Integration** podemos editar y marcar el **Scope By User**.
+
+   - **Link**
+
+     - [Integración de Google Analytics 4 GA4 Marketing Cloud](https://help.salesforce.com/s/articleView?id=sf.mc_gai_google_analytics_integration_tracking.htm&language=es&type=5)
+
+5. #### **Revisión y pruebas**
+
+   - **Pruebas en SFMC**:
+
+     - Envía un correo de prueba desde SFMC a una cuenta que puedas monitorear.
+     - Verifica que los enlaces incluyan correctamente los parámetros UTM configurados.
+
+   - **Pruebas en Google Analytics**:
+
+     - Accede a **Acquisition > Campaigns > All Campaigns** para revisar el tráfico generado.
+     - Asegúrate de que los clics desde el correo electrónico estén registrados con la fuente y medio correctos.
+
+6. #### **Monitoreo y análisis de resultados**
+
+   - **Desde Journey Builder**:
+
+     - Accede a **Journey Builder > Journey Analytics**.
+     - Analiza métricas clave como:
+       - Cantidad de contactos que ingresaron al Journey.
+       - Tasa de conversión en cada actividad.
+
+   - **Desde Email Studio**:
+
+     - Ve a **Email Studio > Tracking > Reports**.
+     - Genera reportes detallados de rendimiento, como:
+       - Tasa de apertura.
+       - Clics.
+       - Correos rebotados.
+
+   - **Desde Tracking Send**:
+
+     - En **Email Studio > Tracking**, revisa los resultados de envíos individuales realizados durante el Journey.
+
+   - **Desde Datorama** (si está habilitado):
+
+     - Configura un dashboard para analizar el rendimiento general del Journey:
+       - Métricas personalizadas como ROI, conversiones, y rendimiento por canal.
+       - Comparativa entre múltiples Journeys.
+
+   - **En Google Analytics**:
+
+     - Analiza el tráfico, conversiones y comportamiento de los usuarios provenientes de los correos rastreados en **Acquisition > Campaigns**, por ejemplo.
+
+   - **Acciones correctivas**:
+
+     - Identifica tasas de abandono altas en actividades específicas y ajusta los tiempos de espera o las condiciones en los **Decision Splits**.
+
+# **Guía detallada para implementar Update Contact en Salesforce Marketing Cloud (SFMC)**
+
+1. #### **Utilizar Customer Updates > Update Contact en un Journey**
+
+   - **Definición del caso de uso**:
+
+     - **Objetivo**: Actualizar el estado de un cliente después de que realice una encuesta de satisfacción.
+     - **Escenario**: Los datos de la encuesta se capturan en una CloudPage y deben reflejarse automáticamente en la DE `Clientes`.
+
+   - **Preparar la Data Extension**:
+
+     - Crea una DE llamada `Clientes` con los siguientes campos:
+       - **SubscriberKey** (Primary Key).
+       - **Email**.
+       - **Estado** (activo/inactivo).
+
+   - **Diseña el Journey**:
+
+     - **Entry Source**:
+       - Usa una DE llamada `Encuestas_Completadas` para almacenar contactos que respondieron la encuesta.
+     - **Update Contact Activity**:
+       - Arrastra la actividad **Update Contact** al Journey.
+       - Configura la actividad para actualizar el campo **Estado** de `Clientes` a "activo".
+
+   - **Configura la CloudPage**:
+
+     - Usa AMPscript para insertar datos en la DE `Encuestas_Completadas`. Ejemplo:
+
+       ```ampscript
+       SET @SubKey = _subscriberkey
+       INSERTDE("Encuestas_Completadas", "SubscriberKey", @SubKey, "Estado", "activo")
+       ```
+
+     - **Monitoreo**:
+
+     - Supervisa en **Journey Analytics** que los contactos pasen correctamente por la actividad **Update Contact** y que el campo **Estado** se actualice en la DE `Clientes`.
