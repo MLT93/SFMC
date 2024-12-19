@@ -7,19 +7,19 @@
 %%[
   VAR @Msg, @AnoCumple, @Edad, @Msg2
   /* 
-    Operador ternario como JS
-    La diferencia es que la variable se pone antes porque es una función
-    Cuidado al operar en código entremezclado con Snippets y HTML porque podría fallar
-      1. argumento que evalúa la condición 
-      2. arg si es true
-      3. arg si es false
+    Iif(condición, valueForTrue, valueForFalse) => Operador ternario
+      1. La Condición 
+      2. Valor si es true
+      3. Valor si es false
 
-    Para la referencia de los campos de las Data Extensions (DE) dentro y fuera de AMPScript:
-      1. Esto `SEX` se utiliza en bloques AMPScript para llamar el valor del campo. Es inútil dentro de funciones
-      2. Esto `%%SEX%%` se usa en código HTML. Se puede ver usado dentro de código AMPScript, pero es inservible al interno de funciones
-      3. Esto `[SEX]` se usa dentro de bloques AMPScript para llamar el valor del campo y los espacios en blanco que éste tenga. Se aconseja utilizar siempre esta forma al interno de código AMPScript y es útil dentro de funciones también
+    Cómo referenciar los campos de las Data Extensions (DE) dentro y fuera de AMPScript:
+      1. `SEX`: Se utiliza en bloques AMPScript para llamar el valor del campo. Es inútil dentro de funciones
+      2. `%%SEX%%`: Se usa en código HTML. Se puede ver usado dentro de código AMPScript, pero es inservible al interno de funciones
+      3. `[SEX]`: Se usa dentro de bloques AMPScript para llamar el valor del campo y los espacios en blanco que éste tenga. Se aconseja utilizar siempre esta forma al interno de código AMPScript y es útil dentro de funciones también
+      4. `AttributeValue()`: Función que se usa para referenciar dentro de AMPScript el valor de un campo de una DE
   */
   SET @Msg = Iif([SEX] == 'Male', '¡Querido', '¡Querida')
+  /* SET @Msg = Iif(AttributeValue('SEX') == 'Male', '¡Querido', '¡Querida') */
 ]%%
 
 <p>%%=V(@Msg)=%% %%LAST_NAME%% hoy es el día!</p>

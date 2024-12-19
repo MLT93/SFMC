@@ -1,16 +1,10 @@
 Explica esto:
 
 ```
-Todos los ejercicios deben entregarse en formato blueprint en un documento con las correspondientes respuestas y capturas de pantalla para demostrar la resolución. 
-
-1) Implementar un Journey:
-Implementar un journey: Pensar el objetivo y cumplir los pasos comentados. Bonus: Utilizar actividades que no se hayan utilizado en la clase.
-2) Realizar un caso de uso con un Update Contact
-Pensar un caso de uso para realizar un Update Contact e implementarlo en SFMC.
-3) Monitorizar un Journey
-Monitorizar uno de los journeys realizados. Realizarlo tanto por journey builder, reports, tracking send como por datorama.
-4) Bonus: Realizar caso Uso con Journey API
-Pensar un caso de uso para realizar un journey con llamada API eimplementarlo en SFMC.
+## Implementar un Journey: Pensar el objetivo y cumplir los pasos comentados.
+1. Realizar un caso de uso con el Entry Source Event API. Pensar un caso de uso para realizar un journey con llamada API e implementarlo en SFMC.
+2. Utilizar un Customer Updates > Update Contact dentro del Journey. Pensar un caso de uso para realizar un Update Contact e implementarlo en SFMC.
+3. Monitorizar el Journey: Monitorizar uno de los journeys realizados. Realizarlo tanto por journey builder, reports, tracking send como por Datorama.
 ```
 
 Usa el siguiente formato de texto para la explicación:
