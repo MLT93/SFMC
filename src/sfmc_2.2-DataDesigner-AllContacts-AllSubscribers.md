@@ -113,7 +113,7 @@ En Salesforce Marketing Cloud (SFMC), la gestión de datos es crucial para crear
 
    - **Todos los Subscribers están en All Contacts**: Esto es correcto, ya que los Subscribers son parte de la base de datos más amplia de contactos.
    - **No todos los Contacts son Subscribers**: Esto significa que hay contactos que pueden estar en All Contacts pero no en Subscribers, especialmente si no han dado su consentimiento para recibir comunicaciones.
-   
+
    Esta diferenciación es clave para cumplir con regulaciones de privacidad y para asegurar que las campañas de marketing se dirijan solo a aquellos que han mostrado interés en recibir información. Si tienes más preguntas o necesitas más información, ¡estaré encantado de ayudarte!
 
 # Guía detallada para gestionar All Contacts & All Subscribers en Salesforce Marketing Cloud (SFMC):
@@ -127,6 +127,8 @@ En Salesforce Marketing Cloud (SFMC), la gestión de datos es crucial para crear
    - Completa cualquier otro campo requerido y guarda el contacto.
    - Elige dónde almacenar ese contacto para emails.
    - Realiza un Logout y un Login para verificar si se ha cargado todo correctamente.
+
+   - Se puede buscar y encontrar en **Audience Builder > Contact Builder > All Contacts**.
 
 2. #### **Verificar ContactKey y ContactID**:
 
