@@ -1,0 +1,37 @@
+%%[
+  /* Comprobar lenguajes */
+  SET @contenido = ""
+  /* Comprobar personas físicas o jurídicas y crear contenido en base a eso */
+  IF NOT EMPTY(@juridicas) THEN
+    SET @contenido = Concat("<strong style='color: #000000;'>", @VAR, "</strong>")
+  ELSEIF NOT EMPTY(@fisicas) OR (@VAR == @apnomper OR @VAR == @client_name_full OR @VAR == @client_fullname OR @VAR == @username) THEN
+    SET @contenido = Concat(@tu, ", <strong style='color: #000000;'>", @VAR, "</strong>")
+  ELSEIF @VAR == @num_cliente OR @VAR == "NO DISPONIBLE" THEN
+    SET @contenido = @tu
+  ELSE
+    SET @contenido = ""
+  ENDIF
+  /* Crear msg en base al contenido */
+  IF @LANGUAGE == "CA" THEN
+    SET @mensaje = TreatAsContent(Concat(
+      "<strong>Si no visualitzes correctament aquest email fes clic ",
+      "<a class='gris06 subrayado' href='%%view_email_url%%' style='color: #A2A2A2; text-decoration: underline;'>aquí</a></strong><br>Aquest email és per a ",
+      @contenido
+    ))
+  ELSEIF @LANGUAGE == "EN" THEN
+    SET @mensaje = TreatAsContent(Concat(
+      "<strong>If you are unable to view this email correctly, please click ",
+      "<a class='gris06 subrayado' href='%%view_email_url%%' style='color: #A2A2A2; text-decoration: underline;'>here</a></strong><br>This email is for ",
+      @contenido
+    ))
+  ELSE
+    /* Por defecto, Español */
+    SET @mensaje = TreatAsContent(Concat(
+      "<strong>Si no visualizas correctamente este email haz clic ",
+      "<a class='gris06 subrayado' href='%%view_email_url%%' style='color: #A2A2A2; text-decoration: underline;'>aquí</a></strong><br>Este email es para ",
+      @contenido
+    ))
+  ENDIF
+]%%
+<!-- Mostrar msg -->
+%%=V(@mensaje)=%%
