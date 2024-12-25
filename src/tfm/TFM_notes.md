@@ -79,7 +79,11 @@
 
 - Se crear un Send Classification con su Sender Profile, Delivery Profile y Reply Mail Management para cada comunicación. Tendremos configuración para comunicaciones informativas, comerciales y transaccionales.
 
-- Configurar FTP con email marcos.lambir@jakala.com y pass asfdasdf123412342# para poder utilizar un servidor para intercambiar archivos e información.
+- Configurar FTP:
+  1. Email: marcos.lambir@jakala.com y 
+  2. Pass: asfdasdf123412342#
+  3. Info server: mcm3-rvv-d4cz50jm6nszgy0rzn4.ftp.marketingcloudops.com
+  4. Port: 22
 
 - Crear Usuarios con ContactKey Real para poder utilizar la API de Salesforce: Se crearán 4 usuarios considerando el envío de 4 productos distintos y así poder ver la ejecución de todo el flujo de la campaña.
   1. subscriber_tfm_01 | marcos.lambir@jakala.com
