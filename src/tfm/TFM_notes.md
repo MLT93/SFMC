@@ -61,3 +61,30 @@
 - Tasa de firma de nuevos contratos
 - Mejora de contratos para empresas que ya tengan dicho contrato
 - Insight, opens, sends
+
+
+## Pasos realizados
+
+- Crear BU: TFM_Endesa_MarcosLambirTorres
+
+- Configuración de la seguridad para los correos y el servidor de envío: Se debería crear un dominio apósito para estas comunicaciones con configuración SAP y una dirección de correo a posta (ej. info@endesa.comunicaciones.com)
+
+- Crear Roles para la BU y Usuarios (éstos roles serán designados para cada departamento, estará quien dirige el design de las comunicaciones, quien dirigirá el apartado de márketing, quien será el director supremo, etc...)
+
+- Tanto las comunicaciones Comerciales como Transaccionales se realizarán desde la misma BU para facilitar el desarrollo y la maquetación de las comunicaciones teniendo en cuenta que cada comunicación tendrá su Send Classification.
+
+- Se registran todos los dominios necesarios para la BU inherentes a información para el cliente, comunicaciones transaccionales, comunicaciones comerciales y soporte. De éste modo, se evitan complicaciones en la entrega de comunicaciones utilizando Salesforce porque permite diferenciar dichas comunicaciones.
+
+- Se realiza la conexión de la ORG (CRM) para futuros intercambios de datos.
+
+- Se crear un Send Classification con su Sender Profile, Delivery Profile y Reply Mail Management para cada comunicación. Tendremos configuración para comunicaciones informativas, comerciales y transaccionales.
+
+- Configurar FTP con email marcos.lambir@jakala.com y pass asfdasdf123412342# para poder utilizar un servidor para intercambiar archivos e información.
+
+- Crear Usuarios con ContactKey Real para poder utilizar la API de Salesforce: Se crearán 4 usuarios considerando el envío de 4 productos distintos y así poder ver la ejecución de todo el flujo de la campaña.
+  1. subscriber_tfm_01 | marcos.lambir@jakala.com
+  2. subscriber_tfm_02 | marcos.lambir@jakala.com
+  3. subscriber_tfm_03 | marcos.lambir@jakala.com
+  4. subscriber_tfm_04 | marcos.lambir@jakala.com
+
+- Crear DEs para el caso de uso:
