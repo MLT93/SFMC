@@ -1,4 +1,189 @@
-7. ### **`Conseguir ClientID y ClientSecret para configurar las credenciales OAuth para trabajar con la API de Salesforce`**:
+# **`APIs en Salesforce Marketing Cloud (SFMC): Conceptos y Aplicaciones`**
+
+#### Introducción:
+
+Salesforce Marketing Cloud (SFMC) se distingue por su capacidad de integración con herramientas externas a través de APIs. Estas interfaces permiten conectar SFMC con plataformas externas, optimizando el flujo de información y automatizando procesos clave de marketing. Este documento detalla las características, componentes y aplicaciones de las APIs en SFMC, destacando su papel en la personalización y eficiencia operativa.
+
+---
+
+1. ### **`¿Qué es una API?`**
+
+   Una API (Application Programming Interface) es un conjunto de reglas y protocolos que permite la comunicación entre aplicaciones de software. Se asemeja a un sistema postal donde:
+   
+   - **`Emisor y receptor:`** Dos aplicaciones que intercambian datos.
+   - **`Dirección de envío:`** El "endpoint" o URL donde se dirige la solicitud.
+   - **`Formato del envío:`** Métodos como **GET**, **POST**, **PUT**, **PATCH** y **DELETE**, que definen la acción a realizar.
+   - **`Metadatos del envío:`** Información adicional sobre la solicitud, como credenciales de autorización o formato de los datos.
+   - **`Respuesta:`** Devuelve el resultado de la acción, que puede incluir datos, confirmaciones, códigos o errores.
+   
+   ---
+
+2. ### **`Componentes de una llamada API`**
+
+   - **`Emisor y receptor:`** 
+      - La aplicación de origen realiza la solicitud o **Request** y el servidor (endpoint) la procesa devolviéndo siempre una respuesta o **Response** que puede ser positiva o negativa.
+      - Herramientas como Postman o navegadores web pueden emular esta interacción.
+   
+   - **`Endpoint (Una dirección del servidor):`**
+      - Una URL específica que define el destino de la llamada API.
+        ```
+        https://your_subdomain.rest.marketingcloudapis.com/endpoint/
+        ```
+   
+   - **`Método de envío o verbos (HTTP):`**
+      - **GET:** Solicita información (similar a un `SELECT` en bases de datos).
+      - **POST:** Crea registros (`INSERT`).
+      - **PUT:** Reemplaza registros (`UPDATE` completo).
+      - **PATCH:** Modifica registros (`UPDATE` parcialmente. Ésto quiere decir que es innecesario repetir todos los campos del body, simplemente se agregan los que se desean modificar).
+      - **DELETE:** Elimina registros (`DELETE`).
+   
+   - **`Headers:`**
+      - Metadatos adicionales como credenciales de seguridad, formato deseado de respuesta, identificación de la fuente de la llamada, etc...
+        ```json
+        {
+          "Authorization": "Bearer ACCESS_TOKEN",
+          "Content-Type": "application/json"
+        }
+        ```
+   
+   - **`Body:`**
+      - Contiene los datos enviados al endpoint. Puede tener varios formatos (JSON, x-url-form-encoded, blob, etc...). Por ejemplo, para crear un suscriptor:
+        ```json
+        {
+          "email": "usuario@ejemplo.com",
+          "firstName": "Juan",
+          "lastName": "Pérez"
+        }
+        ```
+
+   - **`Respuesta:`**
+      - Resultado que **siempre es devuelto** por el servidor tras procesar la solicitud. Incluye un código de estado HTTP (ej., 200 para éxito, 401 para error de autorización) y el contenido de la respuesta (datos solicitados o mensajes de error).
+
+   ---
+
+3. ### **`APIs en Salesforce Marketing Cloud`**
+
+   - **`Tipos de APIs en SFMC:`**
+      - **SOAP API:**
+         - Basada en XML y menos flexible.
+         - Utilizada principalmente para funciones heredadas en SFMC.
+      
+      - **REST API:**
+         - Basada en JSON, más flexible y moderna.
+         - Soporta las funcionalidades más recientes y es preferida para integraciones.
+         - Permite gestionar funcionalidades avanzadas como:
+           - `Journey Activation:` Activar recorridos personalizados.
+           - `Event Triggers:` Disparar eventos específicos en un Journey.
+           - `Data Management:` Crear, actualizar y consultar registros en Data Extensions.
+   
+   - **`Herramientas complementarias:`**
+      - **WSProxy:** Simplifica las llamadas SOAP en AMPScript.
+      - **Funciones en AMPScript y SSJS:** Permiten realizar llamadas desde el lado del cliente.
+   
+   - **Documentación recomendada:**
+       [API REST de MC](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/apis-overview.html)
+      - [Funciones en AMPScript](https://ampscript.guide/http-functions/)
+
+   - **`Casos de Uso Prácticos de APIs en SFMC`**
+   
+     - **Enviar Emails Personalizados:**
+        - Automatiza el envío de emails transaccionales o de marketing.
+        - Endpoint relevante: `/messaging/v1/email/send`.
+     
+     - **Activar un Journey por API:**
+        - Dispara un Journey con datos de entrada.
+        - Endpoint relevante: `/interaction/v1/events`.
+     
+     - **Gestión de Audiencias:**
+        - Agrega, actualiza o consulta datos de clientes en Data Extensions.
+        - Endpoint relevante: `/data/v1/customobjectdata`.
+     
+     - **Consultas de Métricas:**
+        - Obtén estadísticas de campañas y viajes del cliente.
+        - Endpoint relevante: `/messaging/v1/email/stats`.
+
+   ---
+
+4. ### **`Authorization y Scopes`**
+
+   - **Sistema de autenticación:**
+      - **OAuth y OAuth 2.0:** Método de autenticación utilizado en SFMC.
+      - Credenciales necesarias:
+        - **Client ID**
+        - **Client Secret**
+   
+   - **`Scopes:`**
+      - Define los permisos específicos otorgados a las credenciales.
+      - Importancia:
+        - Proveer permisos mínimos para garantizar seguridad de la API.
+        - Escalar permisos si son insuficientes para la funcionalidad requerida.
+   
+   - **`Ejemplo de autenticación y creación de ClientID y ClientSecret:`**
+      1. Crear credenciales en SFMC desde:
+         - **Setup > Platform Tools > Apps > Installed Packages > New > Add Component.**
+      2. Seleccionar los scopes requeridos para la integración.
+      3. Obtener un **Access Token** para realizar llamadas API.
+      
+      3. **Obtén un Access Token:**
+         - Realiza una llamada POST al endpoint de autenticación:
+           ```
+           POST https://your_subdomain.auth.marketingcloudapis.com/v2/token
+           ```
+      
+         - **Body de la llamada:**
+           ```json
+           {
+             "grant_type": "client_credentials",
+             "client_id": "YOUR_CLIENT_ID",
+             "client_secret": "YOUR_CLIENT_SECRET",
+             "account_id": "YOUR_ACCOUNT_ID",
+             "scope": "email_write email_send email_read journeys_write journeys_read journeys_execute"
+           }
+           ```
+      
+         - **Respuesta esperada:**
+           ```json
+           {
+             "access_token": "eyJraWQiOiJLT...",
+             "expires_in": 3600
+           }
+           ```
+
+---
+
+1. ### **`Herramientas útiles para trabajar con APIs`**
+
+   - **`Navegadores:`**
+      - Inspeccionar (Ctrl + Shift + i) dentro de una página web las solicitudes y respuestas en la pestaña "Network".
+   - **`APIs abiertas:`**
+      - Proveen datos públicos, ideales para pruebas.
+   - **`Postman:`**
+      - Instala: [Postman](https://www.postman.com/). 
+      - Plataforma robusta para realizar pruebas de llamadas API.
+
+---
+
+1. ### **`Demos prácticas`**
+
+   - Crear credenciales mínimas en SFMC.
+   - Generar una llamada OAuth con Postman.
+   - Configurar un Journey en SFMC y dispararlo vía API.
+
+---
+
+7. ### **`Estatus y códigos de error`**
+
+   - **`Manejo de errores:`**
+      - Respuestas comunes:
+        - 200: Éxito.
+        - 400: Solicitud incorrecta.
+        - 401: Credenciales inválidas.
+        - 403: Permisos insuficientes. Ésto es debido al scope.
+        - 404: Endpoint o recurso no encontrados.
+      - Recurso adicional: [Guía de manejo de errores](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/error-handling.html).
+      
+
+8. ### **`Conseguir ClientID y ClientSecret para configurar las credenciales OAuth y trabajar con la API de Salesforce`**:
 
    Para obtener el **Client ID** y el **Client Secret** en **Salesforce Marketing Cloud (SFMC)**, primero necesitas crear una **aplicación** en la sección de **Apps > Installed Packages** (Paquetes Instalados) en **Platform Tools** dentro del **Setup**. A continuación te explico paso a paso cómo hacerlo:
 
