@@ -1,27 +1,14 @@
 Explica esto:
 
 ```
-La primera tarea como os comenté durante la clase es la siguiente:
-Crear unas credenciales con los scopes de Journey y List and Subscribers marcadas.
-Crear una Data Extensión que se pueda usar para disparar Journeys.
-Seleccionar un Email que tengáis de otra práctica o crear uno sencillo con varios campos.
-Editar la Data Extensión con dichos campos.
-Crear un Journey con entrada por API, que use la DE creada como entrada y lance el email.
-Pasar en el documento las credenciales, el Event Definition Key del Journey, los campos de la DE y el ID de vuestra BU.
-Con ello yo lanzaré la llamada API a vuestro Journey como si fuera una empresa externa que se está "integrando" en vuestro sistema, y si está bien hechos veréis que ha entrado mi registro y se ha disparado el Journey.
-Si todo funciona este parte de la práctica estará aprobada, y os pasaré la llamada API necesaria para disparar vuestro Journey.
-
-EXTRA:
-Para los que estéis interesados en practicar un paso más, podéis crear en Postman la llamada API y probar a disparar vuestro Journey, pero esto no califica para nota.
-
-API Reference => https://developer.salesforce.com/docs/marketing/marketing-cloud/references/mc_rest_interaction/postEvent.html
-
-Librería Postman => https://www.postman.com/salesforce-developers/salesforce-developers/request/gerh7b0/fire-entry-event
-
-NOTA: Tener en cuenta que al llevar campos extra, si estos son obligatorios deben ir en el cuerpo de la llamada.
-
-IMPORTANTE:
-Si alguien quiere hacer esta segunda parte pero no tiene suficiones nociones técnicas que me lo diga, y lo vemos en una llamada.
+Sección Práctica: Ejercicios Propuestos
+Ejercicio 1: Crear un Informe de Email:
+- Genera un informe sobre los envíos de email de los últimos 3 meses.
+- Incluye métricas clave como tasas de apertura y cancelación.
+- Programa el informe para ser enviado a un correo específico.
+Ejercicio 2: Analizar Métricas en Intelligence Reports:
+- Crea un reporte detallado sobre campañas de email enviadas desde Journey Builder.
+- Exporta el reporte como PDF y compártelo con el equipo ejecutivo.
 ```
 
 Usa el siguiente formato de texto para la explicación:
