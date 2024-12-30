@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Endesa - Panel Solar</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <button id="openModal">Abrir Modal</button>
+
+    <section id="modal" class="modal">
+      <div class="modal__content">
+        <!-- La "x" -->
+        <span id="closeModal" class="modal__close"> &times; </span>
+        <h2>Texto</h2>
+        <h4>¡Limpia el Planeta!</h4>
+        <img hidden id="imgError" src="src/assets/error_img.png" alt="Imagen de error">
+        <img hidden id="panelSolar" src="src/assets/panel_solar_Nero_AI_Photo_Face.png" alt="Panel Solar">
+        <img hidden id="casaPanel" src="src/assets/casa_Nero_AI_Photo_Face.png" alt="Casa con paneles solares">
+        <img hidden id="planetaLimpio" src="src/assets/clean_earth_Nero_AI_Photo_Face.png" alt="Planeta Tierra limpio">
+        <img hidden id="planetaSucio" src="src/assets/earth_trash_Nero_AI_Photo_Face.png" alt="Planeta Tierra sucio">
+        <canvas id="gameCanvas" class="modal__canvas"></canvas>
+      </div>
+    </section>
+    <script type="module" src="src/scripts/script.js"></script>
+  </body>
+</html>
