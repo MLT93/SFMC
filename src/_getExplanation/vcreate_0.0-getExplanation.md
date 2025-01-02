@@ -1,14 +1,23 @@
 Explica esto:
 
 ```
-Sección Práctica: Ejercicios Propuestos
-Ejercicio 1: Crear un Informe de Email:
-- Genera un informe sobre los envíos de email de los últimos 3 meses.
-- Incluye métricas clave como tasas de apertura y cancelación.
-- Programa el informe para ser enviado a un correo específico.
-Ejercicio 2: Analizar Métricas en Intelligence Reports:
-- Crea un reporte detallado sobre campañas de email enviadas desde Journey Builder.
-- Exporta el reporte como PDF y compártelo con el equipo ejecutivo.
+Creación de documento de pruebas
+
+¿Qué haremos?
+Preparar un documento de pruebas o
+checklist para corroborar que las diferentes
+aplicaciones involucradas en el caso de uso
+estén correctas y sin errores. Identificar estos
+elementos y listar con el nivel de detalle
+requerido, para presentar a cliente el trabajo
+previo realizado.
+
+UAT Implementaciones Salesforce
+
+   - Metodología:
+      - SNOW CLUB requiere implementar una campaña multicanal (Email, SMS, Push) recurrente, que se ejecuta a diario. Previo a la activación se realizará una
+      sesión de UAT para validar la correcta ejecución de los diferentes elementos.
+      - (Entregable: Excel UAT Checklist que se llamará JTALENT_Apellido1_NombreAlumno_UAT_Checklist).
 ```
 
 Usa el siguiente formato de texto para la explicación:
