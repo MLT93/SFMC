@@ -1,0 +1,163 @@
+/* Fonts */
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap')
+    format('woff');
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Variables */
+  --font: 'Noto Sans', sans-serif, helvetica;
+
+  font-size: 16px;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+li {
+  list-style-type: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+body {
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'main   main   main'
+    'footer footer footer';
+  grid-template-rows: 4% auto 3%;
+
+  min-width: 100dvw;
+  min-height: 100dvh;
+  padding: 0;
+  margin: 0;
+
+  font-family: var(--font);
+
+  background-color: #f0f0f0;
+}
+
+header {
+  grid-area: header;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav > ul {
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+
+  padding: initial;
+  height: 48px;
+}
+
+.item-shape {
+  display: flex;
+
+  padding: 1rem;
+
+  line-height: 1.3846;
+
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+
+  border-bottom-color: #c2cddd;
+}
+
+main {
+  grid-area: main;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  min-width: 100%;
+  height: 100dvh;
+  min-height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal__content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 600px;
+  position: relative;
+}
+
+.modal__close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal__canvas {
+  width: 80%;
+  height: 80%;
+}
+
+@media (width > 1080px) {
+  body {
+    grid-template-areas:
+      'header header header'
+      'main   main   main'
+      'footer footer footer';
+    grid-template-rows: 15% auto 10%;
+  }
+}
