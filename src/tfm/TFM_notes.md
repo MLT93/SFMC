@@ -78,10 +78,20 @@
   3. Pass: 1234asdf####
   4. Info server: mcm3-rvv-d4cz50jm6nszgy0rzn4.ftp.marketingcloudops.com
   5. Port: 22
+
 - Crear Usuarios con ContactKey Real para poder utilizar la API de Salesforce: Se crearán 4 usuarios considerando el envío de 4 productos distintos y así poder ver la ejecución de todo el flujo de la campaña.
 
   1. subscriber_tfm_01 | marcos.lambir@jakala.com
   2. subscriber_tfm_02 | marcos.lambir@jakala.com
   3. subscriber_tfm_03 | marcos.lambir@jakala.com
   4. subscriber_tfm_04 | marcos.lambir@jakala.com
+
 - Crear DEs para el caso de uso:
+
+  1. DE_Clientes_Cartera
+  2. DE_Contratos_Vigor
+  3. DE_Interactions_Web
+  4. DE_LoyaltyProgramMember_Salesforce
+  5. DE_TransactionJournal
+
+- Crear correos
