@@ -1,23 +1,26 @@
 Explica esto:
 
 ```
-Creación de documento de pruebas
+Landing de baja
 
-¿Qué haremos?
-Preparar un documento de pruebas o
-checklist para corroborar que las diferentes
-aplicaciones involucradas en el caso de uso
-estén correctas y sin errores. Identificar estos
-elementos y listar con el nivel de detalle
-requerido, para presentar a cliente el trabajo
-previo realizado.
+En el email realizado en el caso de uso de la encuesta de satisfacción, incluir un enlace a la landing de baja.
+La landing de baja debe pedir al usuario el motivo de la misma, proporcionando distintas opciones y dando
+la posibilidad al usuario de escribir el motivo.
 
-UAT Implementaciones Salesforce
+La baja se reflejará en All Subscribers y se recogerá en
+una data extension junto con el jobId del email origen de
+la baja.
+Una vez dado de baja, no se dará la posibilidad de
+resuscribirse ni de volver a darse de baja desde ningún
+email; se mostrará un mensaje.
+Leer la siguiente documentación:
+https://developer.salesforce.com/docs/marketing/mar
 
-   - Metodología:
-      - SNOW CLUB requiere implementar una campaña multicanal (Email, SMS, Push) recurrente, que se ejecuta a diario. Previo a la activación se realizará una
-      sesión de UAT para validar la correcta ejecución de los diferentes elementos.
-      - (Entregable: Excel UAT Checklist que se llamará JTALENT_Apellido1_NombreAlumno_UAT_Checklist).
+keting-
+cloud/guide/unsubscribing_and_logging_an_unsubeve
+
+nt_with_a_logunsubevent_execute_call.html
+https://gist.github.com/zuzannamj/17f78dddc9ceb3a0c7ec80092b4efca5
 ```
 
 Usa el siguiente formato de texto para la explicación:

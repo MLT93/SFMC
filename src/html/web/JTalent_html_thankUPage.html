@@ -9,7 +9,8 @@
     SET @SystemDate  = Now(1)
     SET @LocalDate =  SystemDateToLocalDate(@SystemDate)
 
-    InsertDE('DE_FinContratoRespuestas_MLT', 'SubscriberKey', @Cliente, 'NumContrato', @NumContrato, 'Email', @Email, 'Puntuacion', @PuntRecommand, 'Motivo', @TextareaReason, 'CreatedDate', @LocalDate)
+    InsertDE('DE_FinContratoRespuestas_MLT', 'SubscriberKey', @Cliente, 'NumContrato', @NumContrato, 'Email', @Email, 
+    'Puntuacion', @PuntRecommand, 'Motivo', @TextareaReason, 'CreatedDate', @LocalDate)
   ]%%
 </div>
 

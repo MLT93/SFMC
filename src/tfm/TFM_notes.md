@@ -2,13 +2,13 @@
 
 ## Campaign Limpia el planeta!
 
-### Placas Solares (primer caso de uso)
+### Placas Solares desde la web (primer caso de uso)
 
 - Gamificación en modal:
 
   - Opción 1: Que el usuario enchufe su placa solar dentro de un recuadro en la pag web (después de confirmar política de privacidad) y que aparezca un planeta más limpio o un mensaje de felicitación
   - Opción 2: Que el usuario limpie un recuadro que figura un planeta sucio y que cuanto más limpie mejor precio tendrá
-- Captación poseedora de placas solares desde el acceso público en la página de ENDESA. Para no-cliente.
+- Captación de cliente poseedor de placas solares desde el acceso público en la página web de ENDESA. Para no-cliente y para ex-cliente.
 - Nos lleva a la pag de tarifas y ésta nos proporciona un modal con una gamificación de LIMPIA EL PLANETA la cual proporciona un porcentaje de descuento del 20%(ENDESA proporciona un max de descuento hipotético). Coste de captación cero durante X tiempo (1 año)
 - La información recibida a través de un nologged desde from en CloudPage para crear las tablas:
 
@@ -22,6 +22,9 @@
 - Split para comprobar el subscriberKey en la tabla de ContratosVigentes (inventado) (id_contrato, id_ususario, num_contrato). De lo contrario, envío el mismo email con distinto asunto "Última fecha para contratar con 20%".
 - Split comprobando si el usuario
 - Engagement Split si no abre la comunicación enviar un reminder
+- ##### Notas:
+    - Tratar de evitar envíos los días viernes (estatísticamente está comprobado que es poco saludable para la empresa)
+    - Para tomar la info que viene de la CloudPage enviar todo a través de Query Params (ej. SET @email = RequestParameter('email'))
 
 ### Feedback (segundo caso de uso) Story-Telling
 
@@ -78,14 +81,12 @@
   3. Pass: 1234asdf####
   4. Info server: mcm3-rvv-d4cz50jm6nszgy0rzn4.ftp.marketingcloudops.com
   5. Port: 22
-
 - Crear Usuarios con ContactKey Real para poder utilizar la API de Salesforce: Se crearán 4 usuarios considerando el envío de 4 productos distintos y así poder ver la ejecución de todo el flujo de la campaña.
 
   1. subscriber_tfm_01 | marcos.lambir@jakala.com
   2. subscriber_tfm_02 | marcos.lambir@jakala.com
   3. subscriber_tfm_03 | marcos.lambir@jakala.com
   4. subscriber_tfm_04 | marcos.lambir@jakala.com
-
 - Crear DEs para el caso de uso:
 
   1. DE_Clientes_Cartera
@@ -93,5 +94,4 @@
   3. DE_Interactions_Web
   4. DE_LoyaltyProgramMember_Salesforce
   5. DE_TransactionJournal
-
 - Crear correos

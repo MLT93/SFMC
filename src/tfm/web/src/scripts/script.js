@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
 
     // STATIC METHODS
-    // Imgs: Dibujar imágenes en Canvas
     static drawImg = (ctx, arr) => {
+      // Imgs: Dibujar imágenes en Canvas
       for (let i = 0; i < arr.length; i++) {
         const element = arr[i];
         if (ctx && arr) {
@@ -63,22 +63,22 @@ document.addEventListener('DOMContentLoaded', (e) => {
       }
     };
 
-    // Elementos: Dibujar lineas y curvas en Canvas
     static drawCanvasElement = (ctx, arr) => {
+      // Elementos: Dibujar lineas y curvas en Canvas
       for (let i = 0; i < arr.length; i++) {
         const element = arr[i];
         if (ctx && arr) {
           ctx.beginPath();
-          // Punto de inicio
+          // Punto de inicio del elemento
           ctx.moveTo(element.posX, element.posY);
-          // Curvatura del cable
+          // Curvatura del elemento
           ctx.bezierCurveTo(
             element.firstPoint.x, // Primer controlPoint X (curvatura)
             element.firstPoint.y, // Primer controlPoint Y (curvatura)
             element.secondPoint.x, // Segundo controlPoint X (curvatura)
             element.secondPoint.y, // Segundo controlPoint Y (curvatura)
-            element.endX, // Final del cable en X
-            element.endY, // Final del cable en Y
+            element.endX, // Final del elemento en X
+            element.endY, // Final del elemento en Y
           );
           ctx.lineWidth = element.lineWidth;
           ctx.strokeStyle = element.color;
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
       }
     };
 
-    // hitTest: Detección de si el mouse está sobre el objeto
+    /*     // hitTest: Detección de si el mouse está sobre el objeto
     static hitTest = (mouseX, mouseY, element) => {
       return (
         mouseX >= element.posX &&
@@ -105,32 +105,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
         element.posX = targetX - element.width / 2;
         element.posY = targetY - element.height / 2;
       }
-    };
+    }; */
   }
-
-  /* MODAL */
-  const openModalButton = document.getElementById('openModal');
-  const modal = document.getElementById('modal');
-  const closeModalButton = document.getElementById('closeModal');
-
-  // ABRIR MODAL
-  openModalButton.addEventListener('click', (e) => {
-    modal.style.display = 'flex';
-  });
-
-  // CERRAR MODAL CON BOTÓN
-  closeModalButton.addEventListener('click', (e) => {
-    if (modal.style.display === 'flex') {
-      modal.style.display = 'none';
-    }
-  });
-
-  // CERRAR MODAL HACIENDO CLICK FUERA DE ÉL
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
 
   /* CANVAS */
   const ctx = document.getElementById('gameCanvas').getContext('2d');
@@ -177,15 +153,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
     { x: panelEndX + 90, y: panelEndY + 80 }, // Primera curvatura
     { x: panelEndX - 35, y: panelEndY + 10 }, // Segunda curvatura
   );
+
+  // ARRAYS DE REFERENCIA
   const arrCanvasImgs = [objPanel, objPlanetaSucio, objPlanetaLimpio];
   const arrCanvasElements = [objCable];
 
-  // MOVER OBJs
+  /*   // MOVER OBJs
   let isDragging = false; // Sirve para saber si el mouse tiene el objeto bajo 'click'
   let offsetX = 0; // Distancia entre el obj y el cursor del mouse en X
-  let offsetY = 0; // Distancia entre el obj y el cursor del mouse en Y
+  let offsetY = 0; // Distancia entre el obj y el cursor del mouse en Y */
 
-  // MANEJO DEL ARRASTRE
+  /*   // MANEJO DEL ARRASTRE
   canvas.addEventListener('mousedown', (e) => {
     const mouseX = e.offsetX;
     const mouseY = e.offsetY;
@@ -214,12 +192,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
         50,
       );
     }
-  });
+  }); */
 
   // DETENER ARRASTRE
-  canvas.addEventListener('mouseup', () => {
+  /*   canvas.addEventListener('mouseup', () => {
     isDragging = false;
-  });
+  }); */
 
   // PINTAR
   const animateCanvas = () => {
@@ -231,5 +209,31 @@ document.addEventListener('DOMContentLoaded', (e) => {
     // Coordino la animación para mejorar el rendimiento
     requestAnimationFrame(animateCanvas);
   };
-  animateCanvas();
+
+  /* MODAL */
+  const openModalButton = document.getElementById('openModal');
+  const modal = document.getElementById('modal');
+  const closeModalButton = document.getElementById('closeModal');
+
+  // ABRIR MODAL
+  openModalButton.addEventListener('click', (e) => {
+    modal.style.display = 'flex';
+    
+    // Se ejecuta el dibujo cuando se abre el modal
+    animateCanvas();
+  });
+
+  // CERRAR MODAL CON BOTÓN
+  closeModalButton.addEventListener('click', (e) => {
+    if (modal.style.display === 'flex') {
+      modal.style.display = 'none';
+    }
+  });
+
+  // CERRAR MODAL HACIENDO CLICK FUERA DE ÉL
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
 });
