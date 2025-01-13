@@ -16,7 +16,6 @@ ELSEIF @TipoTarifa == "Tarifa D" THEN
 ELSE
   SET @IconoTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/55f653e0-880d-4471-a97d-2803be3833fb.png"
 ENDIF
-
 ]%%
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -342,16 +341,14 @@ ENDIF
         line-height: inherit;
       }
     </style>
-    <!--
-      [if gte mso 9]>
-        <xml>
-          <o:officedocumentsettings>
+    <!--[if gte mso 9]>
+      <xml>
+        <o:officedocumentsettings>
           <o:allowpng />
           <o:pixelsperinch>96</o:pixelsperinch>
-          </o:officedocumentsettings>
-        </xml>
-      <![endif]
-    -->
+        </o:officedocumentsettings>
+      </xml>
+    <![endif]-->
   </head>
   <!-- END HEAD + STYLES + MSO -->
 
@@ -458,7 +455,7 @@ ENDIF
                   ></strong
                 ><br />
                 Este email es para ti,
-                <strong style="color: #000">%%Nombre%%</strong>
+                <strong style="color: #000">%%NOMBRE%%</strong>
               </td>
             </tr>
           </table>
@@ -700,7 +697,11 @@ ENDIF
                               <!-- START ICONO TARIFA -->
                               <tr>
                                 <td align="center" style="border-collapse: collapse">
-                                  <img src="img/icono1.png" width="20" alt="Tarifa" style="border: 0px; display: block" />
+                                  <img
+                                    src="img/icono1.png"
+                                    width="20"
+                                    alt="Tarifa"
+                                    style="border: 0px; display: block" />
                                 </td>
                               </tr>
                               <!-- END ICONO TARIFA -->
@@ -822,7 +823,10 @@ ENDIF
                                           mso-line-height-rule: exactly;
                                           padding-left: 5px;
                                         ">
-                                        <strong>Has conseguido un %%=porcentaje de descuento=%% gracias a tu voluntad por limpiar el planeta!</strong>
+                                        <strong
+                                          >Has conseguido un 20% gracias a tu
+                                          voluntad por limpiar el planeta!</strong
+                                        >
                                       </td>
                                     </tr>
                                   </table>
@@ -840,7 +844,11 @@ ENDIF
                   <!-- START ICONO -->
                   <tr>
                     <td align="center" style="border-collapse: collapse">
-                      <img src="img/icono2.png" width="26" alt="Pct descuento" style="border: 0px; display: block" />
+                      <img
+                        src="img/icono2.png"
+                        width="26"
+                        alt="Pct descuento"
+                        style="border: 0px; display: block" />
                     </td>
                   </tr>
                   <!-- END ICONO -->
@@ -1125,7 +1133,8 @@ ENDIF
                       <center>
                         <strong
                           >%%Member_Busname%%&nbsp;-&nbsp;CIF&nbsp;A-81948077&#46;
-                          %%Member_Addr%%&nbsp;%%Member_City%%&#44;&nbsp;%%Member_PostalCode%%. &#44;&nbsp;%%Member_State%%&#44;&nbsp;%%Member_Country%%.
+                          %%Member_Addr%%&nbsp;%%Member_City%%&#44;&nbsp;%%Member_PostalCode%%.
+                          &#44;&nbsp;%%Member_State%%&#44;&nbsp;%%Member_Country%%.
                         </strong>
                       </center>
                       <br />

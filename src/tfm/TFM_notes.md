@@ -1,4 +1,4 @@
-# TFM PLACAS SOLARES ENDESA para Particulares y Empresas
+# TFM PLACAS SOLARES ENDESA para Particulares y Empresas desde Salesforce Marketing Cloud
 
 ## Campaign Limpia el planeta!
 
@@ -8,13 +8,13 @@
 
   - Opción 1: Que el usuario enchufe su placa solar dentro de un recuadro en la pag web (después de confirmar política de privacidad) y que aparezca un planeta más limpio o un mensaje de felicitación
   - Opción 2: Que el usuario limpie un recuadro que figura un planeta sucio y que cuanto más limpie mejor precio tendrá
-- Captación de cliente poseedor de placas solares desde el acceso público en la página web de ENDESA. Para no-cliente y para ex-cliente.
+- Captación de cliente poseedor de placas solares desde el acceso público en la página web de ENDESA. Para no-cliente y para ex-cliente
 - Nos lleva a la pag de tarifas y ésta nos proporciona un modal con una gamificación de LIMPIA EL PLANETA la cual proporciona un porcentaje de descuento del 20%(ENDESA proporciona un max de descuento hipotético). Coste de captación cero durante X tiempo (1 año)
 - La información recibida a través de un nologged desde from en CloudPage para crear las tablas:
 
   - ClientesLead(email, tel, isContactable, nombre, apellidos) Sentable
   - DescuentosCampaign(descuentoGanado)
-  - ProductosPlacasSolares(nombreProducto, precio).
+  - ProductosPlacasSolares(nombreProducto, precio)
 - Creación de contacto real "contactKey"
 - API Event (conexión de DE con Journey). Éste Journey con Split y envío de correo comercial por cada prod para finalizar compra. "REAL TIME"
 - Se realiza la solicitud de Contrato que comunique a ENDESA que el usuario desea contratar (Att. cliente y cierre contrato). Normalmente se informa al CRM y se realiza Campaign de Captación.
@@ -23,8 +23,11 @@
 - Split comprobando si el usuario
 - Engagement Split si no abre la comunicación enviar un reminder
 - ##### Notas:
-    - Tratar de evitar envíos los días viernes (estatísticamente está comprobado que es poco saludable para la empresa)
-    - Para tomar la info que viene de la CloudPage enviar todo a través de Query Params (ej. SET @email = RequestParameter('email'))
+
+
+  - Tratar de evitar envíos los días viernes (estatísticamente está comprobado que es poco saludable para la empresa)
+  - Para tomar la info que viene de la CloudPage enviar todo a través de Query Params (ej. SET @email = RequestParameter('email'))
+  - Se mejora la disposición de la página web original subsanado fallos como el z-index que corresponde al modal que se abre para elegir idioma en la página oficial (queda por debajo del subnav)
 
 ### Feedback (segundo caso de uso) Story-Telling
 
