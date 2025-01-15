@@ -1,29 +1,91 @@
 Explica esto:
 
 ```
-Landing de baja
+### Opciones para Accionar un Journey desde una Cloud Page
 
-En el email realizado en el caso de uso de la encuesta de satisfacción, incluir un enlace a la landing de baja.
-La landing de baja debe pedir al usuario el motivo de la misma, proporcionando distintas opciones y dando
-la posibilidad al usuario de escribir el motivo.
+1. **Usar la Entry Source "API Event"**
+   - La Entry Source "API Event" en el Journey Builder permite iniciar un Journey mediante una llamada a la REST API de Marketing Cloud. Este método es ideal para accionar un Journey desde una Cloud Page.
+   
+   ##### Pasos:
+   1. **Configurar el Journey**
+      - Ve a **Journey Builder** y selecciona **API Event** como la Entry Source.
+      - Configura el Event Definition Key (un identificador único para tu API Event).
+      - Publica el Journey.
 
-La baja se reflejará en All Subscribers y se recogerá en
-una data extension junto con el jobId del email origen de
-la baja.
-Una vez dado de baja, no se dará la posibilidad de
-resuscribirse ni de volver a darse de baja desde ningún
-email; se mostrará un mensaje.
-Leer la siguiente documentación:
-https://developer.salesforce.com/docs/marketing/mar
+   2. **Obtener el Access Token**
+      - En la Cloud Page, usa AMPscript o Server-Side JavaScript (SSJS) para autenticarte y obtener un Access Token necesario para las llamadas a la REST API.
+      - Ejemplo de AMPscript para obtener el token:
+        ```ampscript
+        %%[
+        SET @payload = CONCAT('{
+          "grant_type": "client_credentials",
+          "client_id": "', @clientId, '",
+          "client_secret": "', @clientSecret, '"
+        }')
 
-keting-
-cloud/guide/unsubscribing_and_logging_an_unsubeve
+        SET @accessTokenResponse = HTTPPost2('https://YOUR_SUBDOMAIN.auth.marketingcloudapis.com/v2/token', 'application/json', @payload, @httpStatus, @response)
+        SET @accessToken = FIELD(@accessTokenResponse, "access_token")
+        ]%%
+        ```
 
-nt_with_a_logunsubevent_execute_call.html
-https://gist.github.com/zuzannamj/17f78dddc9ceb3a0c7ec80092b4efca5
+   3. **Enviar los Datos a la API Event**
+      - Con el Access Token, realiza una llamada POST a la REST API para accionar el Journey.
+      - Ejemplo de llamada:
+        ```ampscript
+        %%[
+        SET @eventKey = "YOUR_EVENT_DEFINITION_KEY"
+        SET @payload = CONCAT('{
+          "ContactKey": "', @contactKey, '",
+          "EventDefinitionKey": "', @eventKey, '",
+          "Data": {
+            "attribute1": "', @value1, '",
+            "attribute2": "', @value2, '"
+          }
+        }')
+
+        SET @apiUrl = CONCAT('https://YOUR_SUBDOMAIN.rest.marketingcloudapis.com/interaction/v1/events')
+        SET @apiResponse = HTTPPost2(@apiUrl, 'application/json', @payload, @httpStatus, @response, @accessToken)
+        ]%%
+        ```
+
+   4. **Configurar la Cloud Page**
+      - Integra el AMPscript en la Cloud Page para ejecutar la lógica al cargarse o al enviar un formulario.
+
+---
+
+2. **Usar Data Extension como Entry Source**
+   - Alternativamente, puedes usar una Data Extension (DE) como Entry Source y actualizarla desde la Cloud Page.
+
+   ##### Pasos:
+   1. **Configurar el Journey**
+      - Selecciona una DE como Entry Source en el Journey.
+      - Publica el Journey.
+
+   2. **Actualizar la Data Extension desde la Cloud Page**
+      - Usa AMPscript para insertar o actualizar registros en la DE.
+      - Ejemplo:
+        ```ampscript
+        %%[
+        INSERTDATA('YourDataExtension', 'Email', @email, 'FirstName', @firstName, 'LastName', @lastName)
+        ]%%
+        ```
+
+   3. **Configurar la Cloud Page**
+      - Implementa un formulario o lógica que inserte los datos en la DE.
+
+   4. **Configurar un Automation (Opcional)**
+      - Si el Journey no se acciona automáticamente, puedes configurar un Automation para que procese los registros nuevos en la DE.
+
+---
+
+3. **Caso de uso práctico**
+
+Desarrolla también un caso de uso específico para una captación de clientes con lo comentado arriba, aplicando todo los pasos necesarios para conseguir el objetivo.
+
+El objetivo: Captación de clientes no-clientes poseedores de placas solares a través de un juego. Cuando el usuario realiza el juego y gana, obtendrá la posibilidad de apretar un botón para ser renderizado a una thank you page donde enviará sus datos (a través de un form) en el cual también consentirá el consentimiento de los datos personales y al apretar el botón de submit para confirmar el envío de la información, se accionará el API Event que se encargará de comenzar el flujo de un Journey que a su vez enviará un correo con los datos recopilados de la cloudPage (las tarifas posibles son 4)
 ```
 
-Usa el siguiente formato de texto para la explicación:
+"Usa el siguiente formato de texto para la explicación:" !important
 
 # Guía detallada para crear una Business Unit (BU) en Salesforce Marketing Cloud (SFMC):
 

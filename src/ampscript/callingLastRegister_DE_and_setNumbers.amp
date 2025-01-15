@@ -1,0 +1,46 @@
+%%[
+SET @ProductArray = "Solar Basic, Solar Plus, Solar Plus & Batería Virtual, Servicio Asesor Solar"
+SET @ProductRowset = BuildRowsetFromString(@ProductArray, ",")
+SET @RandomIndex = Random(1, RowCount(@ProductRowset))
+SET @SolarProduct = Field(Row(@ProductRowset, @RandomIndex), 1)
+/* SET @SolarProduct = 'Solar Basic' */
+SET @GameReward = '5%'
+IF @SolarProduct == 'Solar Basic' THEN
+  SET @GameReward = '20%'
+ELSEIF @SolarProduct == 'Solar Plus' THEN
+  SET @GameReward = '17%'
+ELSEIF @SolarProduct == 'Solar Plus & Batería Virtual' THEN
+  SET @GameReward = '15%'
+ELSE
+  SET @GameReward = '10%'
+ENDIF
+
+/* Valor inicial del PreContrato en caso de que sea el primer registro de la tabla */
+SET @StarterNum = 600001
+
+/* Agarramos el último registro */
+SET @LastRecordRow = LookupOrderedRows(
+  "DE_Captacion_Solar", 
+  1, 
+  "CreatedDate DESC", 
+  "isPolicy", "true"
+)
+IF RowCount(@LastRecordRow) > 0 THEN
+  SET @LastRecord = Row(@LastRecordRow, 1)
+  SET @PreContract = Field(@LastRecord, "PreContract")
+ENDIF
+IF Empty(@PreContract) THEN
+  SET @NewPreContract = Concat('CT', @StarterNum)
+ELSE
+  SET @Str = Substring(@PreContract, 3)
+  SET @Num = Add(@Str, 1)
+  SET @NewNum = FormatNumber(@Num, "d", "es-ES")
+  SET @NewPreContract = Concat('CT', @NewNum)
+ENDIF
+
+/* Modificamos el valor de @PreContract */
+SET @Str = Substring(@PreContract, 3)
+SET @Num = Add(@Str, 1)
+SET @NewNum = FormatNumber(@Num, "d", "es-ES")
+SET @NewPreContract = Concat('CT', @NewNum)
+]%%

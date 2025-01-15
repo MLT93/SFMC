@@ -1,0 +1,7 @@
+.thanku {
+  display: flex;
+  flex-flow: column nowrap;
+  place-content: center;
+
+  padding: 20px 0px;
+}

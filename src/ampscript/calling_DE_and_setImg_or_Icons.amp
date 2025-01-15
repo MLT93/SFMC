@@ -1,0 +1,54 @@
+%%[ 
+SET @User = _SubscriberKey
+SET @TipoCliente = "NNPP"
+SET @SolarProduct = AttributeValue('SolarProduct')
+SET @ImgTarifa = ""
+SET @IconTarifa = ""
+
+SET @RowSet = LookupRows('DE_Captacion_Solar', 'isPolicy', "true")
+SET @QuantityRows = RowCount(@RowSet)
+FOR @i = 1 TO @QuantityRows DO
+  SET @Element = Row(@RowSet, @i)
+  SET @GameReward = Field(@Element, 'GameReward')
+NEXT @i
+
+IF @SolarProduct == "Solar Basic" THEN
+  SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/436d37af-5c84-4502-9179-cc0ca3ad0063.png"
+  SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/a8d515ab-7485-4647-a8bf-97faca6e3318.png"
+ELSEIF @SolarProduct == "Solar Plus" THEN
+  SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/ee8f288f-a82e-4838-9a1d-2a1e29716c24.png"
+  SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/4a8f3466-193f-4788-8b1a-7769b61aa548.png"
+ELSEIF @SolarProduct == "Solar Plus & Batería Virtual" THEN
+  SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/b1d8deb0-ba62-495c-8f46-21f3cf7a8268.png"
+  SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/7b20445b-b033-481d-9d0d-31e70cb6a008.png"
+ELSE
+  SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/24e7ead4-ed05-4e36-b9f7-121315b6846f.png"
+  SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/506b09a8-e251-4f88-8933-fe368d9a5b3e.png"
+ENDIF
+
+SET @RedirectURL = IIF(@SolarProduct == "Solar Basic", "https://www.endesa.com/solar-basic", 
+                   IIF(@SolarProduct == "Solar Plus", "https://www.endesa.com/solar-plus", 
+                   IIF(@SolarProduct == "Solar Plus & Batería Virtual", "https://www.endesa.com/solar-plus-bateria", 
+                      "https://www.endesa.com/asesor-solar")))
+]%%
+
+<table>
+  <tr>
+    <td align="center" style="border-collapse: collapse">
+      <img
+        src="%%=V(@IconTarifa)=%%"
+        width="48"
+        alt="Tarifa"
+        style="border: 0px; display: block" />
+    </td>
+  </tr>
+                                <tr>
+    <td align="center" style="border-collapse: collapse">
+      <img
+        src="%%=V(@ImgTarifa)=%%"
+        width="48"
+        alt="Tarifa"
+        style="border: 0px; display: block" />
+    </td>
+  </tr>
+</table>

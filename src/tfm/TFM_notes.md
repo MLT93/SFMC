@@ -4,18 +4,20 @@
 
 ### Placas Solares desde la web (primer caso de uso)
 
-- Gamificación en modal:
+- Captación de ex-cliente y no-cliente poseedor de placas solares desde el acceso público en la página web de ENDESA.
+- Aquí estaremos en la pag de 4 tarifas (https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar). Al hacer click en algun link de las tarifas (Saber más) se abrirá un modal con una gamificación de LIMPIA EL PLANETA la cual proporciona un porcentaje de descuento del 20%(ENDESA proporciona un max de descuento hipotético). ¿Coste de captación cero durante X tiempo (1 año)?
 
-  - Opción 1: Que el usuario enchufe su placa solar dentro de un recuadro en la pag web (después de confirmar política de privacidad) y que aparezca un planeta más limpio o un mensaje de felicitación
-  - Opción 2: Que el usuario limpie un recuadro que figura un planeta sucio y que cuanto más limpie mejor precio tendrá
-- Captación de cliente poseedor de placas solares desde el acceso público en la página web de ENDESA. Para no-cliente y para ex-cliente
-- Nos lleva a la pag de tarifas y ésta nos proporciona un modal con una gamificación de LIMPIA EL PLANETA la cual proporciona un porcentaje de descuento del 20%(ENDESA proporciona un max de descuento hipotético). Coste de captación cero durante X tiempo (1 año)
-- La información recibida a través de un nologged desde from en CloudPage para crear las tablas:
+  - Gamificación en modal:
 
-  - ClientesLead(email, tel, isContactable, nombre, apellidos) Sentable
-  - DescuentosCampaign(descuentoGanado)
-  - ProductosPlacasSolares(nombreProducto, precio)
-- Creación de contacto real "contactKey"
+    - Opción 1: Que el usuario enchufe su placa solar dentro de un recuadro en la pag web (después de confirmar política de privacidad) y que aparezca un planeta más limpio o un mensaje de felicitación.
+- La información recibida a través de un nologged desde la CloudPage nos enviará a una ThakU Page donde crearemos un formulario para consentimientos, privacy y almacenamiento de la información del usuario para poblar las tablas (Data Extensions):
+
+  - DE_Clientes_Cartera
+  - DE_Contratos_Vigor_Total
+  - DE_Interactions_Web
+  - DE_LoyaltyProgramMember_Salesforce
+  - DE_TransactionJournal
+- Creación de contacto real "contactKey" a través de ejecución API.
 - API Event (conexión de DE con Journey). Éste Journey con Split y envío de correo comercial por cada prod para finalizar compra. "REAL TIME"
 - Se realiza la solicitud de Contrato que comunique a ENDESA que el usuario desea contratar (Att. cliente y cierre contrato). Normalmente se informa al CRM y se realiza Campaign de Captación.
 - Espera de 3 días

@@ -325,12 +325,34 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
           // Hacer aparecer el planeta limpio (por defecto accionará el efecto de effectRotateImg())
           objPlanetaLimpio.visible = true;
-          // Mostrar Descuento
+          // Mostrar descuento
           const descuento = document.getElementById('descuento');
           descuento.style.transition = 'all 0.7s ease 0.3s';
-          descuento.style.fontWeight = '600'
-          descuento.style.color = 'var(--color-magenta)'
+          descuento.style.fontWeight = '600';
+          descuento.style.color = 'var(--color-magenta)';
           descuento.style.visibility = 'visible';
+          // Cambiar valor de checkbox isPolicy
+          const isPolicy = document.getElementById('isPolicy');
+          isPolicy.addEventListener('change', () => {
+            if (isPolicy.checked) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          // Ocultar Canvas
+          const canvasElement = document.getElementById('gameCanvas');
+          setTimeout(() => {
+            canvasElement.style.display = 'none';
+          }, 1700);
+          // Mostrar form
+          setTimeout(() => {
+            const form = document.getElementById('form');
+            form.style.display = 'flex';
+            form.style.margin = 'auto';
+            form.style.flexFlow = 'column nowrap';
+            form.style.maxWidth = '500px';
+          }, 1900);
         }
 
         // Actualizar posición elementos

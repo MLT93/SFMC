@@ -1,45 +1,17 @@
 <div style="display: none">
 %%[
-SET @ProductArray = "Solar Basic, Solar Plus, Solar Plus & Batería Virtual, Servicio Asesor Solar"
-SET @ProductRowset = BuildRowsetFromString(@ProductArray, ",")
-SET @RandomIndex = Random(1, RowCount(@ProductRowset))
-SET @SolarProduct = Field(Row(@ProductRowset, @RandomIndex), 1)
-/* SET @SolarProduct = 'Solar Basic' */
-SET @GameReward = '5%'
-IF @SolarProduct == 'Solar Basic' THEN
-  SET @GameReward = '20%'
-ELSEIF @SolarProduct == 'Solar Plus' THEN
-  SET @GameReward = '17%'
-ELSEIF @SolarProduct == 'Solar Plus & Batería Virtual' THEN
-  SET @GameReward = '15%'
-ELSE
-  SET @GameReward = '10%'
-ENDIF
-
-SET @StarterNum = 600001
-SET @PreContract = ""
-SET @LastRecordRow = LookupOrderedRows(
-  "DE_Captacion_Solar", 
-  1, 
-  "CreatedDate DESC", 
-  "isPolicy", "true"
-)
-IF RowCount(@LastRecordRow) > 0 THEN
-  SET @LastRecord = Row(@LastRecordRow, 1)
-  SET @PreContract = Field(@LastRecord, "PreContract")
-ENDIF
-IF Empty(@PreContract) THEN
-  SET @NewPreContract = Concat('CT', @StarterNum)
-ELSE
-  SET @Str = Substring(@PreContract, 3)
-  SET @Num = Add(@Str, 1)
-  SET @NewNum = FormatNumber(@Num, "d", "es-ES")
-  SET @NewPreContract = Concat('CT', @NewNum)
-ENDIF
-
-SET @BaseURL = 'https://cloud.e.bmind.es/limpia_el_planeta_campaign_thankUpage'
-SET @QueryParams = Concat('?preContract=', @NewPreContract, '&gameReward=', @GameReward, '&solarProduct=', @SolarProduct)
-SET @ThankUPage = Concat(@BaseURL, @QueryParams)
+SET @SubKey = GUID()
+SET @FirstName = RequestParameter('firstName')
+SET @LastName = RequestParameter('lastName')
+SET @EmailAddress = RequestParameter('email')
+SET @Birthday = RequestParameter('birthday')
+SET @GameReward = RequestParameter('gameReward')
+SET @SolarProduct = RequestParameter('solarProduct')
+SET @PreContract = RequestParameter('preContract')
+SET @isPolicy = RequestParameter('isPolicy')
+SET @SystemDate  = Now(1)
+SET @CreatedDate =  SystemDateToLocalDate(@SystemDate)
+InsertDE('DE_Captacion_Solar', 'SubscriberKey', @SubKey, 'EmailAddress', @EmailAddress, 'FirstName', @FirstName, 'LastName', @LastName, 'Birthday', @Birthday, 'GameReward', @GameReward, 'SolarProduct', @SolarProduct, 'PreContract', @PreContract, 'isPolicy', @isPolicy, 'CreatedDate', @CreatedDate)
 ]%%
 </div>
 <!DOCTYPE html>
@@ -235,105 +207,20 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
       </a>
       <!-- END BANNER -->
 
-      <!-- START MODAL -->
-      <div class="action-modal">
-        <button id="openModal" class="open-modal">
+      <!-- START THANKS -->
+      <section class="wrapper thanku">
+        <h3>¡Gracias! ¡Tu tarifa ha sido registrada!</h3>
+        <div>
           <div>
-            <img
-              src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/55f653e0-880d-4471-a97d-2803be3833fb.png"
-              alt="Casa alimentada con placas solares" />
+            <p>
+              Los datos personales contenidos en este e-mail son tratados por la EMPRESA, con domicilio en
+              Madrid, con la finalidad de mantener el contacto con usted, dar respuesta a sus solicitudes,
+              peticiones y mantener o ejecutar correctamente la relación contractual.
+            </p>
           </div>
-          <span class="open-modal__txt">Poseedor de Placas <br />Solares</span>
-        </button>
-      </div>
-
-      <section id="modal" class="modal">
-        <div class="modal__content">
-          <!-- La "x" -->
-          <span id="closeModal" class="modal__close"> &times; </span>
-          <div class="modal__titles">
-            <h2>¡Limpia el Planeta!</h2>
-            <h3>¡Enchufa tu Placa Solar y consigue maravillas!</h3>
-          </div>
-          <img
-            hidden
-            id="treesBackground"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/5c0e9867-f5e4-40c2-9d79-4b4569b216b6.png"
-            alt="Paisaje con árboles sin fondo" />
-          <img
-            hidden
-            id="imgError"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/e3fd6223-765f-40d6-acb3-3f8cb61fcbac.png"
-            alt="Imagen de error" />
-          <img
-            hidden
-            id="panelSolar"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/b33cca44-0fd0-42ef-b794-01027e6cdbe2.png"
-            alt="Panel Solar" />
-          <img
-            hidden
-            id="planetaLimpio"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/cfaf2d33-47a9-4aca-9834-6d3fcf4a347f.png"
-            alt="Planeta Tierra limpio" />
-          <img
-            hidden
-            id="planetaSucio"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/c11133e2-b7e1-4050-bbf7-af98bfa0ff5e.png"
-            alt="Planeta Tierra sucio" />
-          <img
-            hidden
-            id="enchufe"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/66202279-eaed-4249-9637-b8be694b1a8f.png"
-            alt="Planeta Tierra sucio" />
-          <img
-            hidden
-            id="schuko"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/1a3db217-b3d2-4259-9b07-96b2528ae784.png"
-            alt="Planeta Tierra sucio" />
-          <canvas id="gameCanvas"></canvas>
-          <!-- START DESCUENTO -->
-          <h3 id="descuento" class="descuento vis-hidden">
-            ¡Has conseguido el %%=V(@GameReward)=%% de descuento en tu tarifa!
-          </h3>
-          <!-- END DESCUENTO -->
         </div>
       </section>
-      <!-- END MODAL -->
-
-      <!-- START FORM + POLICY -->
-      <form
-        id="form"
-        action="%%=V(@ThankUPage)=%%"
-        method="POST"
-        role="form"
-        class="wrapper"
-        style="display: none">
-        <label for="firstName">Nombre*</label>
-        <input type="text" id="firstName" name="firstName" required /><br />
-
-        <label for="lastName">Apellidos*</label>
-        <input type="text" id="lastName" name="lastName" required /><br />
-
-        <label for="email">Email*</label>
-        <input type="email" id="email" name="email" required /><br />
-
-        <label for="birthday">Fecha de nacimiento*</label>
-        <input type="date" id="birthday" name="birthday" /><br />
-
-        <div>
-          <input 
-            type="checkbox" 
-            name="isPolicy" 
-            id="isPolicy" 
-            value="true"
-            required
-          />
-          <label for="isPolicy">Consentimientos del tratamiento de datos personales*</label>
-        </div>
-        <br />
-        <button type="submit" name="submit">Enviar</button>
-      </form>
-      <!-- END FORM + POLICY-->
+      <!-- END THANKS -->
     </main>
     <!-- END MAIN -->
     <!-- START FOOTER -->

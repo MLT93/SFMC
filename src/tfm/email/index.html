@@ -1,21 +1,39 @@
-%%[ 
-VAR @User, @TipoTarifa, @IconoTarifa
-
+%%[
 SET @User = _SubscriberKey
-SET @TipoTarifa = AttributeValue("TipoTarifa")
-SET @IconoTarifa = ""
+SET @TipoCliente = "NNPP"
+SET @SolarProduct = AttributeValue("SolarProduct") /* Asegúrate de que el valor correcto se obtiene aquí */
+SET @ImgTarifa = ""
+SET @IconTarifa = ""
 
-IF @TipoTarifa == "Tarifa A" THEN
-  SET @IconoTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/7b20445b-b033-481d-9d0d-31e70cb6a008.png"
-ELSEIF @TipoTarifa == "Tarifa B" THEN
-  SET @IconoTarifa = "img/IconoTarifa2.png"
-ELSEIF @TipoTarifa == "Tarifa C" THEN
-  SET @IconoTarifa = "img/IconoTarifa3.png"
-ELSEIF @TipoTarifa == "Tarifa D" THEN
-  SET @IconoTarifa = "img/IconoTarifa4.png"
-ELSE
-  SET @IconoTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/55f653e0-880d-4471-a97d-2803be3833fb.png"
-ENDIF
+SET @RowSet = LookupRows('DE_Captacion_Solar', 'isPolicy', "true")
+SET @QuantityRows = RowCount(@RowSet)
+FOR @i = 1 TO @QuantityRows DO
+  SET @Element = Row(@RowSet, @i)
+  SET @SolarProduct = Field(@Element, 'SolarProduct')
+  SET @GameReward = Field(@Element, 'GameReward')
+
+  /* Depuración: Imprime el valor de @SolarProduct */
+  Output(Concat("Valor de @SolarProduct: ", @SolarProduct))
+
+  IF @SolarProduct == ' Solar Basic' THEN
+    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/436d37af-5c84-4502-9179-cc0ca3ad0063.png"
+    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/a8d515ab-7485-4647-a8bf-97faca6e3318.png"
+  ELSEIF @SolarProduct == ' Solar Plus' THEN
+    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/ee8f288f-a82e-4838-9a1d-2a1e29716c24.png"
+    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/4a8f3466-193f-4788-8b1a-7769b61aa548.png"
+  ELSEIF @SolarProduct == ' Solar Plus & Batería Virtual' THEN
+    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/b1d8deb0-ba62-495c-8f46-21f3cf7a8268.png"
+    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/7b20445b-b033-481d-9d0d-31e70cb6a008.png"
+  ELSE
+    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/24e7ead4-ed05-4e36-b9f7-121315b6846f.png"
+    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/506b09a8-e251-4f88-8933-fe368d9a5b3e.png"
+  ENDIF
+NEXT @i
+
+SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar#tabla", 
+                   IIF(@SolarProduct == ' Solar Plus', "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=2&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619", 
+                   IIF(@SolarProduct == ' Solar Plus & Batería Virtual', "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=3&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619", 
+                      "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=4&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619")))
 ]%%
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -455,7 +473,7 @@ ENDIF
                   ></strong
                 ><br />
                 Este email es para ti,
-                <strong style="color: #000">%%NOMBRE%%</strong>
+                <strong style="color: #000">%%FIRSTNAME%%</strong>
               </td>
             </tr>
           </table>
@@ -498,6 +516,7 @@ ENDIF
                   title="Contactos Endesa"
                   width="256"
                   style="border: 0px; display: block" />
+                <p></p>
               </td>
             </tr>
           </table>
@@ -534,6 +553,7 @@ ENDIF
                   border="0"
                   cellpadding="0"
                   cellspacing="0">
+                  <!-- START BACKGROUND -->
                   <tr>
                     <td align="center" style="border-collapse: collapse">
                       <!-- START IMAGEN BACKGROUND CONTAINER -->
@@ -639,7 +659,7 @@ ENDIF
                                           mso-line-height-rule: exactly;
                                           padding-top: 25px;
                                         ">
-                                        Aqu&iacute;&nbsp;está&nbsp;tu&nbsp;tarifa!
+                                        Aqu&iacute;&nbsp;está&nbsp;tu&nbsp;tarifa!&nbsp;%%=V(@SolarProduct)=%%
                                       </td>
                                     </tr>
                                   </table>
@@ -658,6 +678,8 @@ ENDIF
                       <!-- END IMAGEN BACKGROUND CONTAINER -->
                     </td>
                   </tr>
+                  <!-- END BACKGROUND -->
+
                   <!-- START RECUADRO -->
                   <tr>
                     <td align="center" style="border-collapse: collapse">
@@ -698,8 +720,8 @@ ENDIF
                               <tr>
                                 <td align="center" style="border-collapse: collapse">
                                   <img
-                                    src="img/icono1.png"
-                                    width="20"
+                                    src="%%=V(@IconTarifa)=%%"
+                                    width="48"
                                     alt="Tarifa"
                                     style="border: 0px; display: block" />
                                 </td>
@@ -748,7 +770,7 @@ ENDIF
                                         "
                                         align="center">
                                         Hola
-                                        <strong style="color: #0047cc">%%NOMBRE%%</strong>,<br /><br />
+                                        <strong style="color: #0047cc">%%FIRSTNAME%%</strong>,<br /><br />
                                         aqu&iacute;&nbsp;tienes&nbsp;el&nbsp;detalle:
                                       </td>
                                     </tr>
@@ -786,9 +808,7 @@ ENDIF
                                           mso-line-height-rule: exactly;
                                           padding-left: 5px;
                                           padding-top: 10px;
-                                        ">
-                                        ESCRIBIR AQUÍ
-                                      </td>
+                                        "></td>
                                     </tr>
                                   </table>
                                 </td>
@@ -824,8 +844,8 @@ ENDIF
                                           padding-left: 5px;
                                         ">
                                         <strong
-                                          >Has conseguido un 20% gracias a tu
-                                          voluntad por limpiar el planeta!</strong
+                                          >Has conseguido un %%=V(@GameReward)=%% gracias a tu voluntad por
+                                          limpiar el planeta!</strong
                                         >
                                       </td>
                                     </tr>
@@ -841,17 +861,17 @@ ENDIF
                   </tr>
                   <!-- END RECUADRO -->
 
-                  <!-- START ICONO -->
+                  <!-- START IMG TARIFA -->
                   <tr>
-                    <td align="center" style="border-collapse: collapse">
+                    <td align="left" style="border-collapse: collapse; padding-left: 75px">
                       <img
-                        src="img/icono2.png"
-                        width="26"
-                        alt="Pct descuento"
+                        src="%%=V(@ImgTarifa)=%%"
+                        width="350"
+                        alt="Imagen de la tarifa obtenida"
                         style="border: 0px; display: block" />
                     </td>
                   </tr>
-                  <!-- END ICONO -->
+                  <!-- END IMG TARIFA -->
 
                   <!-- START TEXTO -->
                   <tr>
@@ -991,7 +1011,7 @@ ENDIF
                           <v:roundrect
                             xmlns:v="urn:schemas-microsoft-com:vml"
                             xmlns:w="urn:schemas-microsoft-com:office:word"
-                            href="#aqui-va-un-iif-dependiendo-del-producto-a-la-pag-endesa"
+                            href="%%=V(@RedirectURL)=%%"
                             style="height: 37.5pt; v-text-anchor: middle; width: 172.5pt"
                             arcsize="100%"
                             strokecolor="#d3135a"
@@ -1011,7 +1031,7 @@ ENDIF
                           </v:roundrect>
                         <![endif]-->
                         <a
-                          href="#aqui-va-un-iif-dependiendo-del-producto-a-la-pag-endesa"
+                          href="%%=V(@RedirectURL)=%%"
                           style="
                             -webkit-text-size-adjust: none;
                             background-color: #d3135a;
@@ -1045,6 +1065,7 @@ ENDIF
               </td>
             </tr>
           </table>
+          <!-- END MAIN -->
 
           <!-- START IMG SLOGAN -->
           <table
@@ -1179,7 +1200,7 @@ ENDIF
                     >%%_SubscriberKey%%</span
                   >
                   <span style="text-align: center; font-size: 11px; color: transparent"
-                    >%%Tipo_cliente%%</span
+                    >%%=V(@TipoCliente)=%%</span
                   >
                 </center>
               </td>

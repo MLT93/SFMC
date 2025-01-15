@@ -392,7 +392,6 @@ main {
   padding: 20px;
   border-radius: 0.2rem;
   text-align: center;
-  width: 37.5rem;
   position: relative;
 }
 
@@ -410,13 +409,21 @@ main {
   font-size: 1.5rem;
 }
 
-.modal__canvas {
-  width: 80%;
-  height: 80%;
-}
-
 .descuento {
   padding-top: 0.875rem;
+}
+
+[id="form"] > div {
+  display: flex;
+  gap: 1rem;
+}
+
+[id="form"] > button {
+  display: flex;
+
+  margin: auto;
+
+  padding: 10px 20px;
 }
 
 @media (width > 1080px) {

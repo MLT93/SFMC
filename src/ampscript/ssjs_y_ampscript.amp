@@ -28,11 +28,11 @@
   // Toma las variables de AMPScript
   var nombre = Platform.Variable.GetValue("@A");
   var apellido = Platform.Variable.GetValue("@N");
-  
+
   // Asigna nuevos valores a las variables
   nombre = "Hola";
   apellido = "Mundo";
-  
+
   // Envía los nuevos valores de vuelta a AMPScript
   Platform.Variable.SetValue("@Hola", nombre);
   Platform.Variable.SetValue("@Mundo", apellido);
@@ -41,6 +41,7 @@
 <!-- AMPSCRIPT -->
 %%[
   VAR @DesdeSSJSHola, @DesdeSSJSMundo, @HolaMundo
+
   SET @DesdeSSJSHola = @Hola
   SET @DesdeSSJSMundo = @Mundo
   SET @HolaMundo = Concat(@DesdeSSJSHola, " ", @DesdeSSJSMundo) /* Después se pone %%=V(@HolaMundo)=%% en un TAG `<p>` y listo */
