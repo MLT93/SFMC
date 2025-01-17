@@ -71,6 +71,25 @@ FROM DE_Contratos
 WHERE DATEDIFF(MONTH, fecha_alta, GETDATE()) <= 6;
 ```
 
+**Ejemplo 3:**
+Comprobar correos enviados en los últimos 3 días usando _Open y _Sent:
+``` sql
+SELECT
+    s.SubscriberKey,
+    s.EventDate AS EmailSentDate,
+    CASE
+        WHEN o.EventDate IS NOT NULL AND DATEDIFF(DAY, o.EventDate, GETDATE()) <= 3 THEN 'True'
+        ELSE 'False'
+    END AS isEmailOpenedIn3Days,
+    o.EventDate AS LastOpenedDate
+FROM
+    _Sent s
+LEFT JOIN
+    _Open o ON s.SubscriberKey = o.SubscriberKey AND s.JobID = o.JobID
+WHERE
+    s.EventDate >= DATEADD(DAY, -3, GETDATE()) -- Correos enviados en los últimos 3 días
+```
+
 ### **`DATEADD`: Sumar intervalos de tiempo**
 **Ejemplo práctico:**
 Añadir 3 meses a la fecha de alta para calcular el próximo contacto:

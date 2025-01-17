@@ -1,11 +1,10 @@
 <div style="display: none">
 %%[
 SET @ProductArray = "Solar Basic, Solar Plus, Solar Plus & Batería Virtual, Servicio Asesor Solar"
-SET @ProductRowset = BuildRowsetFromString(@ProductArray, ",")
+SET @ProductRowset = BuildRowsetFromString(@ProductArray, ", ")
 SET @RandomIndex = Random(1, RowCount(@ProductRowset))
 SET @SolarProduct = Field(Row(@ProductRowset, @RandomIndex), 1)
-/* SET @SolarProduct = 'Solar Basic' */
-SET @GameReward = '5%'
+
 IF @SolarProduct == 'Solar Basic' THEN
   SET @GameReward = '20%'
 ELSEIF @SolarProduct == 'Solar Plus' THEN
@@ -17,7 +16,7 @@ ELSE
 ENDIF
 
 SET @StarterNum = 600001
-SET @PreContract = ""
+VAR @PreContract
 SET @LastRecordRow = LookupOrderedRows(
   "DE_Captacion_Solar", 
   1, 
@@ -28,13 +27,13 @@ IF RowCount(@LastRecordRow) > 0 THEN
   SET @LastRecord = Row(@LastRecordRow, 1)
   SET @PreContract = Field(@LastRecord, "PreContract")
 ENDIF
-IF Empty(@PreContract) THEN
+IF Empty(@PreContract) OR @PreContract == "" THEN
   SET @NewPreContract = Concat('CT', @StarterNum)
 ELSE
   SET @Str = Substring(@PreContract, 3)
-  SET @Num = Add(@Str, 1)
-  SET @NewNum = FormatNumber(@Num, "d", "es-ES")
-  SET @NewPreContract = Concat('CT', @NewNum)
+  SET @Num = FormatNumber(@Str, "G")
+  SET @NewNum = Add(@Num, 1)
+  SET @NewPreContract = Concat("CT", @NewNum)
 ENDIF
 
 SET @BaseURL = 'https://cloud.e.bmind.es/limpia_el_planeta_campaign_thankUpage'
@@ -243,7 +242,7 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
               src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/55f653e0-880d-4471-a97d-2803be3833fb.png"
               alt="Casa alimentada con placas solares" />
           </div>
-          <span class="open-modal__txt">Poseedor de Placas <br />Solares</span>
+          <span class="open-modal__txt">Placas&nbsp;Solares</span>
         </button>
       </div>
 
@@ -300,7 +299,7 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
       </section>
       <!-- END MODAL -->
 
-      <!-- START FORM + POLICY -->
+      <!-- START FORM -->
       <form
         id="form"
         action="%%=V(@ThankUPage)=%%"
@@ -321,19 +320,148 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
         <input type="date" id="birthday" name="birthday" /><br />
 
         <div>
-          <input 
-            type="checkbox" 
-            name="isPolicy" 
-            id="isPolicy" 
-            value="true"
-            required
-          />
+          <input type="checkbox" name="isPolicy" id="isPolicy" value="true" required />
           <label for="isPolicy">Consentimientos del tratamiento de datos personales*</label>
         </div>
         <br />
         <button type="submit" name="submit">Enviar</button>
       </form>
-      <!-- END FORM + POLICY-->
+
+      <div class="welcome-back--content">
+        <!-- START PREVENCIÓN DOBLE REGISTRO DE ENCUESTA -->
+        %%[IF RowCount(@RowSet) != 0 THEN]%%
+        <div align="center">
+          <h2>Usted ya ha contestado la encuesta</h2>
+        </div>
+        %%[ELSE]%%
+        <form
+          action="%%=RedirectTo(CloudPagesURL(9802))=%%"
+          class="welcome-back--content"
+          method="post"
+          role="form">
+          <div class="welcome-back--content-block">
+            <div class="welcome-back--content-block-title">
+              ¿Con qué probabilidad recomendarías este servicio a sus amigos, familiares o compañeros?
+            </div>
+            <div class="welcome-back--content-block-subtitle">
+              Indique su respuesta en una escala del 0 al 10, donde 0 significa "Muy poco probable" y 10
+              significa "Muy probable".
+            </div>
+            <!-- START RADIO BUTTONS -->
+            <div class="welcome-back--content-block-secondform">
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="1"
+                  required />
+                <label>01</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="2" />
+                <label>02</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="3" />
+                <label>03</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="4" />
+                <label>04</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="5" />
+                <label>05</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="6" />
+                <label>06</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="7" />
+                <label>07</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="8" />
+                <label>08</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="9" />
+                <label>09</label>
+              </div>
+              <div class="welcome-back--content-block-secondform-input">
+                <input
+                  class="welcome-back--content-block-input"
+                  type="radio"
+                  name="punt_recommand"
+                  value="10" />
+                <label>10</label>
+              </div>
+            </div>
+            <!-- END RADIO BUTTONS -->
+          </div>
+          <!-- START TEXTAREA -->
+          <div class="welcome-back--content-block">
+            <div class="welcome-back--content-block-title">
+              Nos gustaría saber por qué ha elegido esa puntuación.
+            </div>
+            <textarea
+              name="reason"
+              class="welcome-back--content-block-textarea"
+              placeholder="Responda aquí"
+              rows="8"
+              cols="80"
+              required></textarea>
+          </div>
+          <!-- END TEXTAREA -->
+          <!-- START HIDDEN INPUT FOR THANK U PAGE-->
+          <div>
+            <input type="hidden" name="num_contrato" value="%%=V(@QueryParamNumContrato)=%%" />
+            <input type="hidden" name="sub_key" value="%%=V(@SubKey)=%%" />
+          </div>
+          <!-- END HIDDEN INPUT FOR THANK U PAGE-->
+          <div class="welcome-back--content-submit">
+            <input class="welcome-back--content-submit-button" type="submit" value="ENVIAR" />
+            <div class="welcome-back--content-submit-thanksyou">Muchas gracias por su tiempo.</div>
+          </div>
+        </form>
+        %%[ENDIF]%%
+        <!-- END PREVENCIÓN DOBLE REGISTRO DE ENCUESTA -->
+      </div>
+      <!-- END FORM -->
     </main>
     <!-- END MAIN -->
     <!-- START FOOTER -->

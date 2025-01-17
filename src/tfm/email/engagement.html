@@ -1,7 +1,7 @@
 %%[
 SET @User = _SubscriberKey
 SET @TipoCliente = "NNPP"
-SET @SolarProduct = AttributeValue("SolarProduct") /* Asegúrate de que el valor correcto se obtiene aquí */
+SET @SolarProduct = AttributeValue("SolarProduct")
 SET @ImgTarifa = ""
 SET @IconTarifa = ""
 
@@ -11,9 +11,6 @@ FOR @i = 1 TO @QuantityRows DO
   SET @Element = Row(@RowSet, @i)
   SET @SolarProduct = Field(@Element, 'SolarProduct')
   SET @GameReward = Field(@Element, 'GameReward')
-
-  /* Depuración: Imprime el valor de @SolarProduct 
-  Output(Concat("Valor de @SolarProduct: ", @SolarProduct)) */
 
   IF @SolarProduct == ' Solar Basic' THEN
     SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/436d37af-5c84-4502-9179-cc0ca3ad0063.png"
@@ -770,8 +767,7 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                                         "
                                         align="center">
                                         Hola
-                                        <strong style="color: #0047cc">%%FIRSTNAME%%</strong>,<br /><br />
-                                        aqu&iacute;&nbsp;tienes&nbsp;el&nbsp;detalle:
+                                        <strong style="color: #0047cc">%%FIRSTNAME%%</strong>,
                                       </td>
                                     </tr>
                                   </table>
@@ -838,14 +834,13 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                                         style="
                                           border-collapse: collapse;
                                           color: #333;
-                                          font-size: 13px;
+                                          font-size: 14px;
                                           line-height: 17px;
                                           mso-line-height-rule: exactly;
                                           padding-left: 5px;
                                         ">
                                         <strong
-                                          >Has conseguido un %%=V(@GameReward)=%% gracias a tu voluntad por
-                                          limpiar el planeta!</strong
+                                          >¡Hoy es tu último día para conseguir un %%=V(@GameReward)=%% en tu tarifa!</strong
                                         >
                                       </td>
                                     </tr>

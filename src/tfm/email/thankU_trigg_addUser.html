@@ -1,39 +1,25 @@
 %%[
-SET @User = _SubscriberKey
-SET @TipoCliente = "NNPP"
-SET @SolarProduct = AttributeValue("SolarProduct") /* Asegúrate de que el valor correcto se obtiene aquí */
-SET @ImgTarifa = ""
-SET @IconTarifa = ""
+SET @ImgCasaSolar = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/abc07ce1-d733-4cd6-8f47-f6a2f3aef996.png"
+SET @SubscriberKey = _SubscriberKey
+SET @EmailAddress = EmailAddr
+SET @Nombre = FirstName
+SET @Apellido = LastName
+SET @Tipo_cliente = "PPSS"
+SET @Idioma = "Español"
+SET @Robinson = 0
+SET @RGPD_No_Molestar = 0
+SET @Saturado = 0
+SET @FechaNacimiento = Birthday
+SET @Riesgo_Baja_AA = "Bajo"
 
-SET @RowSet = LookupRows('DE_Captacion_Solar', 'isPolicy', "true")
-SET @QuantityRows = RowCount(@RowSet)
-FOR @i = 1 TO @QuantityRows DO
-  SET @Element = Row(@RowSet, @i)
-  SET @SolarProduct = Field(@Element, 'SolarProduct')
-  SET @GameReward = Field(@Element, 'GameReward')
+SET @RowSet = LookupRows('DE_Cartera_Clientes_Triggered', 'SubscriberKey', @SubscriberKey)
+SET @RowCount = RowCount(@RowSet)
 
-  /* Depuración: Imprime el valor de @SolarProduct 
-  Output(Concat("Valor de @SolarProduct: ", @SolarProduct)) */
+IF @RowCount == 0 THEN
+  InsertDE('DE_Cartera_Clientes_Triggered', 'SubscriberKey', @SubscriberKey, 'EmailAddress', @EmailAddress, 'Nombre', @Nombre, 'Apellido', @Apellido, 'Tipo_cliente', @Tipo_cliente, 'Idioma', @Idioma, 'Robinson', @Robinson, 'RGPD_No_Molestar', @RGPD_No_Molestar, 'Saturado', @Saturado, 'FechaNacimiento', @FechaNacimiento, 'Riesgo_Baja_AA', @Riesgo_Baja_AA)
+ENDIF
 
-  IF @SolarProduct == ' Solar Basic' THEN
-    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/436d37af-5c84-4502-9179-cc0ca3ad0063.png"
-    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/a8d515ab-7485-4647-a8bf-97faca6e3318.png"
-  ELSEIF @SolarProduct == ' Solar Plus' THEN
-    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/ee8f288f-a82e-4838-9a1d-2a1e29716c24.png"
-    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/4a8f3466-193f-4788-8b1a-7769b61aa548.png"
-  ELSEIF @SolarProduct == ' Solar Plus & Batería Virtual' THEN
-    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/b1d8deb0-ba62-495c-8f46-21f3cf7a8268.png"
-    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/7b20445b-b033-481d-9d0d-31e70cb6a008.png"
-  ELSE
-    SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/24e7ead4-ed05-4e36-b9f7-121315b6846f.png"
-    SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/506b09a8-e251-4f88-8933-fe368d9a5b3e.png"
-  ENDIF
-NEXT @i
-
-SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar#tabla", 
-                   IIF(@SolarProduct == ' Solar Plus', "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=2&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619", 
-                   IIF(@SolarProduct == ' Solar Plus & Batería Virtual', "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=3&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619", 
-                      "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=4&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619")))
+Output(Concat("RowCount: ", @RowCount))
 ]%%
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -659,7 +645,7 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                                           mso-line-height-rule: exactly;
                                           padding-top: 25px;
                                         ">
-                                        Aqu&iacute;&nbsp;está&nbsp;tu&nbsp;tarifa!&nbsp;%%=V(@SolarProduct)=%%
+                                        %%=V(@SolarProduct)=%%
                                       </td>
                                     </tr>
                                   </table>
@@ -716,18 +702,6 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                               border="0"
                               cellpadding="0"
                               cellspacing="0">
-                              <!-- START ICONO TARIFA -->
-                              <tr>
-                                <td align="center" style="border-collapse: collapse">
-                                  <img
-                                    src="%%=V(@IconTarifa)=%%"
-                                    width="48"
-                                    alt="Tarifa"
-                                    style="border: 0px; display: block" />
-                                </td>
-                              </tr>
-                              <!-- END ICONO TARIFA -->
-
                               <!-- START TEXTO -->
                               <tr>
                                 <td
@@ -770,8 +744,7 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                                         "
                                         align="center">
                                         Hola
-                                        <strong style="color: #0047cc">%%FIRSTNAME%%</strong>,<br /><br />
-                                        aqu&iacute;&nbsp;tienes&nbsp;el&nbsp;detalle:
+                                        <strong style="color: #0047cc">%%FIRSTNAME%%</strong>,
                                       </td>
                                     </tr>
                                   </table>
@@ -799,54 +772,19 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                                     cellspacing="0">
                                     <tr>
                                       <td
-                                        align="left"
+                                        align="center"
                                         style="
                                           border-collapse: collapse;
                                           color: #333;
-                                          font-size: 13px;
+                                          font-size: 14px;
                                           line-height: 17px;
                                           mso-line-height-rule: exactly;
                                           padding-left: 5px;
                                           padding-top: 10px;
-                                        "></td>
-                                    </tr>
-                                  </table>
-                                </td>
-                              </tr>
-                              <!-- END TEXTO -->
-
-                              <!-- START TEXTO -->
-                              <tr>
-                                <td align="center" style="border-collapse: collapse; padding-bottom: 5px">
-                                  <table
-                                    align="center"
-                                    width="90%"
-                                    style="
-                                      -ms-text-size-adjust: 100%;
-                                      -webkit-text-size-adjust: 100%;
-                                      border-collapse: collapse;
-                                      border-spacing: 0px;
-                                      mso-table-lspace: 0pt;
-                                      mso-table-rspace: 0pt;
-                                    "
-                                    border="0"
-                                    cellpadding="0"
-                                    cellspacing="0">
-                                    <tr>
-                                      <td
-                                        align="left"
-                                        style="
-                                          border-collapse: collapse;
-                                          color: #333;
-                                          font-size: 13px;
-                                          line-height: 17px;
-                                          mso-line-height-rule: exactly;
-                                          padding-left: 5px;
-                                        ">
-                                        <strong
-                                          >Has conseguido un %%=V(@GameReward)=%% gracias a tu voluntad por
-                                          limpiar el planeta!</strong
-                                        >
+                                        ">                                        <strong
+                                          >¡Gracias por ser parte de de Endesa!</strong
+                                        ><br /><br />
+                                        ¡Tu ahorro empiza ya!
                                       </td>
                                     </tr>
                                   </table>
@@ -860,18 +798,18 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                     </td>
                   </tr>
                   <!-- END RECUADRO -->
-
-                  <!-- START IMG TARIFA -->
+                  
+                  <!-- START IMG CASA -->
                   <tr>
-                    <td align="left" style="border-collapse: collapse; padding-left: 75px">
+                    <td align="center" style="border-collapse: collapse; padding-bottom: 10px;">
                       <img
-                        src="%%=V(@ImgTarifa)=%%"
-                        width="350"
-                        alt="Imagen de la tarifa obtenida"
+                        src="%%=V(@ImgCasaSolar)=%%"
+                        width="400"
+                        alt="Imagen de una casa con placas solares"
                         style="border: 0px; display: block" />
                     </td>
                   </tr>
-                  <!-- END IMG TARIFA -->
+                  <!-- END IMG CASA -->
 
                   <!-- START TEXTO -->
                   <tr>
@@ -901,8 +839,6 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                               padding-top: 25px;
                             "
                             align="center">
-                            ¿Sabías que el sol puede ser tu aliado para ahorrar energía?
-                            <br />
                             <br />
                             <strong
                               >Más de 10,000 hogares ya confían en Endesa Solar para generar su propia
@@ -994,6 +930,8 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                             <strong>Planes adaptados a tus necesidades.</strong> <br />
                             <br />
                             <strong>Gracias por confiar en nosotros.</strong>
+                            <br />
+                            <br />
                           </td>
                         </tr>
                       </table>
@@ -1001,66 +939,7 @@ SET @RedirectURL = IIF(@SolarProduct == ' Solar Basic', "https://www.endesa.com/
                   </tr>
                   <!-- END TEXTO -->
 
-                  <!-- START CTA + MSO -->
-                  <tr>
-                    <td
-                      align="center"
-                      style="border-collapse: collapse; padding-bottom: 30px; padding-top: 25px">
-                      <div>
-                        <!--[if mso]>
-                          <v:roundrect
-                            xmlns:v="urn:schemas-microsoft-com:vml"
-                            xmlns:w="urn:schemas-microsoft-com:office:word"
-                            href="%%=V(@RedirectURL)=%%"
-                            style="height: 37.5pt; v-text-anchor: middle; width: 172.5pt"
-                            arcsize="100%"
-                            strokecolor="#d3135a"
-                            fillcolor="#d3135a">
-                            <w:anchorlock />
-                            <center
-                              style="
-                                color: #fff;
-                                font-family: Arial, sans-serif;
-                                font-size: 13px;
-                                letter-spacing: 2px;
-                                mso-line-height-rule: exactly;
-                                line-height: 15px;
-                              ">
-                              ME APUNTO
-                            </center>
-                          </v:roundrect>
-                        <![endif]-->
-                        <a
-                          href="%%=V(@RedirectURL)=%%"
-                          style="
-                            -webkit-text-size-adjust: none;
-                            background-color: #d3135a;
-                            border: 0;
-                            border-radius: 10px;
-                            color: #fff;
-                            display: inline-block;
-                            font-size: 18px;
-                            letter-spacing: 2px;
-                            mso-hide: all;
-                            line-height: 40px;
-                            padding-left: 20px;
-                            padding-right: 20px;
-                            text-align: center;
-                            text-decoration: none;
-                            width: auto;
-                            -webkit-transition: all 0.2s linear;
-                            transition: all 0.2s linear;
-                          "
-                          target="_blank"
-                          >ME APUNTO</a
-                        >
-                      </div>
-                      <!-- <br /><br />
-                      <strong>Atentamente&#44;</strong> <br />
-                      <strong style="color: #0047cc">Endesa Energía</strong> -->
-                    </td>
-                  </tr>
-                  <!-- END CTA + MSO -->
+
                 </table>
               </td>
             </tr>
