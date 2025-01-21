@@ -1,0 +1,18 @@
+%%[
+VAR @SubKey, @FirstName, @LastName, @EmailAddress, @Birthday, @GameReward, @SolarProduct, @PreContract, @isPolicy, @SystemDate, @LocalDate
+
+SET @SubKey = GUID()
+SET @FirstName = RequestParameter('firstName')
+SET @LastName = RequestParameter('lastName')
+SET @EmailAddress = RequestParameter('email')
+SET @Birthday = RequestParameter('birthday')
+SET @GameReward = RequestParameter('gameReward')
+SET @SolarProduct = RequestParameter('solarProduct')
+SET @PreContract = RequestParameter('preContract')
+SET @isPolicy = RequestParameter('isPolicy')
+SET @SystemDate = Now(1)
+SET @LocalDate = SystemDateToLocalDate(@SystemDate)
+SET @FormattedDate = FormatDate(@LocalDate, "dd MM YYYY HH:mm:ss")
+
+InsertDE('DE_Captacion_Solar', 'SubscriberKey', @SubKey, 'EmailAddress', @EmailAddress, 'FirstName', @FirstName, 'LastName', @LastName, 'Birthday', @Birthday, 'GameReward', @GameReward, 'SolarProduct', @SolarProduct, 'PreContract', @PreContract, 'isPolicy', @isPolicy, 'CreatedDate', @LocalDate)
+]%%

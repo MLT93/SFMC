@@ -18,7 +18,7 @@
   VAR @RowSet, @NumPedido, @NumArticulo, @Precio, @ArticuloUno, @ArticuloDos, @IsOk, @Msg
   /* 
     Busca una DE ya sea sendable o menos (1er argumento) 
-    Devuelve todas las filas que pasen el filtro establecido (2do y 3er argumentos) 
+    Devuelve todas las filas que pasen el filtro establecido (2do y 3er argumentos -> KEY - VALUE) 
   */
   SET @region = "Europa"
   SET @RowSet = LookupRows('ENT.DE_JTalent24_Tienda', 'Region', @region)

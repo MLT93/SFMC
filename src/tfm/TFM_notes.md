@@ -27,7 +27,6 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
   - DE_TransactionJournal
 - API Event (conexión de DE con Journey a través de la thank U page). Éste Journey hace un Split y envía un correo comercial por cada prod para finalizar el registro del contrato. "REAL TIME".
 - El tracking del journey tendrá los dominios de las paginas web y el dominio del api event que conecta el journey con las páginas web. El re-entry será nulo porque en ésta campaña el usuario sólo se podrá entrar una vez.
-
 - Espera de 3 días para darle tiempo al usuario a contestar.
 - Engagement Split para comprobar la apertura del primer correo enviado. Si aún queda sin abrir, se envía el mismo email con distinto asunto "Última fecha para contratar con el % de descuento obtenido".
 
@@ -35,25 +34,28 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
     ```sql
     SELECT
         s.SubscriberKey,
-        s.EventDate AS EmailSentDate,
+        CONVERT(VARCHAR, s.EventDate, 120) AS EmailSentDate, -- Convertir fecha a texto
         CASE
             WHEN o.EventDate IS NOT NULL AND DATEDIFF(DAY, o.EventDate, GETDATE()) <= 3 THEN 'True'
             ELSE 'False'
         END AS isEmailOpenedIn3Days,
-        o.EventDate AS LastOpenedDate
+        CONVERT(VARCHAR, o.EventDate, 120) AS LastOpenedDate -- Convertir fecha a texto
     FROM
         _Sent s
     LEFT JOIN
         _Open o ON s.SubscriberKey = o.SubscriberKey AND s.JobID = o.JobID
     WHERE
-        s.EventDate >= DATEADD(DAY, -3, GETDATE()) -- Correos enviados en los últimos 3 días
+        s.EventDate >= DATEADD(DAY, -3, GETDATE())
+
     ```
 - Se envía al usuario en caso de aceptación un email para avisarle que en breves será contactado y felicitarlo. Además, habría que mandar una comunicación o aviso a Endesa para que empiece un procedimiento de contacto al cliente en caso del éxito de la respuesta. De éste modo se facilita la contratación y el contacto humano con el cliente, lo cual favorece la relación entre Empresa y usuario.
 - Esperar otros 3 días
-- Realizar un Split comprobando si el usuario ya es cliente en la tabla de cartera de clientes o posee un contrato activo. Ésto se elabora así porque a veces los procesos en los cuales los datos entran en una tabla son lentos y de ésta forma comprobamos rápidamente si tenemos algún resultado activo. 
+- Realizar un Split comprobando si el usuario ya es cliente en la tabla de cartera de clientes o posee un contrato activo. Ésto se elabora así porque a veces los procesos en los cuales los datos entran en una tabla son lentos y de ésta forma comprobamos rápidamente si tenemos algún resultado activo.
+
   - Comprobamos el SubscriberKey en la tabla de Clientes o el ContractId en la tabla de Contratos Vigor. Si existe, el usuario es cliente y por consecuencia ya es parte de Endesa y se le comunica con un email transaccional la elaboración de su contrato. De lo contrario, se envía un email final como último aviso.
 - Se crea Intelligence Reports para evaluar las métricas y KPIs par mantener una constancia de beneficios o para evaluar nuevas versiones o mantener constancia de los resultados obtenidos. Éste informe se enviará el 1 de cada mes en relación a los journeys utilizados (captación y feedback)
 - ##### Notas:
+
 
   - Tratar de evitar envíos los días viernes (estatísticamente está comprobado que es poco saludable para la empresa)
   - Para tomar la info que viene de la CloudPage enviar todo a través de Query Params (ej. SET @email = RequestParameter('email'))
@@ -133,8 +135,10 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
 - Crear Journey
 
   1. Journey que se encargue de enviar las comunicaciones relacionadas con el evento que se activa al recibir un pre-contrato nuevo. Éste journey se realizará con un API Event por velocidad y tiempos de respuesta inmediatos (más adelante se comparte el código Postman para ejecutarla). Además, ésto ayuda a poder accionar el journey directamente en la salida de la thank U page para evitar perder el usuario y que la acción sea veloz y permite agregar usuarios velozmente. Además nos ayuda a crear tests con un usuario que posee credenciales reales siendo ficticio.
+
      - API EVT: APIEvent-cdccc77a-22aa-882c-e9c5-27d4cd65d03f
      - Código de Postman:
+
      ```cURL
      # Request para realizar el Auth
      curl --location 'https://mcm3-rvv-d4cz50jm6nszgy0rzn4.auth.marketingcloudapis.com/v2/token' \
@@ -170,11 +174,12 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
      }'
      ```
      - Código introducido den la Thank U Page:
+
      ```js
      /* SSJS */
      <script runat="server">
        Platform.Load('Core', '1');
-     
+
        try {
          var email = Request.GetQueryStringParameter('email');
          var authEndpoint = 'https://mcm3-rvv-d4cz50jm6nszgy0rzn4.auth.marketingcloudapis.com';
@@ -184,17 +189,17 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
            client_secret: 'vMYA6wjVqU0iKUmSujR1QuUT',
            grant_type: 'client_credentials',
          };
-     
+
          var url = authEndpoint + '/v2/token';
          var contentType = 'application/json';
-     
+
          var accessTokenRequest = HTTP.Post(url, contentType, Stringify(payload));
          if (accessTokenRequest.StatusCode == 200) {
            var tokenResponse = Platform.Function.ParseJSON(accessTokenRequest.Response[0]);
            var accessToken = tokenResponse.access_token;
            var rest_instance_url = tokenResponse.rest_instance_url;
          }
-     
+
          var headerNames = ['Authorization'];
          var headerValues = ['Bearer ' + accessToken];
          var jsonBody = {
@@ -204,10 +209,10 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
              campoDE: 'valueDE',
            },
          };
-     
+
          var requestUrl = rest_instance_url + '/interaction/v1/events';
          var fireEntryEvent = HTTP.Post(requestUrl, contentType, Stringify(jsonBody), headerNames, headerValues);
-     
+
          if (fireEntryEvent.StatusCode == 201) {
            Write('201');
          }
@@ -218,14 +223,16 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
 
      ```
   2. Se crea otro journey encargado de manejar el story-telling del usuario. Éste journey estará conectado con una automation que filtrará utilizando SQL diariamente para evaluar el tiempo transcurrido desde la firma del nuevo contrato hasta el presente con un límite de 1 año. Ésto nos ayuda a automatizar las interacciones con los usuarios y evitar la pérdida de información.
-  
+
      - Automation que segmentará la Data Extension de DE_Contratos_Vigor_Total en una DE que servirá como entry source del Journey
+
      ```sql
      SELECT Capos_de_la_tabla_contratos_vigor
      FROM DE_Contratos_Vigor_Total
      WHERE FechaFirmaContrato = DATEADD(day, -365, GETDATE());
      ```
-       Esta consulta resta 365 días a la fecha actual y nos proporcionará la información correcta para comunicarle al cliente y realizar nuestro story-telling
+     Esta consulta resta 365 días a la fecha actual y nos proporcionará la información correcta para comunicarle al cliente y realizar nuestro story-telling
+
      - Ésta Automation activará un Journey según las fechas límite que mandará un correo para recibir evaluación:
        - "¡Después de un año contigo queremos saber qué tal nos portamos!" (email)
        - Redirección a web de satisfacción

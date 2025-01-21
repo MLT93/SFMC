@@ -369,3 +369,71 @@ Salesforce Marketing Cloud (SFMC) ofrece herramientas como **Automation Studio**
 
    1. Revisa todas las configuraciones para asegurarte de que los pasos sean correctos.
    2. Haz clic en **Activate** para que la automatización comience a ejecutarse automáticamente según el horario definido o al recibir un archivo.
+
+# Guía detallada para usar una Automation que ejecute un Journey 'Fire Event' activity en Salesforce Marketing Cloud (SFMC):
+
+1. #### **Accede a Automation Studio**:
+
+   - Inicia sesión en tu cuenta de Salesforce Marketing Cloud.
+   - Desde el menú principal, selecciona **Automation Studio**.
+
+2. #### **Crea una Nueva Automation**:
+
+   - Haz clic en el botón **New Automation** (Nueva Automatización).
+   - Asigna un nombre a la Automation, por ejemplo, **"JourneyTriggerAutomation"**.
+   - Selecciona el disparador **Schedule** para configurar cuándo debe ejecutarse la Automation.
+
+3. #### **Configura el Schedule**:
+
+   - Establece la fecha y hora de inicio, así como la frecuencia (diaria, semanal, etc.) con la que debe ejecutarse la Automation.
+   - Guarda la configuración del Schedule para continuar.
+
+4. #### **Agrega la Actividad "Fire Event"**:
+
+   - Arrastra la actividad **Fire Event** al flujo de trabajo de la Automation.
+   - Configura esta actividad seleccionando la **Data Extension** que contendrá los datos que se enviarán al Journey.
+
+     - **Nota**: La Data Extension debe ser **Sendable** y tener una columna configurada como **Primary Key** mapeada al **ContactKey**.
+
+5. #### **Guarda y Activa la Automation**:
+
+   - Revisa la configuración de tu Automation y haz clic en **Activate** para que esté lista para ejecutarse en el horario definido.
+
+6. #### **Accede a Journey Builder**:
+
+   - Desde el menú principal, selecciona **Journey Builder** y crea un nuevo Journey.
+   - Asigna un nombre al Journey, por ejemplo, **"CustomerOnboardingJourney"**.
+
+7. #### **Configura el Entry Source como "Data Extension Entry Event"**:
+
+   - En el Journey, selecciona la opción **Data Extension Entry Event** como fuente de entrada.
+   - Configura el evento:
+     - Selecciona la misma **Data Extension** que configuraste en la actividad **Fire Event** de la Automation.
+     - Opcionalmente, define reglas para filtrar los registros que entrarán al Journey.
+
+8. #### **Publica el Journey**:
+
+   - Asegúrate de publicar el Journey antes de que la Automation se ejecute.
+   - Un Journey en estado de **Draft** no podrá recibir los datos enviados desde la Automation.
+
+9. #### **Cómo Funciona Este Flujo**:
+
+   - Cuando la **Automation** se ejecuta según el Schedule configurado:
+     1. La actividad **Fire Event** identifica los nuevos registros en la **Data Extension** y los envía al sistema de eventos de Journey Builder.
+     2. El **Journey**, al estar publicado y monitoreando la misma Data Extension, procesa los datos y activa el flujo configurado.
+
+10. #### **Puntos Importantes**:
+
+    - **La actividad "Fire Event" no requiere un Event Definition Key explícito**, ya que la relación entre la Data Extension y el Journey se establece al configurar el **Data Extension Entry Event** en Journey Builder.
+    - **Validación de Data Extension**:
+      - Asegúrate de que los datos sean válidos y cumplan con las reglas definidas para ingresar al Journey.
+    - **Publicación del Journey**: Siempre publica el Journey antes de que la Automation se ejecute para evitar errores.
+
+11. #### **Resumen de Especificaciones**:
+
+    - **Automation Name**: JourneyTriggerAutomation
+    - **Disparador de Automation**: Schedule
+    - **Actividad de Automation**: Fire Event
+    - **Entry Source del Journey**: Data Extension Entry Event
+    - **Data Extension**: Configurada como Sendable y mapeada al ContactKey
+    - **Estado del Journey**: Published

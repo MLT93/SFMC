@@ -1,27 +1,39 @@
 %%[
-SET @ImgCasaSolar = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/abc07ce1-d733-4cd6-8f47-f6a2f3aef996.png"
+SET @ImgTransact = "https://www.endesa.com/content/dam/endesa-com/endesaclientes/luz/imagenes/endesa-solar/hero_tarifa_Endesa_Solar.jpg"
+SET @FirstName = FirstName
+SET @LastName = LastName
 SET @SubscriberKey = _SubscriberKey
 SET @EmailAddress = EmailAddr
-SET @Nombre = FirstName
-SET @Apellido = LastName
-SET @Tipo_cliente = "PPSS"
-SET @Idioma = "Español"
-SET @Robinson = 0
-SET @RGPD_No_Molestar = 0
-SET @Saturado = 0
-SET @FechaNacimiento = Birthday
-SET @Riesgo_Baja_AA = "Bajo"
 
-SET @RowSet = LookupRows('DE_Cartera_Clientes_Triggered', 'SubscriberKey', @SubscriberKey)
-SET @RowCount = RowCount(@RowSet)
+SET @Birthday = Birthday
+SET @Year = Substring(@Birthday, 7) /* dd/MM/YYYY */
+SET @Age = Subtract(2025, @Year)
 
-IF @RowCount == 0 THEN
-  InsertDE('DE_Cartera_Clientes_Triggered', 'SubscriberKey', @SubscriberKey, 'EmailAddress', @EmailAddress, 'Nombre', @Nombre, 'Apellido', @Apellido, 'Tipo_cliente', @Tipo_cliente, 'Idioma', @Idioma, 'Robinson', @Robinson, 'RGPD_No_Molestar', @RGPD_No_Molestar, 'Saturado', @Saturado, 'FechaNacimiento', @FechaNacimiento, 'Riesgo_Baja_AA', @Riesgo_Baja_AA)
-ENDIF
-
-Output(Concat("RowCount: ", @RowCount))
+SET @CreatedDate = CreatedDate
+InsertDE(
+    "DE_Cartera_Clientes_Triggered",
+    "SubscriberKey", @SubscriberKey,
+    "EmailAddress", @EmailAddress,
+    "Nombre", @FirstName,
+    "Apellido", @LastName,
+    "Tipo_cliente", 'PPSS',
+    "Direccion", 'Avd. Libertad 105, CA, EEUU',
+    "Sexo", 'Asexual',
+    "Edad", @Age,
+    "Movil", '666000555',
+    "Idioma", 'Español',
+    "App", 1,
+    "Robinson", 0,
+    "RGPD_No_Molestar", 0,
+    "Saturado", 0,
+    "Empleado_Concesion", 0,
+    "FechaNacimiento", @Birthday,
+    "Segmento_Valor", 'Medio',
+    "Riesgo_Baja_AA", 0,
+    "Ultima_Participacion", '31/12/2024',
+    "Ultimo_Acceso_App", '01/01/2025'
+)
 ]%%
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html
   xmlns="http://www.w3.org/1999/xhtml"
@@ -570,7 +582,7 @@ Output(Concat("RowCount: ", @RowCount))
                             <!-- START IMAGEN BACKGROUND + MSO -->
                             <!--[if gte mso 9]>
                               <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:450pt;height:206.25pt;">
-                              <v:fill type="frame" src="https://image.emailing.bancosantander-mail.es/lib/fe9113727c67067d72/m/21/cabeceraVencimiento.jpg"/>
+                              <v:fill type="frame" src="https://www.endesa.com/content/dam/endesa-com/endesaclientes/luz/imagenes/endesa-solar/hero_tarifa_Endesa_Solar.jpg"/>
                               <v:textbox>
                             <![endif]-->
                             <table
@@ -594,14 +606,14 @@ Output(Concat("RowCount: ", @RowCount))
                               <tr>
                                 <td
                                   valign="top"
-                                  align="center"
+                                  align="left"
                                   class="responsive-background"
                                   style="
                                     background-repeat: no-repeat;
                                     background-size: cover;
                                     border-collapse: collapse;
                                   "
-                                  background="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/3b5e3f7b-d8b0-492a-9f4b-ae835b51687e.png"
+                                  background="https://www.endesa.com/content/dam/endesa-com/endesaclientes/luz/imagenes/endesa-solar/hero_tarifa_Endesa_Solar.jpg"
                                   width="600"
                                   height="275">
                                   <!-- START TITULAR -->
@@ -638,14 +650,16 @@ Output(Concat("RowCount: ", @RowCount))
                                         class="f-txt-30"
                                         style="
                                           border-collapse: collapse;
-                                          color: #fff;
+                                          color: #333;
                                           font-size: 25px;
                                           font-weight: bold;
                                           line-height: 38px;
                                           mso-line-height-rule: exactly;
-                                          padding-top: 25px;
+                                          padding-left: 10px;
+                                          padding-right: 10px;
+                                          padding-top: 100px;
                                         ">
-                                        %%=V(@SolarProduct)=%%
+                                        ¡Tu contrato está<br/> en camino!
                                       </td>
                                     </tr>
                                   </table>
@@ -782,9 +796,11 @@ Output(Concat("RowCount: ", @RowCount))
                                           padding-left: 5px;
                                           padding-top: 10px;
                                         ">                                        <strong
-                                          >¡Gracias por ser parte de de Endesa!</strong
+                                          >¡En los próximos días formalizaremos tu contrato!</strong
                                         ><br /><br />
-                                        ¡Tu ahorro empiza ya!
+                                        Si posees alguna duda estamos a tu disposición.
+                                        <br /><br />
+                                        ¡Descarga nuestra <a href="https://www.endesa.com/es/te-ayudamos/app-endesa" title="App Endesa" aria-label="Redirección a la página de Endesa para descargar aplicación móvil" style="text-decoration: none; font-size: 16px; font-weight: 600; color: #0047cc;">App</a> para empezar a usar tus ventajas!
                                       </td>
                                     </tr>
                                   </table>
@@ -798,18 +814,6 @@ Output(Concat("RowCount: ", @RowCount))
                     </td>
                   </tr>
                   <!-- END RECUADRO -->
-                  
-                  <!-- START IMG CASA -->
-                  <tr>
-                    <td align="center" style="border-collapse: collapse; padding-bottom: 10px;">
-                      <img
-                        src="%%=V(@ImgCasaSolar)=%%"
-                        width="400"
-                        alt="Imagen de una casa con placas solares"
-                        style="border: 0px; display: block" />
-                    </td>
-                  </tr>
-                  <!-- END IMG CASA -->
 
                   <!-- START TEXTO -->
                   <tr>
@@ -839,12 +843,8 @@ Output(Concat("RowCount: ", @RowCount))
                               padding-top: 25px;
                             "
                             align="center">
-                            <br />
-                            <strong
-                              >Más de 10,000 hogares ya confían en Endesa Solar para generar su propia
-                              energía.</strong
-                            >
-                            <br /><br />
+
+                           
                             <table style="background: #ededed; padding: 15px; border-radius: 5px">
                               <tr>
                                 <td
@@ -1047,33 +1047,20 @@ Output(Concat("RowCount: ", @RowCount))
                         style="color: #666; text-decoration: underline"
                         >estos consejos de seguridad online</a
                       >
-                      para protegerte.<br /><br />
-                      <p align="center">
-                        <a
-                          href="https://www.endesa.com/es/proteccion-datos-endesa#:~:text=Tratar%20los%20datos%20de%20manera%20responsable%2C%20leal%20y,Mantener%20los%20datos%20solo%20durante%20el%20tiempo%20necesario."
-                          style="color: #1863ed"
-                          >Política de Privacidad</a
-                        >
-                        |
-                        <a
-                          href="https://www.endesa.com/es/prensa/baja-suscripcion-a-alertas"
-                          style="color: #1863ed"
-                          >Darse de baja</a
-                        >
-                      </p>
-                      <p align="center">
+                      para protegerte.<br />
+                      <span>
                         Si deseas actualizar tus preferencias o darte de baja, visita tu
                         <a href="%%profile_center_url%%" alias="Profile Center">Actualizar Preferencias</a>.
-                      </p>
+                      </span>
                     </td>
-                  </tr>
+                  </tr><br />
                   <!-- END PIE COMERCIAL -->
                 </table>
               </td>
             </tr>
 
             <tr>
-              <td bgcolor="#fff" style="border-collapse: collapse; padding-bottom: 30px">
+              <td bgcolor="transparent" style="border-collapse: collapse; padding-bottom: 30px">
                 <center>
                   <span style="text-align: center; font-size: 11px; color: transparent"
                     >%%_SubscriberKey%%</span

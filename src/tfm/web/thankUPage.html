@@ -1,21 +1,28 @@
 <div style="display: none">
 %%[
-VAR @SubKey, @FirstName, @LastName, @EmailAddress, @Birthday, @GameReward, @SolarProduct, @PreContract, @isPolicy, @SystemDate, @CreatedDate
+VAR @SubKey, @FirstName, @LastName, @EmailAddress, @ReqBirthday, @Birthday, @GameReward, @SolarProduct, @PreContract, @isPolicy, @SystemDate, @LocalDate, @DateString
+
 SET @SubKey = GUID()
+SET @EmailAddress = RequestParameter('email')
 SET @FirstName = RequestParameter('firstName')
 SET @LastName = RequestParameter('lastName')
-SET @EmailAddress = RequestParameter('email')
-SET @Birthday = RequestParameter('birthday')
+
+SET @ReqBirthday = RequestParameter('birthday')
+SET @SpaceIndex = IndexOf(@ReqBirthday, ' ') /* Índice del espacio */
+SET @Birthday = Substring(@ReqBirthday, 0, @SpaceIndex)
+
 SET @GameReward = RequestParameter('gameReward')
 SET @SolarProduct = RequestParameter('solarProduct')
 SET @PreContract = RequestParameter('preContract')
 SET @isPolicy = RequestParameter('isPolicy')
-SET @SystemDate  = Now(1)
-SET @CreatedDate = SystemDateToLocalDate(@SystemDate)
 
-InsertDE('DE_Captacion_Solar', 'SubscriberKey', @SubKey, 'EmailAddress', @EmailAddress, 'FirstName', @FirstName, 'LastName', @LastName, 'Birthday', @Birthday, 'GameReward', @GameReward, 'SolarProduct', @SolarProduct, 'PreContract', @PreContract, 'isPolicy', @isPolicy, 'CreatedDate', @CreatedDate)
+SET @SystemDate = Now()
+SET @LocalDate = SystemDateToLocalDate(@SystemDate)
+SET @DateString = FormatDate(@LocalDate, "dd/MM/yyyy", "hh:mm:ss")
+
+InsertDE('DE_Captacion_Solar', 'SubscriberKey', @SubKey, 'EmailAddress', @EmailAddress, 'FirstName', @FirstName, 'LastName', @LastName, 'Birthday', @Birthday, 'GameReward', @GameReward, 'SolarProduct', @SolarProduct, 'PreContract', @PreContract, 'isPolicy', @isPolicy, 'CreatedDate', @DateString)
 ]%%
-
+ 
 </div>
 <!DOCTYPE html>
 <html lang="es">
@@ -235,86 +242,7 @@ InsertDE('DE_Captacion_Solar', 'SubscriberKey', @SubKey, 'EmailAddress', @EmailA
     <!-- <script type="module" src="src/scripts/twitter.js"></script> -->
     <script type="module" src="%%=RedirectTo(CloudPagesURL(9896))=%%"></script>
     <!-- <script type="module" src="src/scripts/modal_languages.js"></script> -->
-    <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script>    
-
-    
-    
-    
-<script runat="server">
-  Platform.Load('Core', '1');
-
-  try {
-    /* var subKey = Request.GetQueryStringParameter('subKey'); */
-    /* var firstName = Request.GetQueryStringParameter('email'); */
-    /* var lastName = Request.GetQueryStringParameter('email'); */
-    /* var emailAddress = Request.GetQueryStringParameter('email'); */
-    /* var birthday = Request.GetQueryStringParameter('email'); */
-    /* var gameReward = Request.GetQueryStringParameter('email'); */
-    /* var solarProduct = Request.GetQueryStringParameter('email'); */
-    /* var preContract = Request.GetQueryStringParameter('email'); */
-    /* var isPolicy = Request.GetQueryStringParameter('email'); */
-    /* var createdDate = Request.GetQueryStringParameter('email'); */
-    var subKey = Platform.Variable.GetValue("@SubKey");
-    var firstName = Platform.Variable.GetValue("@FirstName");
-    var lastName = Platform.Variable.GetValue("@LastName");
-    var emailAddress = Platform.Variable.GetValue("@EmailAddress");
-    var birthday = Platform.Variable.GetValue("@Birthday");
-    var gameReward = Platform.Variable.GetValue("@GameReward");
-    var solarProduct = Platform.Variable.GetValue("@SolarProduct");
-    var preContract = Platform.Variable.GetValue("@PreContract");
-    var isPolicy = Platform.Variable.GetValue("@isPolicy");
-    var createdDate = Platform.Variable.GetValue("@CreatedDate");
-    var authEndpoint = 'https://mcm3-rvv-d4cz50jm6nszgy0rzn4.auth.marketingcloudapis.com';
-    var payload = {
-      account_id: '510011124',
-      client_id: 'trbcn36l0xvhaav9dkjbvt9w',
-      client_secret: 'vMYA6wjVqU0iKUmSujR1QuUT',
-      grant_type: 'client_credentials',
-    };
-
-    var url = authEndpoint + '/v2/token';
-    var contentType = 'application/json';
-
-    var accessTokenRequest = HTTP.Post(url, contentType, Stringify(payload));
-    if (accessTokenRequest.StatusCode == 200) {
-      var tokenResponse = Platform.Function.ParseJSON(accessTokenRequest.Response[0]);
-      var accessToken = tokenResponse.access_token;
-      var rest_instance_url = tokenResponse.rest_instance_url;
-    }
-
-    var headerNames = ['Authorization'];
-    var headerValues = ['Bearer ' + accessToken];
-    var jsonBody = {
-      ContactKey: email,
-      EventDefinitionKey: 'APIEvent-cdccc77a-22aa-882c-e9c5-27d4cd65d03f',
-      Data: {
-        SubscriberKey: subKey,
-        EmailAddress: emailAddress,
-        FirstName: firstName,
-        LastName: lastName,
-        Birthday: birthday,
-        GameReward: gameReward,
-        SolarProduct: solarProduct,
-        PreContract: preContract,
-        isPolicy: isPolicy,
-        CreatedDate: createdDate,
-      },
-    };
-
-    var requestUrl = rest_instance_url + '/interaction/v1/events';
-    var fireEntryEvent = HTTP.Post(requestUrl, contentType, Stringify(jsonBody), headerNames, headerValues);
-
-    if (fireEntryEvent.StatusCode == 201) {
-      Write('201');
-    }
-  } catch (error) {
-    Write('401 Error');
-  }
-</script>
-
-
-
-
+    <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script>
     <!-- END BODY SCRIPTS -->
   </body>
 </html>

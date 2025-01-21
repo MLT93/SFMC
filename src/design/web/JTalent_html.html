@@ -3,7 +3,8 @@
     VAR @SubKey, @Email, @QueryParamNumContrato, @Rows, @RowCount, @NumContrato
     SET @SubKey = _SubscriberKey 
     SET @Email = EmailAddr 
-    SET @QueryParamNumContrato = RequestParameter('NC')
+    SET @QueryParamNumContrato = NumContrato
+
     SET @RowSet = LookupRows('DE_FinContratoRespuestas_MLT','SubscriberKey', @SubKey, 'NumContrato', @QueryParamNumContrato)
   ]%%
 </div>
@@ -30,7 +31,7 @@
           </div>
           <div class="welcome-back--content">
             <!-- START PREVENCIÓN DOBLE REGISTRO DE ENCUESTA -->
-            %%[IF RowCount(@RowSet) != 0 THEN]%%
+            %%[IF RowCount(@RowSet) != 0 THEN]%% <!-- Si posee registro, ya ha contestado a la encuesta -->
               <div align="center">
                 <h2>Usted ya ha contestado la encuesta</h2>
               </div>
