@@ -10,24 +10,20 @@ SET @IconTarifa = ""
 IF @SolarProduct == 'Solar Basic' THEN
   SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/436d37af-5c84-4502-9179-cc0ca3ad0063.png"
   SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/a8d515ab-7485-4647-a8bf-97faca6e3318.png"
-  
+  SET @RedirectURL = "https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar#tabla"
 ELSEIF @SolarProduct == 'Solar Plus' THEN
-
   SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/ee8f288f-a82e-4838-9a1d-2a1e29716c24.png"
   SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/4a8f3466-193f-4788-8b1a-7769b61aa548.png"
+  SET @RedirectURL = "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=2&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619"
 ELSEIF @SolarProduct == 'Solar Plus y Batería Virtual' THEN
   SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/b1d8deb0-ba62-495c-8f46-21f3cf7a8268.png"
   SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/7b20445b-b033-481d-9d0d-31e70cb6a008.png"
+  SET @RedirectURL = "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=3&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619"
 ELSE
   SET @ImgTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/24e7ead4-ed05-4e36-b9f7-121315b6846f.png"
   SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/506b09a8-e251-4f88-8933-fe368d9a5b3e.png"  
+  SET @RedirectURL = "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=4&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619"
 ENDIF
-
-
-SET @RedirectURL = IIF(@SolarProduct == 'Solar Basic', "https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar#tabla", 
-                   IIF(@SolarProduct == 'Solar Plus', "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=2&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619", 
-                   IIF(@SolarProduct == 'Solar Plus y Batería Virtual', "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=3&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619", 
-                      "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=4&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619")))
 ]%%
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -1006,7 +1002,7 @@ SET @RedirectURL = IIF(@SolarProduct == 'Solar Basic', "https://www.endesa.com/e
                           <v:roundrect
                             xmlns:v="urn:schemas-microsoft-com:vml"
                             xmlns:w="urn:schemas-microsoft-com:office:word"
-                            href="%%=V(@RedirectURL)=%%"
+                            href="%%=RedirectTo(@RedirectURL)=%%"
                             style="height: 37.5pt; v-text-anchor: middle; width: 172.5pt"
                             arcsize="100%"
                             strokecolor="#d3135a"
@@ -1026,7 +1022,7 @@ SET @RedirectURL = IIF(@SolarProduct == 'Solar Basic', "https://www.endesa.com/e
                           </v:roundrect>
                         <![endif]-->
                         <a
-                          href="%%=V(@RedirectURL)=%%"
+                          href="%%=RedirectTo(@RedirectURL)=%%"
                           style="
                             -webkit-text-size-adjust: none;
                             background-color: #d3135a;
