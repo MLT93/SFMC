@@ -540,3 +540,108 @@ Un correo transaccional tiene como objetivo enviar información basada en una ac
        - **Recordatorios múltiples**: Si el cliente no compra tras el primer correo, puedes enviar un segundo o tercer correo.
        - **Segmentación avanzada**: Aplicar incentivos solo a ciertos grupos de usuarios (por ejemplo, usuarios frecuentes o carritos de alto valor).
      - Recomendado cuando deseas personalizar aún más la experiencia y evaluar el comportamiento en cada etapa del Journey.
+
+# Guía detallada para la implementación del flujo de satisfacción en Salesforce Marketing Cloud (SFMC):
+
+1. #### **Objetivo del flujo**:  
+   Este proceso está diseñado para enviar una encuesta de satisfacción a los clientes en base a la fecha de lanzamiento del contrato y registrar sus respuestas para un análisis posterior.
+
+2. #### **Configura el Automation para alimentar el DE_Satisfaccion**:
+
+   - **SQL para controlar fechas**:
+     - Crea una consulta en SQL que:
+       1. Compare la **fecha de lanzamiento del contrato** con la **fecha actual**.
+       2. Combine los datos de la **tabla de contratos** con la **tabla de clientes**.
+       3. Filtre los registros que deben recibir la encuesta.
+       4. Inserte los resultados en la Data Extension `DE_Satisfaccion`.
+
+     ```sql
+     SELECT 
+         c.ClientID,
+         c.EmailAddress,
+         c.FirstName,
+         c.LastName,
+         ct.ContractDate
+     FROM Clientes c
+     INNER JOIN Contratos ct
+         ON c.ClientID = ct.ClientID
+     WHERE DATEDIFF(day, ct.ContractDate, GETDATE()) = 0
+     ```
+   - **Configuración del Automation**:
+     1. Crea un nuevo Automation en Automation Studio.
+     2. Añade un paso **SQL Query** que ejecute la consulta anterior y almacene los resultados en `DE_Satisfaccion`.
+     3. Programa el Automation para que se ejecute **diariamente**.
+
+3. #### **Diseña el Journey para enviar la encuesta**:
+
+   - **Configuración del Journey**:
+     1. Inicia un Journey en **Journey Builder**.
+     2. Configura el Journey para que se active automáticamente cuando `DE_Satisfaccion` reciba nuevos registros.
+     3. Selecciona un evento de entrada basado en esa Data Extension.
+   
+   - **Añade un Email Activity**:
+     1. Diseña un email con un botón que lleve al cliente a una página de encuesta (CloudPage).  
+     2. Personaliza el contenido utilizando datos como `FirstName` y `LastName`.
+
+     ```html
+     <a href="https://example.com/encuesta?ID=%%ClientID%%" style="background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Completa tu encuesta</a>
+     ```
+
+4. #### **Crea la CloudPage para la encuesta**:
+
+   - **Formulario para la encuesta**:
+     1. Diseña un formulario en una CloudPage que recoja las respuestas del cliente.
+     2. Los campos del formulario pueden incluir:
+        - ID del Cliente (oculto).
+        - Nivel de satisfacción (por ejemplo: 1 a 5 estrellas).
+        - Comentarios adicionales.
+
+     ```html
+     <form action="https://example.com/procesar_respuesta" method="POST">
+         <input type="hidden" name="ClientID" value="%%ClientID%%">
+         <label for="satisfaccion">¿Qué tan satisfecho estás? (1-5)</label>
+         <input type="number" id="satisfaccion" name="Satisfaccion" min="1" max="5" required>
+         <label for="comentarios">Comentarios:</label>
+         <textarea id="comentarios" name="Comentarios"></textarea>
+         <button type="submit">Enviar</button>
+     </form>
+     ```
+
+5. #### **Redirige a la ThankYouPage tras enviar el formulario**:
+
+   - Después de que el cliente envíe el formulario, redirígelo a una página de agradecimiento (ThankYouPage).
+   - Asegúrate de que los datos enviados se procesen y almacenen en la Data Extension `DE_Satisfaccion_Resp`.
+
+6. #### **Almacena las respuestas en DE_Satisfaccion_Resp**:
+
+   - Crea una Data Extension llamada `DE_Satisfaccion_Resp` para registrar las respuestas del formulario. Incluye campos como:
+     - `ClientID`
+     - `Satisfaccion`
+     - `Comentarios`
+     - `FechaRespuesta`
+   - Procesa los datos enviados desde la CloudPage utilizando un Script de Server-Side JavaScript (SSJS) o AMPscript para insertar los datos en la DE.
+
+     ```javascript
+     <script runat="server">
+         Platform.Load("Core", "1");
+         var clientID = Request.GetQueryStringParameter("ClientID");
+         var satisfaccion = Request.GetQueryStringParameter("Satisfaccion");
+         var comentarios = Request.GetQueryStringParameter("Comentarios");
+         var fecha = Platform.Function.Now();
+
+         var data = [
+             { "ClientID": clientID, "Satisfaccion": satisfaccion, "Comentarios": comentarios, "FechaRespuesta": fecha }
+         ];
+
+         var inserted = Platform.Function.InsertData("DE_Satisfaccion_Resp", ["ClientID", "Satisfaccion", "Comentarios", "FechaRespuesta"], data);
+     </script>
+     ```
+
+7. #### **Resumen del flujo**:
+
+   - **Automation Studio**:
+     - Ejecuta una consulta SQL para alimentar la Data Extension `DE_Satisfaccion` con clientes cuyo contrato cumple la condición diaria.
+   - **Journey Builder**:
+     - Activa un Journey que envía un email con un botón para la encuesta.
+   - **CloudPages**:
+     - Recoge las respuestas del cliente en `DE_Satisfaccion_Resp` y redirige a una ThankYouPage.

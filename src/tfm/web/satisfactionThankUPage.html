@@ -17,6 +17,9 @@ SET @CreatedDate = FormatDate(@LocalDate, "dd/MM/yyyy", "hh:mm:ss")
 
 SET @ReqBirthday = RequestParameter('birthday')
 SET @Birthday = FormatDate(@ReqBirthday, "dd/MM/yyyy")
+
+
+SET @RowSet = LookupRows('DE_FinContratoRespuestas_MLT','SubscriberKey', @SubKey, 'NumContrato', @QueryParamNumContrato)
 ]%%
 </div>
 
