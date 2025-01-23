@@ -36,16 +36,16 @@ SET @Birthday = Birthday
     Birthday: Platform.Variable.GetValue('@Birthday')
   };
   
-  /* debugging ? Write('<h1 style="color: red;">SubscriberKey: ' + data.SubscriberKey + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">FirstName: ' + data.FirstName + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">LastName: ' + data.LastName + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">EmailAddress: ' + data.EmailAddress + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">GameReward: ' + data.GameReward + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">SolarProduct: ' + data.SolarProduct + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">PreContract: ' + data.PreContract + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">isPolicy: ' + data.isPolicy + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">CreatedDate: ' + data.CreatedDate + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">Birthday: ' + data.Birthday + '</h1><br><br>') : null; */
+  /* debugging ? Write('<h1 style="color: red;">SubscriberKey: ' + data.SubscriberKey + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">FirstName: ' + data.FirstName + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">LastName: ' + data.LastName + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">EmailAddress: ' + data.EmailAddress + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">GameReward: ' + data.GameReward + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">SolarProduct: ' + data.SolarProduct + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">PreContract: ' + data.PreContract + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">isPolicy: ' + data.isPolicy + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">CreatedDate: ' + data.CreatedDate + '</h1><br><br>') : Write('<h1>None</h1>');
+  debugging ? Write('<h1 style="color: red;">Birthday: ' + data.Birthday + '</h1><br><br>') : Write('<h1>None</h1>'); */
   
   var setup = {
     authBaseURI: 'https://mcm3-rvv-d4cz50jm6nszgy0rzn4.auth.marketingcloudapis.com/',
@@ -102,7 +102,7 @@ SET @Birthday = Birthday
     Platform.Variable.SetValue("@AuthToken", authToken.access_token);
     if (authToken.access_token) {
       var triggerResponse = triggerEvent(authToken.access_token, setup, data);
-      /* debugging ? Write('<h1 style="color: red;">EventInstanceId (OK): ' + triggerResponse.eventInstanceId + '</h1><br><br>') : null; */
+      /* debugging ? Write('<h1 style="color: red;">EventInstanceId (OK): ' + triggerResponse.eventInstanceId + '</h1><br><br>') : Write('<h1>None</h1>'); */
       Platform.Variable.SetValue("@TriggerResponse", triggerResponse);
     }
   } catch (e) {
