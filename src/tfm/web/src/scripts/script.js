@@ -1,4 +1,58 @@
 document.addEventListener('DOMContentLoaded', (e) => {
+  /* TOGGLE PHONE NAV */
+  const nav = document.getElementById('nav');
+  const subnav = document.getElementById('subnav');
+  const modalPhoneNav = document.getElementById('modalPhoneNav');
+  const subnavList = document.querySelector('.subnav__list');
+  const actionSubnav = document.getElementById('actionSubnav');
+  const verticalTildes = document.getElementsByClassName('vertical-tilde');
+
+  // modalPhoneNav.style.visibility = 'hidden';
+  modalPhoneNav.style.display = 'none';
+  let isOpen = false;
+  const toggleOpen = () => {
+    isOpen = !isOpen;
+    modalPhoneNav.style.display = isOpen ? 'block' : 'none';
+  };
+
+  const togglePhoneNav = () => {
+    if (window.innerWidth <= 1080) {
+      nav.style.display = 'none';
+      subnavList.style.display = 'none';
+      subnav.style.height = '100%';
+      actionSubnav.style.display = 'block';
+      actionSubnav.style.fontSize = '1.7rem';
+      actionSubnav.style.background = 'inherit';
+      actionSubnav.style.border = 'none';
+      actionSubnav.style.padding = 'unset';
+      actionSubnav.onclick = () => {
+        toggleOpen();
+        modalPhoneNav.style.position = 'absolute';
+        modalPhoneNav.style.zIndex = '3';
+        modalPhoneNav.style.left = '0';
+        modalPhoneNav.style.top = '9.7rem';
+        modalPhoneNav.style.width = '100%';
+        modalPhoneNav.style.overflowY = 'scroll';
+      };
+      Array.from(verticalTildes).forEach((e) => {
+        e.style.paddingRight = '10px';
+        e.innerHTML = '>';
+        e.style.fontSize = '1.1rem';
+        e.style.opacity = '1';
+      });
+    } else {
+      toggleOpen();
+      nav.style.display = 'flex';
+      subnav.style.height = '55%';
+      modalPhoneNav.style.display = 'none';
+      actionSubnav.style.display = 'none';
+    }
+  };
+  togglePhoneNav();
+
+  // Listener para manejar cambios en el tamaño de la ventana
+  window.addEventListener('resize', togglePhoneNav);
+
   /* CLASS */
   class CanvasTemplate {
     // ATTRIBUTES
@@ -342,8 +396,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
           });
           // Ocultar Canvas
           const canvasElement = document.getElementById('gameCanvas');
+          const spanOpenModal = document.getElementById('spanOpenModal');
           setTimeout(() => {
             canvasElement.style.display = 'none';
+            spanOpenModal.innerHTML = 'Resumen';
           }, 1700);
           // Mostrar form
           setTimeout(() => {

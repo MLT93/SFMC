@@ -1,5 +1,7 @@
 <div style="display: none">
 %%[
+VAR @PreContract, @ProductArray, @ProductRowset, @RandomIndex, @SolarProduct, @GameReward, @StarterNum, @PreContract, @LastRecordRow, @LastRecord, @Num, @NewNum, @NewPreContract, @Str, @BaseURL, @QueryParams, @ThankUPage
+
 SET @ProductArray = "Solar Basic,Solar Plus,Solar Plus y Batería Virtual,Servicio Asesor Solar"
 SET @ProductRowset = BuildRowsetFromString(@ProductArray, ",")
 SET @RandomIndex = Random(1, RowCount(@ProductRowset))
@@ -16,7 +18,7 @@ ELSE
 ENDIF
 
 SET @StarterNum = 600001
-VAR @PreContract
+SET @PreContract = ''
 SET @LastRecordRow = LookupOrderedRows(
   "DE_Captacion_Solar", 
   1, 
@@ -98,15 +100,17 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon_io/favicon-16x16.png" />
     <!-- END FAVICON -->
     <!-- START STYLES -->
-    <!-- <link rel="stylesheet" href="./src/css/styles.css" type="text/css" /> -->
-    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9893))=%%" type="text/css" />
-    <!-- <link rel="stylesheet" href="./src/css/modal_languages.css" type="text/css" /> -->
-    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9897))=%%" type="text/css" />
-    <!-- <link rel="stylesheet" href="./src/css/thankUPage.css" type="text/css" /> -->
-    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9906))=%%" type="text/css" />
+    <link rel="stylesheet" href="./src/css/styles.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9893))=%%" type="text/css" /> -->
+    <link rel="stylesheet" href="./src/css/modal_languages.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9897))=%%" type="text/css" /> -->
+    <link rel="stylesheet" href="./src/css/thankUPage.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9906))=%%" type="text/css" /> -->
     <!-- END STYLES -->
     <!-- START HEAD SCRIPTS -->
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script type="module" src="src/scripts/script.js"></script>
+    <!-- <script type="module" src="%%=RedirectTo(CloudPagesURL(9894))=%%"></script> -->
     <!-- END HEAD SCRIPTS -->
     <title>Endesa</title>
   </head>
@@ -114,7 +118,7 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <!-- START HEADER -->
     <header>
       <!-- START NAV -->
-      <div class="shape-menu">
+      <div id="nav" class="shape-menu">
         <nav class="nav wrapper">
           <ul class="pos-relative list">
             <li id="btnId" class="item-shape">
@@ -172,6 +176,7 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
               <div></div>
             </li>
           </ul>
+          <!-- START MODAL LANGUAGES -->
           <div id="modalLanguages" class="modal-languages">
             <div class="modal-languages__container">
               <div id="modalSelect" class="modal-languages__select" tabindex="0">
@@ -181,12 +186,14 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
               <div id="modalOptions" class="modal-languages__options" style="display: none"></div>
             </div>
           </div>
+          <!-- END MODAL LANGUAGES -->
         </nav>
       </div>
       <!-- END NAV -->
 
       <!-- START SUBNAV -->
-      <div class="subnav wrapper">
+      <div id="subnav" class="subnav wrapper">
+        <button id="actionSubnav">Ξ</button>
         <a class="link-logo" href="https://www.endesa.com/es" aria-label="Home de Endesa">
           <img
             class="subnav__link-logo--img"
@@ -221,6 +228,67 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
         </div>
       </div>
       <!-- END SUBNAV -->
+
+      <!-- START PHONE NAV -->
+       <div id="modalPhoneNav">
+          <ul class="list">
+            <li id="btnId" class="item-shape">
+              <a href="https://www.endesa.com/es" id="hogares" class="shapeA active" target="_self"
+                >Hogares</a
+              >
+              <div class="vertical-tilde"></div>
+            </li>
+            <li id="btnId" class="item-shape">
+              <a href="https://www.endesa.com/es/empresas" id="empresas" class="shapeA" target="_self"
+                >Empresas</a
+              >
+              <div class="vertical-tilde"></div>
+            </li>
+            <li id="btnId" class="item-shape">
+              <a
+                href="https://www.endesa.com/es/prensa/sala-de-prensa"
+                id="prensa"
+                class="shapeA"
+                target="_self"
+                >Prensa</a
+              >
+              <div class="vertical-tilde"></div>
+            </li>
+            <li id="btnId" class="item-shape">
+              <a
+                href="https://www.endesa.com/es/accionistas-e-inversores/novedades"
+                id="accionistas"
+                class="shapeA"
+                target="_self"
+                >Accionistas &amp; Inversores</a
+              >
+              <div class="vertical-tilde"></div>
+            </li>
+            <li id="btnId" class="item-shape">
+              <a
+                href="https://www.endesa.com/es/talento/cultura-empresarial"
+                id="talento"
+                class="shapeA"
+                target="_self"
+                >Talento</a
+              >
+              <div class="vertical-tilde"></div>
+            </li>
+            <li id="btnId" class="item-shape">
+              <a href="https://www.endesa.com/es/proveedores" id="proveedores" class="shapeA" target="_self"
+                >Proveedores</a
+              >
+              <div class="vertical-tilde"></div>
+            </li>
+            <li id="btnId" class="item-shape">
+              <a href="https://www.endesa.com/es/ciudades" id="ciudades" class="shapeA" target="_self"
+                >Ciudades</a
+              >
+              <div></div>
+            </li>
+          </ul>
+       </div>
+      <!-- END PHONE NAV -->
     </header>
     <!-- END HEADER -->
 
@@ -242,7 +310,7 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
               src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/55f653e0-880d-4471-a97d-2803be3833fb.png"
               alt="Casa alimentada con placas solares" />
           </div>
-          <span class="open-modal__txt">Poseedor&nbsp;de<br/>Placas&nbsp;Solares</span>
+          <span id="spanOpenModal" class="open-modal__txt">Poseedor&nbsp;de<br/>Placas&nbsp;Solares</span>
         </button>
       </div>
 
@@ -340,12 +408,10 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <footer></footer>
     <!-- END FOOTER -->
     <!-- START BODY SCRIPTS -->
-    <!-- <script type="module" src="src/scripts/script.js"></script> -->
-    <script type="module" src="%%=RedirectTo(CloudPagesURL(9894))=%%"></script>
-    <!-- <script type="module" src="src/scripts/twitter.js"></script> -->
-    <script type="module" src="%%=RedirectTo(CloudPagesURL(9896))=%%"></script>
-    <!-- <script type="module" src="src/scripts/modal_languages.js"></script> -->
-    <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script>
+    <script type="module" src="src/scripts/twitter.js"></script>
+    <!-- <script type="module" src="%%=RedirectTo(CloudPagesURL(9896))=%%"></script> -->
+    <script type="module" src="src/scripts/modal_languages.js"></script>
+    <!-- <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script> -->
     <!-- END BODY SCRIPTS -->
   </body>
 </html>

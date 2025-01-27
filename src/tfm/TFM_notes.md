@@ -224,18 +224,116 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
      ```
   2. Se crea otro journey encargado de manejar el story-telling del usuario. Éste journey estará conectado con una automation que filtrará utilizando SQL diariamente para evaluar el tiempo transcurrido desde la firma del nuevo contrato hasta el presente con un límite de 1 año. Ésto nos ayuda a automatizar las interacciones con los usuarios y evitar la pérdida de información.
 
-     - Automation que segmentará la Data Extension de DE_Contratos_Vigor_Total en una DE que servirá como entry source del Journey
+  La tabla DE_Satisfaccion debe ser alimentada por un Automation que se ejecuta diariamente controlando la fecha de lanzamiento del contrato con el día actual con SQL, mezclando la tabla de contratos con la tabla de clientes. Ésta activa un Journey para que se envíe la encuesta al cliente. El Journey manda el email con el botón de encuesta que lo redirige a una CloudPage con un form, que posteriormente redirige al usuario a una ThankUPage para poder procesar los datos y alimentar otra tabla DE_Satisfaccion_Resp con los resultados.
 
-     ```sql
-     SELECT Capos_de_la_tabla_contratos_vigor
-     FROM DE_Contratos_Vigor_Total
-     WHERE FechaFirmaContrato = DATEADD(day, -365, GETDATE());
-     ```
-     Esta consulta resta 365 días a la fecha actual y nos proporcionará la información correcta para comunicarle al cliente y realizar nuestro story-telling
 
-     - Ésta Automation activará un Journey según las fechas límite que mandará un correo para recibir evaluación:
-       - "¡Después de un año contigo queremos saber qué tal nos portamos!" (email)
-       - Redirección a web de satisfacción
-       - Almacenamiento de los datos en la segunda DE con los mismos campos de la DE segmentada
-     - Éste Journey enviará comunicaciones por Push y SMS (porque se supone que el usuario ya tendrá la App. DE lo contrario se lo invita a usarla con una comunicación email)
-       - Las comunicaciones descritas servirán para que el usuario contrate otro producto (un producto en voga en ése momento). De éste modo se limita la pérdida de usuarios y se fortifica la relación entre el cliente y la empresa.
+  Automation:
+
+  SQL -> DE
+
+  Journey:
+
+  DE -> Email -> Encuesta -> DE_Satisfaccion_Resp
+
+  Automation SQL -> DE /* se busca el rango que esté entre 10 y 11 meses después de la firma del contrato. Se toman los 100 últimos contratos en órden de proximidad a la fecha de caducidad */
+
+  ```sql
+  SELECT TOP 100 
+      ct.ContractId,
+      ct.SubscriberKey,
+      ct.NumContrato,
+      ct.Producto,
+      cs.FirstName AS Nombre,
+      cs.LastName AS Apellido
+  FROM
+      DE_Contratos_Vigor_Total ct
+  INNER JOIN 
+      DE_Captacion_Solar cs ON ct.SubscriberKey = cs.SubscriberKey
+  WHERE
+      CONVERT(DATE, ct.Fecha_Alta, 103) 
+          BETWEEN DATEADD(DAY, -60, GETDATE())
+          AND DATEADD(DAY, -30, GETDATE())
+  ORDER BY CONVERT(DATE, ct.Fecha_Alta, 103) DESC
+  ```
+  
+# Endesa podría beneficiarse de la siguiente manera:
+
+Los valores que mencioné son estimaciones basadas en tendencias generales del sector energético y de movilidad eléctrica.
+
+**En cuanto al sector energético en España para 2025, se observan varias tendencias importantes:**
+
+1. Crecimiento de las energías renovables: Se prevé que alrededor del 42% de la energía consumida en España provendrá de fuentes renovables. La capacidad instalada de energía solar se situará entre 28 y 30 GW, duplicando la capacidad actual.
+
+2. Liderazgo de la energía eólica: Continuará siendo la principal fuente de electricidad en España, con una capacidad instalada que podría superar los 40 GW.
+
+3. Avance en la descarbonización: España busca reducir emisiones y asegurar el crecimiento económico simultáneamente[2].
+
+4. Aumento de la independencia energética: Se espera una reducción gradual del uso de gas natural y GNL a medida que avanzan las alternativas limpias.
+
+5. Desarrollo de mercados de flexibilidad energética: Se perfila como un punto de inflexión para impulsar su despegue definitivo, promoviendo un modelo más dinámico y sostenible.
+
+6. Mayor uso de Inteligencia Artificial: La IA será clave en la gestión y optimización de la eficiencia energética.
+
+Estas tendencias reflejan un sector energético en transformación, con un fuerte enfoque en la sostenibilidad y la eficiencia.
+
+## Captación y Fidelización de Clientes
+- Incremento estimado del 7-10% en clientes de energía solar
+- Reducción del 18-22% en la tasa de abandono
+
+Justificación: La oferta combinada de tarificación solar y descuentos en combustible es altamente atractiva. Endesa ya ofrece 0.06 €/kWh por excedentes solares, lo que sumado a los descuentos en gasolineras crea un paquete muy competitivo.
+
+## Ingresos por Venta de Energía
+- Aumento del 4-6% en ingresos por nuevos contratos de electricidad
+- Margen del 25-30% entre compra y venta de excedentes solares
+
+Justificación: La tarifa Solar Simply de Endesa ya incluye compensación de excedentes y batería virtual, lo que permite a Endesa obtener un margen significativo en la gestión de la energía solar.
+
+## Expansión en Movilidad Eléctrica
+- Incremento del 30-35% en ingresos por recargas eléctricas
+- Aumento del 15-20% en clientes de servicios de movilidad eléctrica
+
+Justificación: El 100% de descuento en recargas eléctricas incentivará fuertemente el uso de vehículos eléctricos, aprovechando la infraestructura existente de Endesa.
+
+Ventas cruzadas: Los usuarios son incentivados a contratar más servicios con Endesa (luz, gas, energía solar) para obtener mayores beneficios, aumentando los ingresos globales de la compañía.
+
+## Diversificación de Ingresos
+- Comisión estimada del 3-4% sobre ventas de combustible con descuento
+- Aumento del 8-10% en contratación de servicios adicionales
+
+Justificación: La integración de servicios de energía y movilidad crea oportunidades de venta cruzada, especialmente con productos como la tarifa Solar Simply y servicios de Endesa X.
+
+## Optimización de Costes Operativos
+- Ahorro del 12-15% en costes de adquisición de clientes
+- Reducción del 7-9% en costes de atención al cliente
+
+Justificación: La app de Endesa y la gestión de puntos simplificarán la interacción con el cliente, reduciendo costes operativos.
+
+## Mejora de Imagen de Marca
+- Potencial aumento del 4-6% en el valor de marca
+
+Justificación: El enfoque en energía solar y movilidad sostenible refuerza la posición de Endesa como líder en soluciones energéticas verdes.
+
+## Datos y Análisis
+- Incremento del 3-4% en ingresos por optimización de servicios basada en análisis de datos
+
+Justificación: La integración de datos de consumo energético y patrones de movilidad permitirá a Endesa ofrecer servicios más personalizados y eficientes.
+
+Este proyecto podría resultar en un incremento total estimado de ingresos del 10-14% para Endesa, considerando la sinergia entre sus servicios existentes de energía solar, movilidad eléctrica y la nueva oferta de descuentos en combustible. La estrategia se alinea perfectamente con las iniciativas actuales de Endesa en autoconsumo y energías renovables, potenciando su posición en el mercado energético español.
+
+Citations:
+[1] https://norbelenergia.es/previsiones-para-el-mercado-energetico-espanol-en-2025/
+[2] https://www.ey.com/es_es/espana-2025/tendencias-corto-plazo/espana-reto-transicion-energetica-retos-recursos-liderar-sector-clave-europa
+[3] https://www.obsbusiness.school/actualidad/informes-de-investigacion/informe-obs-el-sector-energetico-en-espana-hacia-una-descarbonizacion-sostenible
+[4] https://www.smarkia.com/blog/el-futuro-de-la-eficiencia-energetica-7-tendencias-para-2025
+[5] https://www.anese.es/noticias-de-socios/smarkia-destaca-las-tendencias-clave-del-sector-de-la-eficiencia-energetica-para-2025/
+[6] https://elperiodicodelaenergia.com/los-mercados-energeticos-en-2025-12-tendencias-a-tener-en-cuenta-en-el-proximo-ano/
+[7] https://dynatec.es/2024/12/02/espana-2025-liderando-la-energia-del-futuro/
+[8] https://ercam.es/tendencias-en-energia-renovable-para-2025-que-tecnologias-lideraran-la-transicion-energetica/
+[9] https://tarifasgasluz.com/autoconsumo/companias-instaladoras/endesa-solar
+[10] https://www.endesaxstore.com/es/es/e-shop/campaigns/solar-fotovoltaica-hb
+[11] https://selectra.es/autoconsumo/companias/endesa-solar
+[12] https://fusioningenieria.com/tarifas-de-autoconsumo/
+[13] https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar
+[14] https://www.endesa.com/es/la-cara-e/energias-renovables/energia-solar
+[15] https://www.endesa.com/es/luz-y-gas/autoconsumo-endesa/que-es-autoconsumo
+[16] https://www.endesaxstore.com/es/es/blog/que-subvenciones-hay-para-la-instalacion-solar-fotovoltaica

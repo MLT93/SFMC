@@ -120,6 +120,25 @@ SELECT id_contrato, fecha_alta,
 FROM DE_Contrato20241120
 ```
 
+```sql
+SELECT TOP 100 
+    ct.ContractId,
+    ct.SubscriberKey,
+    ct.NumContrato,
+    ct.Producto,
+    cs.FirstName AS Nombre,
+    cs.LastName AS Apellido
+FROM
+    DE_Contratos_Vigor_Total ct
+INNER JOIN 
+    DE_Captacion_Solar cs ON ct.SubscriberKey = cs.SubscriberKey
+WHERE
+    CONVERT(DATE, ct.Fecha_Alta, 103) -- Fecha que proviene del formato VARCHAR
+        BETWEEN DATEADD(DAY, -60, GETDATE()) -- Fecha que esté entre un rango y otro para evaluar
+        AND DATEADD(DAY, -30, GETDATE())
+ORDER BY CONVERT(DATE, ct.Fecha_Alta, 103) DESC
+```
+
 <div style="page-break-after: always;"></div>
 
 ## CAST(campo_a_convertir AS nuevo_tipo_dato)
@@ -194,6 +213,26 @@ FORMAT(GETUTCDATE(), 'yyyy-MM-dd') AS FormattedUTCDate,
 FORMAT(GETUTCDATE(), 'dddd, dd MMMM yyyy', 'es-ES') AS SpanishUTCFormat
 ```
 
+```sql
+/* Cuando la fecha viene de un campo VARCHAR */
+SELECT
+    ct.ContractId,
+    ct.SubscriberKey,
+    ct.NumContrato,
+    CONVERT(DATE, ct.Fecha_Alta, 103) AS Fecha_Alta, -- Se formatea la fecha para poder evaluarla
+    ct.Producto,
+    c.Nombre,
+    c.Apellido
+FROM
+    DE_Contratos_Vigor_Total ct
+LEFT JOIN
+    DE_Cartera_Clientes_Triggered c
+ON 
+    ct.SubscriberKey = c.SubscriberKey
+WHERE
+    Fecha_Alta = DATEADD(DAY, -35, GETDATE()) -- Fecha previa a 35 días antes del vencimiento de 1 año de contrato
+```
+
 ## GETUTCDATE()
 
 - Devuelve la fecha de Greenwitch
@@ -206,7 +245,7 @@ FORMAT(GETUTCDATE(), 'dddd, dd MMMM yyyy', 'es-ES') AS SpanishUTCFormat
 
 ```sql
 SELECT id_contrato, fecha_alta,
-DATEDIFF(MONTH, fecha_baja,GETDATE()) AS cantidad_meses_baja
+DATEDIFF(MONTH, fecha_baja, GETDATE()) AS cantidad_meses_baja
 FROM DE_Contrato20241120
 ```
 
