@@ -1,5 +1,5 @@
 %%[
-VAR @SolarProduct, @GameReward, @ImgTarifa, @IconTarifa
+VAR @SolarProduct, @GameReward, @ImgTarifa, @IconTarifa, @PreContract
 
 SET @User = _SubscriberKey
 SET @SolarProduct = AttributeValue("SolarProduct")
@@ -24,6 +24,29 @@ ELSE
   SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/506b09a8-e251-4f88-8933-fe368d9a5b3e.png"  
   SET @RedirectURL = "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=4&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619"
 ENDIF
+
+/* Simular un nuevo cliente Endesa con fecha contrato */
+SET @PreContract =  AttributeValue('PreContract')
+SET @SystemDate = Now()
+SET @LocalDate = SystemDateToLocalDate(@SystemDate)
+SET @NewDate = DateAdd(@LocalDate, 1, "D")
+SET @FormattedNewDate = FormatDate(@NewDate, "dd/MM/yyyy", "hh:mm:ss")
+
+InsertDE(
+    "DE_Contratos_Vigor_Total",
+    "ContractId", @PreContract,
+    "SubscriberKey", @User,
+    "NumContrato", GUID(),
+    "PuntoSuministro", 'PS678897',
+    "Fecha_Alta", @FormattedNewDate,
+    "Producto", @SolarProduct,
+    "Mercado", 'PS',
+    "Linea_Negocio", 'Placas Solares',
+    "Tipo_cliente", 'PPSS',
+    "Empleado_Concesion", 0,
+    "Factura_Digital", 1,
+    "Riesgo_Baja_Contract", 'Bajo'
+)
 ]%%
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

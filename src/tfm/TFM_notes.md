@@ -255,6 +255,54 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
           AND DATEADD(DAY, -30, GETDATE())
   ORDER BY CONVERT(DATE, ct.Fecha_Alta, 103) DESC
   ```
+
+  El DE_Satisfaccion debe ser alimentado por un Automation que se ejecuta diariamente controlando la fecha de lanzamiento del contrato con el día actual con SQL, mezclando la tabla de contratos en vigor con la tabla de captación solar. Ésta activa un Journey para que se envíe la encuesta al cliente. El Journey manda el email con el botón de encuesta que lo redirige a una CloudPage con un form, que posteriormente redirige al usuario a una ThankUPage para poder procesar los datos y alimentar otra tabla DE_Satisfaccion_Resp con los resultados.
+
+
+-------------------------------------------------
+
+
+Automation:
+
+SQL -> DE
+
+Journey:
+
+DE -> Email -> Encuesta -> DE_Satisfaccion_Resp
+
+
+-------------------------------------------------
+
+
+Automation SQL -> DE /* se busca el rango que esté entre 10 y 11 meses después de la firma del contrato. Se toman los 100 últimos contratos en órden de proximidad a la fecha de caducidad para poder enviarlos por correo como documento a los comerciales de Endesa */
+
+SELECT TOP 100 
+    ct.ContractId,
+    ct.SubscriberKey,
+    ct.NumContrato,
+    ct.Producto,
+    cs.FirstName AS Nombre,
+    cs.LastName AS Apellido
+FROM
+    DE_Contratos_Vigor_Total ct
+INNER JOIN 
+    DE_Captacion_Solar cs ON ct.SubscriberKey = cs.SubscriberKey
+WHERE
+    CONVERT(DATE, ct.Fecha_Alta, 103) 
+        BETWEEN DATEADD(DAY, -60, GETDATE())
+        AND DATEADD(DAY, -30, GETDATE())
+ORDER BY CONVERT(DATE, ct.Fecha_Alta, 103) DESC
+
+
+-------------------------------------------------
+
+
+Atento al manejo de los datos entre el correo que se envía, el formulario y la DE de llegada.
+Queda por cuadrar eso y cargar la thankUpage de la última pag de satisfaccion
+
+
+
+
   
 # Endesa podría beneficiarse de la siguiente manera:
 

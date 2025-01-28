@@ -1,54 +1,13 @@
 <div style="display: none">
-%%[
-SET @ProductArray = "Solar Basic,Solar Plus,Solar Plus y Batería Virtual,Servicio Asesor Solar"
-SET @ProductRowset = BuildRowsetFromString(@ProductArray, ",")
-SET @RandomIndex = Random(1, RowCount(@ProductRowset))
-SET @SolarProduct = Field(Row(@ProductRowset, @RandomIndex), 1)
-
-IF @SolarProduct == 'Solar Basic' THEN
-  SET @GameReward = '0,20€/l repostando en Cepsa'
-ELSEIF @SolarProduct == 'Solar Plus' THEN
-  SET @GameReward = '0,21€/l repostando en Cepsa'
-ELSEIF @SolarProduct == 'Solar Plus y Batería Virtual' THEN
-  SET @GameReward = '0,23€/l repostando en Cepsa y 100% de recarga eléctrica del coche'
-ELSE
-  SET @GameReward = '0,19€/l repostando en Cepsa'
-ENDIF
-
-SET @StarterNum = 600001
-VAR @PreContract
-SET @LastRecordRow = LookupOrderedRows(
-  "DE_Captacion_Solar", 
-  1, 
-  "CreatedDate DESC", 
-  "isPolicy", "true"
-)
-IF RowCount(@LastRecordRow) > 0 THEN
-  SET @LastRecord = Row(@LastRecordRow, 1)
-  SET @PreContract = Field(@LastRecord, "PreContract")
-ENDIF
-IF Empty(@PreContract) OR @PreContract == "" THEN
-  SET @NewPreContract = Concat('CT', @StarterNum)
-ELSE
-  SET @Str = Substring(@PreContract, 3)
-  SET @Num = FormatNumber(@Str, "G")
-  SET @NewNum = Add(@Num, 1)
-  SET @NewPreContract = Concat("CT", @NewNum)
-ENDIF
-
-SET @BaseURL = 'https://cloud.e.bmind.es/limpia_el_planeta_campaign_thankUpage'
-SET @QueryParams = Concat('?preContract=', @NewPreContract, '&gameReward=', @GameReward, '&solarProduct=', @SolarProduct)
-SET @ThankUPage = Concat(@BaseURL, @QueryParams)
-]%%
+  %%[ VAR @SubscriberKey, @ContractId, @NumContrato, @SolarProduct, @CreatedDate SET @SubscriberKey = RequestParameter('SubscriberKey') SET @ContractId = RequestParameter('ContractId') SET @NumContrato = RequestParameter('NumContrato') SET @SolarProduct = RequestParameter('SolarProduct') SET @SystemDate = Now() SET @LocalDate =
+  SystemDateToLocalDate(@SystemDate) /* SET @NewDate = DateAdd(@LocalDate, 1, "D") */ SET @CreatedDate = FormatDate(@LocalDate, "dd/MM/yyyy", "hh:mm:ss") ]%%
 </div>
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="La tarifa de autoconsumo fotovoltaico Endesa Solar ha sido diseñada para que, en función de tus hábitos de consumo y excedentes vertidos, elijas la opción con la que puedas sacar el máximo rendimiento de tus placas solares y, a la vez, conseguir un mayor ahorro en tu factura." />
+    <meta name="description" content="La tarifa de autoconsumo fotovoltaico Endesa Solar ha sido diseñada para que, en función de tus hábitos de consumo y excedentes vertidos, elijas la opción con la que puedas sacar el máximo rendimiento de tus placas solares y, a la vez, conseguir un mayor ahorro en tu factura." />
     <meta name="keywords" content="Placas solares, Endesa, energía, luz, renovable" />
     <meta name="robots" content="index,follow" />
     <!--  START SOCIAL MEDIA -->
@@ -57,12 +16,8 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <meta property="og:type" content="product" />
     <meta property="og:site_name" content="Endesa" />
     <meta property="og:title" content="Endesa Solar" />
-    <meta
-      property="og:description"
-      content="La tarifa de autoconsumo fotovoltaico Endesa Solar ha sido diseñada para que, en función de tus hábitos de consumo y excedentes vertidos, elijas la opción con la que puedas sacar el máximo rendimiento de tus placas solares y, a la vez, conseguir un mayor ahorro en tu factura." />
-    <meta
-      property="og:image"
-      content="https://www.endesa.com/content/dam/endesa-com/endesaclientes/luz/imagenes/endesa-solar/hero_tarifa_Endesa_Solar.jpg" />
+    <meta property="og:description" content="La tarifa de autoconsumo fotovoltaico Endesa Solar ha sido diseñada para que, en función de tus hábitos de consumo y excedentes vertidos, elijas la opción con la que puedas sacar el máximo rendimiento de tus placas solares y, a la vez, conseguir un mayor ahorro en tu factura." />
+    <meta property="og:image" content="https://www.endesa.com/content/dam/endesa-com/endesaclientes/luz/imagenes/endesa-solar/hero_tarifa_Endesa_Solar.jpg" />
     <meta property="og:image:alt" content="Endesa Solar" />
     <!-- END SOCIAL MEDIA -->
     <!-- START TWITTER -->
@@ -70,24 +25,14 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <meta name="twitter:site" content="@Endesa" />
     <meta name="twitter:creator" content="@Endesa" />
     <meta name="twitter:title" content="Endesa Solar" />
-    <meta
-      name="twitter:description"
-      content="La tarifa de autoconsumo fotovoltaico Endesa Solar ha sido diseñada para que, en función de tus hábitos de consumo y excedentes vertidos, elijas la opción con la que puedas sacar el máximo rendimiento de tus placas solares y, a la vez, conseguir un mayor ahorro en tu factura." />
-    <meta
-      name="twitter:image"
-      content="https://www.endesa.com/content/dam/endesa-com/endesaclientes/luz/imagenes/endesa-solar/hero_tarifa_Endesa_Solar.jpg" />
+    <meta name="twitter:description" content="La tarifa de autoconsumo fotovoltaico Endesa Solar ha sido diseñada para que, en función de tus hábitos de consumo y excedentes vertidos, elijas la opción con la que puedas sacar el máximo rendimiento de tus placas solares y, a la vez, conseguir un mayor ahorro en tu factura." />
+    <meta name="twitter:image" content="https://www.endesa.com/content/dam/endesa-com/endesaclientes/luz/imagenes/endesa-solar/hero_tarifa_Endesa_Solar.jpg" />
     <meta name="twitter:image:alt" content="Endesa Solar" />
     <!--  END TWITTER -->
     <!-- START LANGUAGES -->
     <link rel="alternate" hreflang="ca" href="https://www.endesa.com/ca/cataleg/cataleg-solar/endesa-solar" />
-    <link
-      rel="alternate"
-      hreflang="en"
-      href="https://www.endesa.com/en/catalog/solar-catalogue/endesa-solar" />
-    <link
-      rel="alternate"
-      hreflang="es"
-      href="https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar" />
+    <link rel="alternate" hreflang="en" href="https://www.endesa.com/en/catalog/solar-catalogue/endesa-solar" />
+    <link rel="alternate" hreflang="es" href="https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar" />
     <!-- END LANGUAGES -->
     <!-- START FAVICON -->
     <link rel="shortcut icon" href="public/favicon_io/favicon.ico" type="image/x-icon" />
@@ -98,15 +43,17 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon_io/favicon-16x16.png" />
     <!-- END FAVICON -->
     <!-- START STYLES -->
-    <!-- <link rel="stylesheet" href="./src/css/styles.css" type="text/css" /> -->
-    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9893))=%%" type="text/css" />
-    <!-- <link rel="stylesheet" href="./src/css/modal_languages.css" type="text/css" /> -->
-    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9897))=%%" type="text/css" />
-    <!-- <link rel="stylesheet" href="./src/css/thankUPage.css" type="text/css" /> -->
-    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9906))=%%" type="text/css" />
+    <link rel="stylesheet" href="./src/css/styles.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9893))=%%" type="text/css" /> -->
+    <link rel="stylesheet" href="./src/css/modal_languages.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9897))=%%" type="text/css" /> -->
+    <link rel="stylesheet" href="./src/css/thankUPage.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9906))=%%" type="text/css" /> -->
     <!-- END STYLES -->
     <!-- START HEAD SCRIPTS -->
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <!-- <script type="module" src="src/scripts/script.js"></script> -->
+    <script type="module" src="%%=RedirectTo(CloudPagesURL(9894))=%%"></script>
     <!-- END HEAD SCRIPTS -->
     <title>Endesa</title>
   </head>
@@ -114,64 +61,39 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <!-- START HEADER -->
     <header>
       <!-- START NAV -->
-      <div class="shape-menu">
+      <div id="nav" class="shape-menu">
         <nav class="nav wrapper">
           <ul class="pos-relative list">
             <li id="btnId" class="item-shape">
-              <a href="https://www.endesa.com/es" id="hogares" class="shapeA active" target="_self"
-                >Hogares</a
-              >
+              <a href="https://www.endesa.com/es" id="hogares" class="shapeA active" target="_self">Hogares</a>
               <div class="vertical-tilde"></div>
             </li>
             <li id="btnId" class="item-shape">
-              <a href="https://www.endesa.com/es/empresas" id="empresas" class="shapeA" target="_self"
-                >Empresas</a
-              >
+              <a href="https://www.endesa.com/es/empresas" id="empresas" class="shapeA" target="_self">Empresas</a>
               <div class="vertical-tilde"></div>
             </li>
             <li id="btnId" class="item-shape">
-              <a
-                href="https://www.endesa.com/es/prensa/sala-de-prensa"
-                id="prensa"
-                class="shapeA"
-                target="_self"
-                >Prensa</a
-              >
+              <a href="https://www.endesa.com/es/prensa/sala-de-prensa" id="prensa" class="shapeA" target="_self">Prensa</a>
               <div class="vertical-tilde"></div>
             </li>
             <li id="btnId" class="item-shape">
-              <a
-                href="https://www.endesa.com/es/accionistas-e-inversores/novedades"
-                id="accionistas"
-                class="shapeA"
-                target="_self"
-                >Accionistas &amp; Inversores</a
-              >
+              <a href="https://www.endesa.com/es/accionistas-e-inversores/novedades" id="accionistas" class="shapeA" target="_self">Accionistas &amp; Inversores</a>
               <div class="vertical-tilde"></div>
             </li>
             <li id="btnId" class="item-shape">
-              <a
-                href="https://www.endesa.com/es/talento/cultura-empresarial"
-                id="talento"
-                class="shapeA"
-                target="_self"
-                >Talento</a
-              >
+              <a href="https://www.endesa.com/es/talento/cultura-empresarial" id="talento" class="shapeA" target="_self">Talento</a>
               <div class="vertical-tilde"></div>
             </li>
             <li id="btnId" class="item-shape">
-              <a href="https://www.endesa.com/es/proveedores" id="proveedores" class="shapeA" target="_self"
-                >Proveedores</a
-              >
+              <a href="https://www.endesa.com/es/proveedores" id="proveedores" class="shapeA" target="_self">Proveedores</a>
               <div class="vertical-tilde"></div>
             </li>
             <li id="btnId" class="item-shape">
-              <a href="https://www.endesa.com/es/ciudades" id="ciudades" class="shapeA" target="_self"
-                >Ciudades</a
-              >
+              <a href="https://www.endesa.com/es/ciudades" id="ciudades" class="shapeA" target="_self">Ciudades</a>
               <div></div>
             </li>
           </ul>
+          <!-- START MODAL LANGUAGES -->
           <div id="modalLanguages" class="modal-languages">
             <div class="modal-languages__container">
               <div id="modalSelect" class="modal-languages__select" tabindex="0">
@@ -181,17 +103,16 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
               <div id="modalOptions" class="modal-languages__options" style="display: none"></div>
             </div>
           </div>
+          <!-- END MODAL LANGUAGES -->
         </nav>
       </div>
       <!-- END NAV -->
 
       <!-- START SUBNAV -->
-      <div class="subnav wrapper">
+      <div id="subnav" class="subnav wrapper">
+        <button id="actionSubnav" style="display: none">Ξ</button>
         <a class="link-logo" href="https://www.endesa.com/es" aria-label="Home de Endesa">
-          <img
-            class="subnav__link-logo--img"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/8eff6813-c8a8-403a-adcd-3a01b484823e.png"
-            alt="80 aniversario de Endesa" />
+          <img class="subnav__link-logo--img" src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/8eff6813-c8a8-403a-adcd-3a01b484823e.png" alt="80 aniversario de Endesa" />
         </a>
         <ul class="subnav__list">
           <li><a href="">Luz y gas</a></li>
@@ -204,23 +125,50 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
           <li><a href="">Compromiso</a></li>
         </ul>
         <div class="subnav__icons">
-          <a
-            href="https://www.endesaclientes.com/login.html?d=Any&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736645259"
-            aria-label="Iniciar sesión"
-            ><img
-              class="subnav__icons--width"
-              src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/1a64d088-f184-465a-8c7d-9995ee749a06.png"
-              alt="Imagen de login usuario"
+          <a href="https://www.endesaclientes.com/login.html?d=Any&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736645259" aria-label="Iniciar sesión"
+            ><img class="subnav__icons--width" src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/1a64d088-f184-465a-8c7d-9995ee749a06.png" alt="Imagen de login usuario"
           /></a>
           <a href="#busq" aria-label="Abrir barra de búsqueda">
-            <img
-              class="subnav__icons--width"
-              src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/4e84d8e2-51ba-4efb-93dd-2fc58cbdd9fd.png"
-              alt="Imagen del buscador" />
+            <img class="subnav__icons--width" src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/4e84d8e2-51ba-4efb-93dd-2fc58cbdd9fd.png" alt="Imagen del buscador" />
           </a>
         </div>
       </div>
       <!-- END SUBNAV -->
+
+      <!-- START PHONE NAV -->
+      <div id="modalPhoneNav">
+        <ul class="list">
+          <li id="btnId" class="item-shape">
+            <a href="https://www.endesa.com/es" id="hogares" class="shapeA active" target="_self">Hogares</a>
+            <div class="vertical-tilde"></div>
+          </li>
+          <li id="btnId" class="item-shape">
+            <a href="https://www.endesa.com/es/empresas" id="empresas" class="shapeA" target="_self">Empresas</a>
+            <div class="vertical-tilde"></div>
+          </li>
+          <li id="btnId" class="item-shape">
+            <a href="https://www.endesa.com/es/prensa/sala-de-prensa" id="prensa" class="shapeA" target="_self">Prensa</a>
+            <div class="vertical-tilde"></div>
+          </li>
+          <li id="btnId" class="item-shape">
+            <a href="https://www.endesa.com/es/accionistas-e-inversores/novedades" id="accionistas" class="shapeA" target="_self">Accionistas &amp; Inversores</a>
+            <div class="vertical-tilde"></div>
+          </li>
+          <li id="btnId" class="item-shape">
+            <a href="https://www.endesa.com/es/talento/cultura-empresarial" id="talento" class="shapeA" target="_self">Talento</a>
+            <div class="vertical-tilde"></div>
+          </li>
+          <li id="btnId" class="item-shape">
+            <a href="https://www.endesa.com/es/proveedores" id="proveedores" class="shapeA" target="_self">Proveedores</a>
+            <div class="vertical-tilde"></div>
+          </li>
+          <li id="btnId" class="item-shape">
+            <a href="https://www.endesa.com/es/ciudades" id="ciudades" class="shapeA" target="_self">Ciudades</a>
+            <div></div>
+          </li>
+        </ul>
+      </div>
+      <!-- END PHONE NAV -->
     </header>
     <!-- END HEADER -->
 
@@ -228,124 +176,73 @@ SET @ThankUPage = Concat(@BaseURL, @QueryParams)
     <main>
       <!-- START BANNER -->
       <a class="banner" href="">
-        <p class="wrapper">
-          En enero, llévate 160€ por contratar luz y gas con Endesa. <strong>¡Contrata ya!</strong>
-        </p>
+        <p class="wrapper">En enero, llévate 160€ por contratar luz y gas con Endesa. <strong>¡Contrata ya!</strong></p>
       </a>
       <!-- END BANNER -->
 
-      <!-- START MODAL -->
-      <div class="action-modal">
-        <button id="openModal" class="open-modal">
-          <div>
-            <img
-              src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/55f653e0-880d-4471-a97d-2803be3833fb.png"
-              alt="Casa alimentada con placas solares" />
-          </div>
-          <span class="open-modal__txt">Poseedor&nbsp;de<br/>Placas&nbsp;Solares</span>
-        </button>
-      </div>
-
-      <section id="modal" class="modal">
-        <div class="modal__content">
-          <!-- La "x" -->
-          <span id="closeModal" class="modal__close"> &times; </span>
-          <div class="modal__titles">
-            <h2>¡Limpia el Planeta!</h2>
-            <h3>¡Enchufa tu Placa Solar y consigue maravillas!</h3>
-          </div>
-          <img
-            hidden
-            id="treesBackground"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/5c0e9867-f5e4-40c2-9d79-4b4569b216b6.png"
-            alt="Paisaje con árboles sin fondo" />
-          <img
-            hidden
-            id="imgError"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/e3fd6223-765f-40d6-acb3-3f8cb61fcbac.png"
-            alt="Imagen de error" />
-          <img
-            hidden
-            id="panelSolar"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/b33cca44-0fd0-42ef-b794-01027e6cdbe2.png"
-            alt="Panel Solar" />
-          <img
-            hidden
-            id="planetaLimpio"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/cfaf2d33-47a9-4aca-9834-6d3fcf4a347f.png"
-            alt="Planeta Tierra limpio" />
-          <img
-            hidden
-            id="planetaSucio"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/c11133e2-b7e1-4050-bbf7-af98bfa0ff5e.png"
-            alt="Planeta Tierra sucio" />
-          <img
-            hidden
-            id="enchufe"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/66202279-eaed-4249-9637-b8be694b1a8f.png"
-            alt="Planeta Tierra sucio" />
-          <img
-            hidden
-            id="schuko"
-            src="https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/1a3db217-b3d2-4259-9b07-96b2528ae784.png"
-            alt="Planeta Tierra sucio" />
-          <canvas id="gameCanvas"></canvas>
-          <!-- START DESCUENTO -->
-          <h3 id="descuento" class="descuento vis-hidden">
-            ¡Has conseguido %%=V(@GameReward)=%% al contratar Endesa!
+      <!-- START FORM -->
+      <form class="satisForm" action="%%=V(@ThankUPage)=%%" method="POST" role="form" class="wrapper" accept-charset="UTF-8">
+        <div class="satisForm__titles">
+          <h3>
+            ¿Con qué probabilidad recomendarías este servicio a sus amigos, <br />
+            familiares o compañeros?
           </h3>
-          <!-- END DESCUENTO -->
+          <h5>
+            Indique su respuesta en una escala del 0 al 5. <br />
+            Donde 0 significa "Muy poco probable" y 10 significa "Muy probable".
+          </h5>
         </div>
-      </section>
-      <!-- END MODAL -->
 
-      <!-- START FORM + POLICY -->
-      <form
-        id="form"
-        action="%%=V(@ThankUPage)=%%"
-        method="POST"
-        role="form"
-        class="wrapper"
-        style="display: none"
-        accept-charset="UTF-8">
-        <label for="firstName">Nombre*</label>
-        <input type="text" id="firstName" name="firstName" required /><br />
+        <!-- START RADIO -->
+        <div class="satisForm__radio">
+          <input type="radio" id="ans0" name="ans" required />
+          <label class="satisForm__label" for="ans0" value="0">⭐0 <span class="satisForm__radiobtn"></span></label>
 
-        <label for="lastName">Apellidos*</label>
-        <input type="text" id="lastName" name="lastName" required /><br />
+          <input type="radio" id="ans1" name="ans" required />
+          <label class="satisForm__label" for="ans1" value="1">⭐1 <span class="satisForm__radiobtn"></span></label>
 
-        <label for="email">Email*</label>
-        <input type="email" id="email" name="email" required /><br />
+          <input type="radio" id="ans2" name="ans" required />
+          <label class="satisForm__label" for="ans2" value="2">⭐2 <span class="satisForm__radiobtn"></span></label>
 
-        <label for="birthday">Fecha de nacimiento*</label>
-        <input type="date" id="birthday" name="birthday" /><br />
+          <input type="radio" id="ans3" name="ans" required />
+          <label class="satisForm__label" for="ans3" value="3">⭐3 <span class="satisForm__radiobtn"></span></label>
 
-        <div>
-          <input 
-            type="checkbox" 
-            name="isPolicy" 
-            id="isPolicy" 
-            value="true"
-            required
-          />
-          <label for="isPolicy">Consentimientos del tratamiento de datos personales*</label>
+          <input type="radio" id="ans4" name="ans" required />
+          <label class="satisForm__label" for="ans4" value="4">⭐4 <span class="satisForm__radiobtn"></span></label>
+
+          <input type="radio" id="ans5" name="ans" required />
+          <label class="satisForm__label" for="ans5" value="5">⭐5 <span class="satisForm__radiobtn"></span></label>
         </div>
+        <!-- END RADIO -->
+
+        <!-- START TEXTAREA -->
+        <div class="satisForm__txtarea">
+          <h4 for="motivo">Nos gustaría saber por qué ha elegido esa puntuación.</h4>
+          <textarea name="motivo" id="motivo" placeholder="Responda aquí..." rows="15" cols="60" required></textarea>
+        </div>
+        <!-- END TEXTAREA -->
+
+        <!-- START HIDDEN INPUT FOR THANK U PAGE-->
+        <input type="hidden" name="num-contrato" value="%%=V(@NumContrato)=%%" />
+        <input type="hidden" name="sub-key" value="%%=V(@SubscriberKey)=%%" />
+        <input type="hidden" name="contract-id" value="%%=V(@ContractId)=%%" />
+        <input type="hidden" name="prod" value="%%=V(@SolarProduct)=%%" />
+        <!-- END HIDDEN INPUT FOR THANK U PAGE-->
+
         <br />
         <button type="submit" name="submit">Enviar</button>
       </form>
-      <!-- END FORM + POLICY-->
+      <!-- END FORM -->
     </main>
     <!-- END MAIN -->
     <!-- START FOOTER -->
     <footer></footer>
     <!-- END FOOTER -->
     <!-- START BODY SCRIPTS -->
-    <!-- <script type="module" src="src/scripts/script.js"></script> -->
-    <script type="module" src="%%=RedirectTo(CloudPagesURL(9894))=%%"></script>
-    <!-- <script type="module" src="src/scripts/twitter.js"></script> -->
-    <script type="module" src="%%=RedirectTo(CloudPagesURL(9896))=%%"></script>
-    <!-- <script type="module" src="src/scripts/modal_languages.js"></script> -->
-    <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script>
+    <script type="module" src="src/scripts/twitter.js"></script>
+    <!-- <script type="module" src="%%=RedirectTo(CloudPagesURL(9896))=%%"></script> -->
+    <script type="module" src="src/scripts/modal_languages.js"></script>
+    <!-- <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script> -->
     <!-- END BODY SCRIPTS -->
   </body>
 </html>

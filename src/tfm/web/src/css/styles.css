@@ -1,8 +1,7 @@
 /* Fonts */
 @font-face {
   font-family: 'Noto Sans';
-  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap')
-    format('woff');
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap') format('woff');
 }
 
 *,
@@ -236,6 +235,13 @@ main {
   font-weight: 400;
 }
 
+.subnav__list li a {
+  display: inline-block;
+  height: 80%;
+  place-content: center;
+}
+
+/* La linea de abajo al hacer hover en el link */
 .subnav__list li::before {
   content: '';
   position: absolute;
@@ -270,8 +276,7 @@ main {
   width: 1.3rem;
   height: auto;
 
-  filter: brightness(0) saturate(100%) invert(29%) sepia(80%) saturate(1456%) hue-rotate(199deg)
-    brightness(103%) contrast(104%);
+  filter: brightness(0) saturate(100%) invert(29%) sepia(80%) saturate(1456%) hue-rotate(199deg) brightness(103%) contrast(104%);
 }
 
 [aria-label='Abrir barra de búsqueda'] {
@@ -351,8 +356,7 @@ main {
   */
   width: 1.875rem;
   height: auto;
-  filter: brightness(0) saturate(100%) invert(16%) sepia(49%) saturate(6420%) hue-rotate(326deg)
-    brightness(93%) contrast(96%);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(49%) saturate(6420%) hue-rotate(326deg) brightness(93%) contrast(96%);
   -webkit-filter: brightness(0) saturate(100%) invert(16%) sepia(49%) saturate(6420%) hue-rotate(326deg);
 }
 
@@ -372,10 +376,8 @@ main {
 
 @media (hover: hover) {
   .open-modal:hover > div img {
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7498%) hue-rotate(86deg)
-      brightness(105%) contrast(101%);
-    -webkit-filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7498%) hue-rotate(86deg)
-      brightness(105%) contrast(101%);
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7498%) hue-rotate(86deg) brightness(105%) contrast(101%);
+    -webkit-filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7498%) hue-rotate(86deg) brightness(105%) contrast(101%);
   }
   .open-modal:hover .open-modal__txt {
     color: var(--color-white);
@@ -433,6 +435,126 @@ main {
 }
 
 [id='form'] > button {
+  display: flex;
+
+  margin: auto;
+
+  padding: 10px 20px;
+}
+
+.satisForm {
+  display: flex;
+  flex-flow: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.satisForm__titles h3 {
+  padding: 0.9375rem 0;
+  text-align: center;
+}
+
+.satisForm__titles h5 {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.satisForm__radio {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.satisForm input {
+  display: none;
+}
+
+.satisForm__label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  padding: 0.3125rem;
+
+  border-radius: 0.1875rem;
+  -webkit-border-radius: 0.1875rem;
+  -moz-border-radius: 0.1875rem;
+  -ms-border-radius: 0.1875rem;
+  -o-border-radius: 0.1875rem;
+}
+
+.satisForm__radiobtn {
+  width: 1.25rem;
+  height: 1.25rem;
+
+  box-shadow: 0.0313rem 0.0625rem 0.0938rem 0.0625rem var(--color-dark-gray);
+
+  position: relative;
+  top: 0;
+  left: 0;
+
+  cursor: pointer;
+
+  border-radius: 0.1875rem;
+  -webkit-border-radius: 0.1875rem;
+  -moz-border-radius: 0.1875rem;
+  -ms-border-radius: 0.1875rem;
+  -o-border-radius: 0.1875rem;
+}
+
+.satisForm__radiobtn::after {
+  content: '';
+
+  width: 0.9375rem;
+  height: 0.9375rem;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  background: #1863ed;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  border-radius: 0.1875rem;
+  -webkit-border-radius: 0.1875rem;
+  -moz-border-radius: 0.1875rem;
+  -ms-border-radius: 0.1875rem;
+  -o-border-radius: 0.1875rem;
+
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+
+.satisForm input:checked + label .satisForm__radiobtn::after {
+  opacity: 1;
+}
+
+.satisForm input:checked + label {
+  font-weight: 600;
+}
+
+.satisForm__txtarea {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+
+.satisForm__txtarea [for='motivo'] {
+  padding: 0.625rem;
+}
+
+.satisForm__txtarea [name='motivo'] {
+  padding: 0.625rem;
+}
+
+.satisForm button {
   display: flex;
 
   margin: auto;

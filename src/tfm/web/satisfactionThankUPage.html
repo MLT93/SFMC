@@ -1,124 +1,38 @@
 <div style="display: none">
 %%[
-VAR @FirstName, @LastName, @SubscriberKey, @EmailAddress, @GameReward, @SolarProduct, @PreContract, @isPolicy, @CreatedDate, @Birthday
+/*
+ContractId
+SubscriberKey
+NumContrato
+Producto
+Puntuacion
+Motivo
+Fecha_Alta
+Nombre
+Apellido
+FechaRenovacion
+*/
 
-SET @FirstName = RequestParameter('firstName')
-SET @LastName = RequestParameter('lastName')
-SET @SubscriberKey = GUID()
-SET @EmailAddress = RequestParameter('email')
-SET @GameReward = RequestParameter('gameReward')
-SET @SolarProduct = RequestParameter('solarProduct')
-SET @PreContract = RequestParameter('preContract')
-SET @isPolicy = RequestParameter('isPolicy')
+
+VAR @
+
+SET @Valoracion = RequestParameter('ans')
+SET @Motivo = RequestParameter('motivo')
+SET @NumContrato = RequestParameter('num-contrato')
+SET @SubscriberKey = RequestParameter('sub-key')
+SET @ContractId = RequestParameter('contract-id')
+SET @SolarProduct = RequestParameter('prod')
+SET @Valoracion = RequestParameter('')
+SET @Valoracion = RequestParameter('')
+SET @Valoracion = RequestParameter('')
 
 SET @SystemDate = Now()
 SET @LocalDate = SystemDateToLocalDate(@SystemDate)
 SET @CreatedDate = FormatDate(@LocalDate, "dd/MM/yyyy", "hh:mm:ss")
 
-SET @ReqBirthday = RequestParameter('birthday')
-SET @Birthday = FormatDate(@ReqBirthday, "dd/MM/yyyy")
-
-
-SET @RowSet = LookupRows('DE_FinContratoRespuestas_MLT','SubscriberKey', @SubKey, 'NumContrato', @QueryParamNumContrato)
+SET @RowSet = InsertDE('DE_FinContratoRespuestas_MLT','SubscriberKey', @SubKey, 'NumContrato', @QueryParamNumContrato)
 ]%%
 </div>
-
-<script runat="server">
-  Platform.Load('Core', '1');
-  
-  /* var debugging = true; */
-  var req;
-  var res;
-
-  /* DATA + SETUP */
-  var data = {
-    SubscriberKey: Platform.Variable.GetValue('@SubscriberKey'),
-    FirstName: Platform.Variable.GetValue('@FirstName'),
-    LastName: Platform.Variable.GetValue('@LastName'),
-    EmailAddress: Platform.Variable.GetValue('@EmailAddress'),
-    GameReward: Platform.Variable.GetValue('@GameReward'),
-    SolarProduct: Platform.Variable.GetValue('@SolarProduct'),
-    PreContract: Platform.Variable.GetValue('@PreContract'),
-    isPolicy: Platform.Variable.GetValue('@isPolicy'),
-    CreatedDate: Platform.Variable.GetValue('@CreatedDate'),
-    Birthday: Platform.Variable.GetValue('@Birthday')
-  };
-  
-  /* debugging ? Write('<h1 style="color: red;">SubscriberKey: ' + data.SubscriberKey + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">FirstName: ' + data.FirstName + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">LastName: ' + data.LastName + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">EmailAddress: ' + data.EmailAddress + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">GameReward: ' + data.GameReward + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">SolarProduct: ' + data.SolarProduct + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">PreContract: ' + data.PreContract + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">isPolicy: ' + data.isPolicy + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">CreatedDate: ' + data.CreatedDate + '</h1><br><br>') : null;
-  debugging ? Write('<h1 style="color: red;">Birthday: ' + data.Birthday + '</h1><br><br>') : null; */
-  
-  var setup = {
-    authBaseURI: 'https://mcm3-rvv-d4cz50jm6nszgy0rzn4.auth.marketingcloudapis.com/',
-    restBaseURI: 'https://mcm3-rvv-d4cz50jm6nszgy0rzn4.rest.marketingcloudapis.com/',
-    accountId: '510011124',
-    clientId: 'trbcn36l0xvhaav9dkjbvt9w',
-    clientSecret: 'vMYA6wjVqU0iKUmSujR1QuUT',
-    eventDefinitionKey: 'APIEvent-cdccc77a-22aa-882c-e9c5-27d4cd65d03f'
-  };
-
-  /* FUNCTIONS */
-  function getToken(bodyToken) {
-    var config = {
-      url: bodyToken.authBaseURI + "v2/token",
-      contentType: "application/json; charset=UTF-8",
-      payload: Platform.Function.Stringify({
-        client_id: bodyToken.clientId,
-        client_secret: bodyToken.clientSecret,
-        account_id: bodyToken.accountId,
-        grant_type: "client_credentials"
-      })
-    };
-
-    req = HTTP.Post(config.url, config.contentType, config.payload);
-    if (req.StatusCode == 200) {
-      res = Platform.Function.ParseJSON(req.Response[0]);
-      return res;
-    }
-  }
-
-  function triggerEvent(auth, setup, data) {
-    var config = {
-      url: setup.restBaseURI + "interaction/v1/events",
-      contentType: "application/json; charset=UTF-8",
-      headerName: ["Authorization"],
-      headerValue: ["Bearer " + auth],
-      payload: Platform.Function.Stringify({
-        ContactKey: data.SubscriberKey,
-        EventDefinitionKey: setup.eventDefinitionKey,
-        Data: data
-      })
-    };
-
-    req = HTTP.Post(config.url, config.contentType, config.payload, config.headerName, config.headerValue);
-    if (req.StatusCode == 201) {
-      res = Platform.Function.ParseJSON(req.Response[0]);
-      return res;
-    }
-  }
-
-  /* REQUEST HTTP */
-  try {
-    var authToken = getToken(setup);
-    Platform.Variable.SetValue("@AuthToken", authToken.access_token);
-    if (authToken.access_token) {
-      var triggerResponse = triggerEvent(authToken.access_token, setup, data);
-      /* debugging ? Write('<h1 style="color: red;">EventInstanceId (OK): ' + triggerResponse.eventInstanceId + '</h1><br><br>') : null; */
-      Platform.Variable.SetValue("@TriggerResponse", triggerResponse);
-    }
-  } catch (e) {
-    if (e) {
-      Platform.Variable.SetValue("@Error", e.message);
-    }
-  }
-</script>
 <!DOCTYPE html>
 <html lang="es">
   <head>
