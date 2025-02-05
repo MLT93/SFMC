@@ -1,12 +1,28 @@
 %%[
-SET @SubscriberKey = _SubscriberKey 
+VAR @SubscriberKey, @EmailAddress, @ImgCasaSolar, @RowSet, @QuantityRows, @Element, @NumContrato, @ContractId, @SolarProduct, @RedirectURL, @Nombre, @Apellido
+
+SET @TipoCliente = Tipo_cliente
+SET @SubscriberKey = SubscriberKey 
 SET @EmailAddress = EmailAddr 
-SET @SolarProduct = AttributeValue('Producto') 
-SET @NumContrato = AttributeValue('NumContrato') 
-SET @ContractId = AttributeValue('ContractId') 
+SET @Nombre = Nombre
+SET @Apellido = Apellido
 SET @ImgCasaSolar = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/abc07ce1-d733-4cd6-8f47-f6a2f3aef996.png" 
 
-SET @RedirectURL = CloudPagesURL(9715, 'SubscriberKey', @SubscriberKey, 'ContractId', @ContractId, 'NumContrato', @NumContrato, 'SolarProduct', @SolarProduct)
+SET @RowSet = LookupRows('DE_Contratos_Vigor_Total', 'SubscriberKey', @SubscriberKey)
+SET @QuantityRows = RowCount(@RowSet)
+
+IF @QuantityRows > 0 THEN 
+  FOR @i = 1 TO @QuantityRows DO
+    SET @Element = Row(@RowSet, @i)
+    SET @NumContrato = Field(@Element, 'NumContrato')
+    SET @ContractId = Field(@Element, 'ContractId')
+    SET @SolarProduct = Field(@Element, 'Producto')
+  NEXT @i
+  
+  SET @RedirectURL = CloudPagesURL(9979, 'SubscriberKey', @SubscriberKey, 'ContractId', @ContractId, 'NumContrato', @NumContrato, 'SolarProduct', @SolarProduct, 'Nom', @Nombre, 'Apell', @Apellido)
+ELSE
+  SET @RedirectURL = "https://www.endesa.com/es/luz-y-gas/catalogo-solar/endesa-solar#"
+ENDIF
 ]%%
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml" style="width: 100% !important; height: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; margin: 0 !important; padding: 0 !important">
@@ -453,8 +469,8 @@ SET @RedirectURL = CloudPagesURL(9715, 'SubscriberKey', @SubscriberKey, 'Contrac
                                   <table align="center" width="90%" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; border-collapse: collapse; border-spacing: 0px; mso-table-lspace: 0pt; mso-table-rspace: 0pt" border="0" cellpadding="0" cellspacing="0">
                                     <tr>
                                       <td align="center" style="border-collapse: collapse; color: #333; font-size: 14px; line-height: 17px; mso-line-height-rule: exactly; padding-left: 5px; padding-top: 10px">
-                                        <strong>¡Tu contrato con Endesa está a punto de finalizar y queremos conocer su opinión mediante el siguiente formulario!</strong><br /><br />
-                                        ¡Coméntanos cómo te encuentras con tu %%=V(@SolarProduct)=%%&#33;
+                                        <strong>¡Tu contrato con Endesa está a punto de finalizar y queremos conocer tu opinión mediante el siguiente formulario!</strong><br /><br />
+                                        ¡Coméntanos cómo te encuentras con tu <strong>%%=V(@SolarProduct)=%%</strong>&#33;
                                       </td>
                                     </tr>
                                   </table>
@@ -484,7 +500,7 @@ SET @RedirectURL = CloudPagesURL(9715, 'SubscriberKey', @SubscriberKey, 'Contrac
                         <!--[if mso]>
                           <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="%%=RedirectTo(@RedirectURL)=%%" style="height: 37.5pt; v-text-anchor: middle; width: 172.5pt" arcsize="100%" strokecolor="#d3135a" fillcolor="#d3135a">
                             <w:anchorlock />
-                            <center style="color: #fff; font-family: Arial, sans-serif; font-size: 13px; letter-spacing: 2px; mso-line-height-rule: exactly; line-height: 15px">ME APUNTO</center>
+                            <center style="color: #fff; font-family: Arial, sans-serif; font-size: 13px; letter-spacing: 2px; mso-line-height-rule: exactly; line-height: 15px">OPINAR</center>
                           </v:roundrect>
                         <![endif]-->
                         <a
@@ -509,7 +525,7 @@ SET @RedirectURL = CloudPagesURL(9715, 'SubscriberKey', @SubscriberKey, 'Contrac
                             transition: all 0.2s linear;
                           "
                           target="_blank"
-                          >ME APUNTO</a
+                          >OPINAR</a
                         >
                       </div>
                       <!-- <br /><br />
@@ -621,7 +637,7 @@ SET @RedirectURL = CloudPagesURL(9715, 'SubscriberKey', @SubscriberKey, 'Contrac
             <tr>
               <td bgcolor="#fff" style="border-collapse: collapse; padding-bottom: 30px">
                 <center>
-                  <span style="text-align: center; font-size: 11px; color: transparent">%%_SubscriberKey%%</span>
+                  <span style="text-align: center; font-size: 11px; color: transparent">%%=V(@SubscriberKey)=%%</span>
                   <span style="text-align: center; font-size: 11px; color: transparent">%%=V(@TipoCliente)=%%</span>
                 </center>
               </td>

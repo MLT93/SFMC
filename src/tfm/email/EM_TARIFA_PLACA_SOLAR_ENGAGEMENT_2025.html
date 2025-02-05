@@ -1,7 +1,7 @@
 %%[
 VAR @SolarProduct, @GameReward, @ImgTarifa, @IconTarifa
 
-SET @User = _SubscriberKey
+SET @User = SubscriberKey
 SET @SolarProduct = AttributeValue("SolarProduct")
 SET @GameReward = AttributeValue("GameReward")
 SET @ImgTarifa = ""
@@ -24,6 +24,7 @@ ELSE
   SET @IconTarifa = "https://image.e.bmind.es/lib/fe4011717564057c741674/m/1/506b09a8-e251-4f88-8933-fe368d9a5b3e.png"  
   SET @RedirectURL = "https://www.endesaclientes.com/Hogares/Proceso-de-Ventas?idProduct=1500550443759&idLightOffer=TV2ST&ocrenabled=true&colectivo=SimplyBateriaV&mod=4&dlidl=ef21d7b0b9b9c6a2aa750b8f2ed44ddb936399d6&adobe_mc=MCMID%3D51084085944032686781036648074883643348%7CMCORGID%3D43E04E5354FA398A0A4C98A2%2540AdobeOrg%7CTS%3D1736945619"
 ENDIF
+]%%
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html
@@ -1185,9 +1186,7 @@ ENDIF
             <tr>
               <td bgcolor="#fff" style="border-collapse: collapse; padding-bottom: 30px">
                 <center>
-                  <span style="text-align: center; font-size: 11px; color: transparent"
-                    >%%_SubscriberKey%%</span
-                  >
+                  <span style="text-align: center; font-size: 11px; color: transparent">%%=V(@User)=%%</span>
                 </center>
               </td>
             </tr>

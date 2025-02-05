@@ -20,6 +20,7 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
 
   - DE_Captacion_Solar
   - DE_Open_Tracking
+  - DE_Satisfaccion
   - DE_Clientes_Cartera
   - DE_Contratos_Vigor_Total
   - DE_Interactions_Web
@@ -46,7 +47,6 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
         _Open o ON s.SubscriberKey = o.SubscriberKey AND s.JobID = o.JobID
     WHERE
         s.EventDate >= DATEADD(DAY, -3, GETDATE())
-
     ```
 - Se envía al usuario en caso de aceptación un email para avisarle que en breves será contactado y felicitarlo. Además, habría que mandar una comunicación o aviso a Endesa para que empiece un procedimiento de contacto al cliente en caso del éxito de la respuesta. De éste modo se facilita la contratación y el contacto humano con el cliente, lo cual favorece la relación entre Empresa y usuario.
 - Esperar otros 3 días
@@ -57,7 +57,7 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
 - ##### Notas:
 
 
-  - Tratar de evitar envíos los días viernes (estatísticamente está comprobado que es poco saludable para la empresa)
+  - Tratar de evitar envíos los días viernes (estadísticamente está comprobado que es poco saludable para la empresa)
   - Para tomar la info que viene de la CloudPage enviar todo a través de Query Params (ej. SET @email = RequestParameter('email'))
   - Se mejora alguna pequeña falla en la página web original como el z-index que corresponde al modal que abre la elección de los idiomas  en la página oficial (queda por debajo del subnav), haciéndolo más vistoso también.
 
@@ -151,6 +151,7 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
          "scope": "tracking_events_write event_notification_subscription_delete event_notification_subscription_update event_notification_subscription_read event_notification_subscription_create event_notification_callback_delete event_notification_callback_update event_notification_callback_read event_notification_callback_create marketing_cloud_connect_send marketing_cloud_connect_write marketing_cloud_connect_read ott_channels_write ott_channels_read ott_chat_messaging_send ott_chat_messaging_read workflows_read tags_read approvals_read tags_write approvals_write workflows_write webhooks_write webhooks_read users_write users_read accounts_write accounts_read campaign_write campaign_read calendar_write calendar_read tracking_events_read file_locations_write file_locations_read data_extensions_write data_extensions_read list_and_subscribers_write list_and_subscribers_read web_write web_publish social_write social_read social_publish social_post sms_write sms_send sms_read push_write push_send push_read email_write email_send email_read journeys_write journeys_read journeys_execute automations_write automations_read automations_execute saved_content_write saved_content_read documents_and_images_write documents_and_images_read offline"
      }'
      ```
+
      ```cURL
      # Request para realizar la Request
      curl --location 'https://mcm3-rvv-d4cz50jm6nszgy0rzn4.rest.marketingcloudapis.com/interaction/v1/events' \
@@ -173,6 +174,7 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
          }
      }'
      ```
+
      - Código introducido den la Thank U Page:
 
      ```js
@@ -226,16 +228,15 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
 
   La tabla DE_Satisfaccion debe ser alimentada por un Automation que se ejecuta diariamente controlando la fecha de lanzamiento del contrato con el día actual con SQL, mezclando la tabla de contratos con la tabla de clientes. Ésta activa un Journey para que se envíe la encuesta al cliente. El Journey manda el email con el botón de encuesta que lo redirige a una CloudPage con un form, que posteriormente redirige al usuario a una ThankUPage para poder procesar los datos y alimentar otra tabla DE_Satisfaccion_Resp con los resultados.
 
-
   Automation:
 
   SQL -> DE
 
   Journey:
 
-  DE -> Email -> Encuesta -> DE_Satisfaccion_Resp
+  DE -> Email -> Encuesta -> DE_Satisfaccion_FinContrato
 
-  Automation SQL -> DE /* se busca el rango que esté entre 10 y 11 meses después de la firma del contrato. Se toman los 100 últimos contratos en órden de proximidad a la fecha de caducidad */
+  Automation SQL -> DE /* se busca el rango que esté entre 10 y 11 meses después de la firma del contrato. Se toman los 100 últimos contratos en orden de proximidad a la fecha de caducidad */
 
   ```sql
   SELECT TOP 100 
@@ -256,54 +257,14 @@ Añade también un prólogo relacionado y unas conclusiones impactantes y signif
   ORDER BY CONVERT(DATE, ct.Fecha_Alta, 103) DESC
   ```
 
-  El DE_Satisfaccion debe ser alimentado por un Automation que se ejecuta diariamente controlando la fecha de lanzamiento del contrato con el día actual con SQL, mezclando la tabla de contratos en vigor con la tabla de captación solar. Ésta activa un Journey para que se envíe la encuesta al cliente. El Journey manda el email con el botón de encuesta que lo redirige a una CloudPage con un form, que posteriormente redirige al usuario a una ThankUPage para poder procesar los datos y alimentar otra tabla DE_Satisfaccion_Resp con los resultados.
+  El DE_Satisfaccion debe ser alimentado por un Automation que se ejecuta diariamente controlando la fecha de lanzamiento del contrato con el día actual con SQL, mezclando la tabla de contratos en vigor con la tabla de captación solar. Ésta activa un Journey para que se envíe la encuesta al cliente. El Journey manda el email con el botón de encuesta que lo redirige a una CloudPage con un form, que posteriormente redirige al usuario a una ThankUPage para poder procesar los datos y alimentar otra tabla DE_Satisfaccion_FinContrato con los resultados.
 
-
--------------------------------------------------
-
-
-Automation:
-
-SQL -> DE
-
-Journey:
-
-DE -> Email -> Encuesta -> DE_Satisfaccion_Resp
-
-
--------------------------------------------------
-
-
-Automation SQL -> DE /* se busca el rango que esté entre 10 y 11 meses después de la firma del contrato. Se toman los 100 últimos contratos en órden de proximidad a la fecha de caducidad para poder enviarlos por correo como documento a los comerciales de Endesa */
-
-SELECT TOP 100 
-    ct.ContractId,
-    ct.SubscriberKey,
-    ct.NumContrato,
-    ct.Producto,
-    cs.FirstName AS Nombre,
-    cs.LastName AS Apellido
-FROM
-    DE_Contratos_Vigor_Total ct
-INNER JOIN 
-    DE_Captacion_Solar cs ON ct.SubscriberKey = cs.SubscriberKey
-WHERE
-    CONVERT(DATE, ct.Fecha_Alta, 103) 
-        BETWEEN DATEADD(DAY, -60, GETDATE())
-        AND DATEADD(DAY, -30, GETDATE())
-ORDER BY CONVERT(DATE, ct.Fecha_Alta, 103) DESC
-
-
--------------------------------------------------
-
+---
 
 Atento al manejo de los datos entre el correo que se envía, el formulario y la DE de llegada.
-Queda por cuadrar eso y cargar la thankUpage de la última pag de satisfaccion
 
+---
 
-
-
-  
 # Endesa podría beneficiarse de la siguiente manera:
 
 Los valores que mencioné son estimaciones basadas en tendencias generales del sector energético y de movilidad eléctrica.
@@ -311,32 +272,30 @@ Los valores que mencioné son estimaciones basadas en tendencias generales del s
 **En cuanto al sector energético en España para 2025, se observan varias tendencias importantes:**
 
 1. Crecimiento de las energías renovables: Se prevé que alrededor del 42% de la energía consumida en España provendrá de fuentes renovables. La capacidad instalada de energía solar se situará entre 28 y 30 GW, duplicando la capacidad actual.
-
 2. Liderazgo de la energía eólica: Continuará siendo la principal fuente de electricidad en España, con una capacidad instalada que podría superar los 40 GW.
-
-3. Avance en la descarbonización: España busca reducir emisiones y asegurar el crecimiento económico simultáneamente[2].
-
+3. Avance en la descarbonización: España busca reducir emisiones y asegurar el crecimiento económico simultáneamente.
 4. Aumento de la independencia energética: Se espera una reducción gradual del uso de gas natural y GNL a medida que avanzan las alternativas limpias.
-
 5. Desarrollo de mercados de flexibilidad energética: Se perfila como un punto de inflexión para impulsar su despegue definitivo, promoviendo un modelo más dinámico y sostenible.
-
 6. Mayor uso de Inteligencia Artificial: La IA será clave en la gestión y optimización de la eficiencia energética.
 
 Estas tendencias reflejan un sector energético en transformación, con un fuerte enfoque en la sostenibilidad y la eficiencia.
 
 ## Captación y Fidelización de Clientes
+
 - Incremento estimado del 7-10% en clientes de energía solar
 - Reducción del 18-22% en la tasa de abandono
 
 Justificación: La oferta combinada de tarificación solar y descuentos en combustible es altamente atractiva. Endesa ya ofrece 0.06 €/kWh por excedentes solares, lo que sumado a los descuentos en gasolineras crea un paquete muy competitivo.
 
 ## Ingresos por Venta de Energía
+
 - Aumento del 4-6% en ingresos por nuevos contratos de electricidad
 - Margen del 25-30% entre compra y venta de excedentes solares
 
 Justificación: La tarifa Solar Simply de Endesa ya incluye compensación de excedentes y batería virtual, lo que permite a Endesa obtener un margen significativo en la gestión de la energía solar.
 
 ## Expansión en Movilidad Eléctrica
+
 - Incremento del 30-35% en ingresos por recargas eléctricas
 - Aumento del 15-20% en clientes de servicios de movilidad eléctrica
 
@@ -345,23 +304,27 @@ Justificación: El 100% de descuento en recargas eléctricas incentivará fuerte
 Ventas cruzadas: Los usuarios son incentivados a contratar más servicios con Endesa (luz, gas, energía solar) para obtener mayores beneficios, aumentando los ingresos globales de la compañía.
 
 ## Diversificación de Ingresos
+
 - Comisión estimada del 3-4% sobre ventas de combustible con descuento
 - Aumento del 8-10% en contratación de servicios adicionales
 
 Justificación: La integración de servicios de energía y movilidad crea oportunidades de venta cruzada, especialmente con productos como la tarifa Solar Simply y servicios de Endesa X.
 
 ## Optimización de Costes Operativos
+
 - Ahorro del 12-15% en costes de adquisición de clientes
 - Reducción del 7-9% en costes de atención al cliente
 
 Justificación: La app de Endesa y la gestión de puntos simplificarán la interacción con el cliente, reduciendo costes operativos.
 
 ## Mejora de Imagen de Marca
+
 - Potencial aumento del 4-6% en el valor de marca
 
 Justificación: El enfoque en energía solar y movilidad sostenible refuerza la posición de Endesa como líder en soluciones energéticas verdes.
 
 ## Datos y Análisis
+
 - Incremento del 3-4% en ingresos por optimización de servicios basada en análisis de datos
 
 Justificación: La integración de datos de consumo energético y patrones de movilidad permitirá a Endesa ofrecer servicios más personalizados y eficientes.

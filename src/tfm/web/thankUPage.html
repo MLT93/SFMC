@@ -2,6 +2,7 @@
 %%[
 VAR @FirstName, @LastName, @SubscriberKey, @EmailAddress, @GameReward, @SolarProduct, @PreContract, @isPolicy, @CreatedDate, @Birthday
 
+/* LIMPIA EL PLANETA CAMPAIGN */
 SET @FirstName = RequestParameter('firstName')
 SET @LastName = RequestParameter('lastName')
 SET @SubscriberKey = GUID()
@@ -19,7 +20,6 @@ SET @ReqBirthday = RequestParameter('birthday')
 SET @Birthday = FormatDate(@ReqBirthday, "dd/MM/yyyy")
 ]%%
 </div>
-
 <script runat="server">
   Platform.Load('Core', '1');
   

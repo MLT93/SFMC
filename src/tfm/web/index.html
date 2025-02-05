@@ -20,10 +20,10 @@ ENDIF
 SET @StarterNum = 600001
 SET @PreContract = ''
 SET @LastRecordRow = LookupOrderedRows(
-  "DE_Captacion_Solar", 
+  ''DE_Captacion_Solar', 
   1, 
-  "CreatedDate DESC", 
-  "isPolicy", "true"
+  'CreatedDate' DESC', 
+  'isPolicy', 'True'
 )
 IF RowCount(@LastRecordRow) > 0 THEN
   SET @LastRecord = Row(@LastRecordRow, 1)

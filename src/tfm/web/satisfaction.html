@@ -1,6 +1,23 @@
 <div style="display: none">
-  %%[ VAR @SubscriberKey, @ContractId, @NumContrato, @SolarProduct, @CreatedDate SET @SubscriberKey = RequestParameter('SubscriberKey') SET @ContractId = RequestParameter('ContractId') SET @NumContrato = RequestParameter('NumContrato') SET @SolarProduct = RequestParameter('SolarProduct') SET @SystemDate = Now() SET @LocalDate =
-  SystemDateToLocalDate(@SystemDate) /* SET @NewDate = DateAdd(@LocalDate, 1, "D") */ SET @CreatedDate = FormatDate(@LocalDate, "dd/MM/yyyy", "hh:mm:ss") ]%%
+  %%[ VAR @SubscriberKey, @ContractId, @NumContrato, @SolarProduct, @CreatedDate 
+  
+  /* RECIBIDO A TRAVÉS DE CloudPagesURL() QUE LO DESENCRIPTA SOLO */
+  SET @SubscriberKey = RequestParameter('SubscriberKey')
+  SET @ContractId = RequestParameter('ContractId')
+  SET @NumContrato = RequestParameter('NumContrato')
+  SET @SolarProduct = RequestParameter('SolarProduct')
+  SET @Nombre = RequestParameter('Nom')
+  SET @Apellido = RequestParameter('Apell')
+  
+  SET @SystemDate = Now() 
+  SET @LocalDate = SystemDateToLocalDate(@SystemDate) 
+  /* SET @NewDate = DateAdd(@LocalDate, 1, "D") */ 
+  SET @CreatedDate = FormatDate(@LocalDate, "dd/MM/yyyy", "hh:mm:ss") 
+
+  SET @BaseURL = 'https://cloud.e.bmind.es/satisfaccion_ThankUPage'
+  SET @QueryParams = Concat('?createdDate=', @CreatedDate)
+  SET @ThankUPage = Concat(@BaseURL, @QueryParams)
+  ]%%
 </div>
 <!DOCTYPE html>
 <html lang="es">
@@ -43,12 +60,12 @@
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon_io/favicon-16x16.png" />
     <!-- END FAVICON -->
     <!-- START STYLES -->
-    <link rel="stylesheet" href="./src/css/styles.css" type="text/css" />
-    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9893))=%%" type="text/css" /> -->
-    <link rel="stylesheet" href="./src/css/modal_languages.css" type="text/css" />
-    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9897))=%%" type="text/css" /> -->
-    <link rel="stylesheet" href="./src/css/thankUPage.css" type="text/css" />
-    <!-- <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9906))=%%" type="text/css" /> -->
+    <!-- <link rel="stylesheet" href="./src/css/styles.css" type="text/css" /> -->
+    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9893))=%%" type="text/css" />
+    <!-- <link rel="stylesheet" href="./src/css/modal_languages.css" type="text/css" /> -->
+    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9897))=%%" type="text/css" />
+    <!-- <link rel="stylesheet" href="./src/css/thankUPage.css" type="text/css" /> -->
+    <link rel="stylesheet" href="%%=RedirectTo(CloudPagesURL(9906))=%%" type="text/css" />
     <!-- END STYLES -->
     <!-- START HEAD SCRIPTS -->
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -181,7 +198,7 @@
       <!-- END BANNER -->
 
       <!-- START FORM -->
-      <form class="satisForm" action="%%=V(@ThankUPage)=%%" method="POST" role="form" class="wrapper" accept-charset="UTF-8">
+      <form class="satisForm wrapper" action="%%=V(@ThankUPage)=%%" method="POST" role="form" accept-charset="UTF-8">
         <div class="satisForm__titles">
           <h3>
             ¿Con qué probabilidad recomendarías este servicio a sus amigos, <br />
@@ -195,23 +212,23 @@
 
         <!-- START RADIO -->
         <div class="satisForm__radio">
-          <input type="radio" id="ans0" name="ans" required />
-          <label class="satisForm__label" for="ans0" value="0">⭐0 <span class="satisForm__radiobtn"></span></label>
+          <input type="radio" id="ans0" name="ans" value="0" required />
+          <label class="satisForm__label" for="ans0">⭐0 <span class="satisForm__radiobtn"></span></label>
 
-          <input type="radio" id="ans1" name="ans" required />
-          <label class="satisForm__label" for="ans1" value="1">⭐1 <span class="satisForm__radiobtn"></span></label>
+          <input type="radio" id="ans1" name="ans" value="1" required />
+          <label class="satisForm__label" for="ans1">⭐1 <span class="satisForm__radiobtn"></span></label>
 
-          <input type="radio" id="ans2" name="ans" required />
-          <label class="satisForm__label" for="ans2" value="2">⭐2 <span class="satisForm__radiobtn"></span></label>
+          <input type="radio" id="ans2" name="ans" value="2" required />
+          <label class="satisForm__label" for="ans2">⭐2 <span class="satisForm__radiobtn"></span></label>
 
-          <input type="radio" id="ans3" name="ans" required />
-          <label class="satisForm__label" for="ans3" value="3">⭐3 <span class="satisForm__radiobtn"></span></label>
+          <input type="radio" id="ans3" name="ans" value="3" required />
+          <label class="satisForm__label" for="ans3">⭐3 <span class="satisForm__radiobtn"></span></label>
 
-          <input type="radio" id="ans4" name="ans" required />
-          <label class="satisForm__label" for="ans4" value="4">⭐4 <span class="satisForm__radiobtn"></span></label>
+          <input type="radio" id="ans4" name="ans" value="4" required />
+          <label class="satisForm__label" for="ans4">⭐4 <span class="satisForm__radiobtn"></span></label>
 
-          <input type="radio" id="ans5" name="ans" required />
-          <label class="satisForm__label" for="ans5" value="5">⭐5 <span class="satisForm__radiobtn"></span></label>
+          <input type="radio" id="ans5" name="ans" value="5" required />
+          <label class="satisForm__label" for="ans5">⭐5 <span class="satisForm__radiobtn"></span></label>
         </div>
         <!-- END RADIO -->
 
@@ -227,6 +244,8 @@
         <input type="hidden" name="sub-key" value="%%=V(@SubscriberKey)=%%" />
         <input type="hidden" name="contract-id" value="%%=V(@ContractId)=%%" />
         <input type="hidden" name="prod" value="%%=V(@SolarProduct)=%%" />
+        <input type="hidden" name="nombr" value="%%=V(@Nombre)=%%" />
+        <input type="hidden" name="apell" value="%%=V(@Apellido)=%%" />
         <!-- END HIDDEN INPUT FOR THANK U PAGE-->
 
         <br />
@@ -239,10 +258,10 @@
     <footer></footer>
     <!-- END FOOTER -->
     <!-- START BODY SCRIPTS -->
-    <script type="module" src="src/scripts/twitter.js"></script>
-    <!-- <script type="module" src="%%=RedirectTo(CloudPagesURL(9896))=%%"></script> -->
-    <script type="module" src="src/scripts/modal_languages.js"></script>
-    <!-- <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script> -->
+    <!-- <script type="module" src="src/scripts/twitter.js"></script> -->
+    <script type="module" src="%%=RedirectTo(CloudPagesURL(9896))=%%"></script>
+    <!-- <script type="module" src="src/scripts/modal_languages.js"></script> -->
+    <script type="module" src="%%=RedirectTo(CloudPagesURL(9895))=%%"></script>
     <!-- END BODY SCRIPTS -->
   </body>
 </html>
