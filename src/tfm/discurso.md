@@ -68,7 +68,7 @@ El 'recordatorio bis' además de dar la posibilidad de contratar fomenta la posi
 El último es un correo transaccional que comunica la activación del contrato
 Además todos los correos también tienen código MSO para que se facilite la visión desde el entorno Microsoft
 
-## (SLIDE 12, CREATIVIDADES)
+## (SLIDE 13, CREATIVIDADES)
 
 El enfoque del correo es parecido a los anteriores. Acá se invita al usuario a realizar la encuesta en la Cloud Page nos presenta el form con unos input radio amigables y fáciles de ver
 
@@ -76,7 +76,7 @@ La respuesta en la ThankUPage será diferente dependiendo de la puntuación reci
 
 ## (SLIDE 16, DEMOS)
 
-!Llegamos al momento de la verdad! Vamos a ver ambas demos en función
+!Llegamos al momento de la verdad! Vamos a ver ambas demos en función!
 
 Desde la pag web de Endesa 
 apreciamos las tarifas correspondientes
@@ -88,7 +88,7 @@ Se guarda la info en la tabla que posee los campos de fechas de tipo text para p
 
 En éste caso partiendo de la automation nos llega el correo para realizar la encuesta, guardamos los datos y se accionará la comunicación WhatsApp o el caso de Endesa
 
-## (SLIDE 19, VENTAJAS)
+## (SLIDE 20, VENTAJAS)
 
 La propuesta además de las tarifas existentes añade una cantidad de dinero bajo forma de cashback dentro de la App de entesa con el sistema de puntos para que sea utilizada en las gasolineras adheridas o bajo la opción PARA TI
 
