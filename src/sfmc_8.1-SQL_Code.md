@@ -377,22 +377,22 @@ WHERE row_num = 1;  -- Filtra para obtener solo el registro más reciente por cl
 - En cuanto a las sub-queries:
 - Son consultas anidadas dentro de otras y sirven para realizar queries más complejas o que están sin relacionar, como los JOINS
 - Se realizan abriendo paréntesis y creando la otra consulta dentro de ellos.
-- Recuerda que el último comando al ejecutarse dentro de una consulta es el SELECT (lo que devuélve la consulta). Por lo tanto, cada subconsulta deberá devolver una fila, una columna o una lista de valores que a su vez será utilizado en la consulta padre
+- Recuerda que el último comando al ejecutarse dentro de una consulta es el SELECT (lo que devuelve la consulta). Por lo tanto, cada subconsulta deberá devolver una fila, una columna o una lista de valores que a su vez deberán usarse en la consulta padre
 - Pueden aparecer en varias partes de una consulta SQL, dependiendo de lo que necesites lograr
 - Sub-Query Relacional dentro del SELECT
 - Sub_Query Sin Relación dentro del WHERE
 
-```
+```sql
 SELECT
-nombre,
+e.nombre,
 (SELECT AVG(salario) FROM Empleados WHERE departamento_id = e.departamento_id) AS SalarioPromedio
 FROM Empleados e;
 ```
 
 ```sql
 SELECT
-nombre,
-salario
+e.nombre,
+e.salario
 FROM Empleados e
 WHERE salario > (
 SELECT AVG(salario)
