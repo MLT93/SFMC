@@ -1,4 +1,4 @@
-Explica el PDF adjunto lo más detallao posible.
+Explica el PDF adjunto lo más detallado posible.
 
 Usa el siguiente formato de texto para la explicación:
 
